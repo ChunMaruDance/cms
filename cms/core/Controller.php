@@ -1,0 +1,30 @@
+<?php
+
+namespace core;
+
+class Controller{
+
+    protected $template;
+
+    public function __construct(){
+        
+        $action = \core\Core::get()->actionName;
+        $module = \core\Core::get()->moduleName;
+        $path = "views/{$module}/{$action}.php"; 
+        
+        $this->template = new Template($path);
+    }
+
+    public function render(){
+        return [   
+            'Content'=> $this->template->getHTML()
+        ];
+    }
+
+
+}
+
+
+
+
+?>
