@@ -14,24 +14,28 @@ class Core{
     private static $instance;
 
     public $db;
+    public $session;
 
     private function __construct(){
     
         $this->template = new \core\Template($this->defaultLayoutPath);
-
+        
         $host = Config::get()->dbHost;
         $name = Config::get()->dbName;
         $login = Config::get()->dbLogin;
         $pass = Config::get()->dbPassword;
-
+        $this->session = new Session();
         $this->db = new DB($host, $name, $login, $pass);
+        session_start();
     }
 
     public function run($route){
       $this->router = new \core\Router($route);
-      
       $params = $this->router->run();
-      $this->template->setParams($params);
+      if(!empty($params)){
+        $this->template->setParams($params);
+      }
+    
     }
 
     public function done(){

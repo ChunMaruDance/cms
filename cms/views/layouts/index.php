@@ -3,9 +3,17 @@
 /** @var string $Title */
 /** @var string $Content */
 
+
+use \models\Users;
+
 if(empty($Title)){
   $Title = '';
 }
+
+if(empty($Content)){
+  $Content = '';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +28,6 @@ if(empty($Title)){
 </head>
 <body>
 
-
-
-<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/">Shop Accessory</a>
@@ -38,17 +43,34 @@ if(empty($Title)){
           <a class="nav-link" href="#">Categories</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/sign_in">Sign in</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="#">Contact</a>
         </li>
+
+        <?php if (Users::isUserLogged()) : ?>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Panel
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="userMenu">
+      <li><a class="dropdown-item" href="/users/login">Dashboard</a></li>
+      <li><a class="dropdown-item" href="/users/create_accessory">Create Accessory</a></li>
+      <li><a class="dropdown-item" href="/users/create_category">Create Category</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="/users/logout">Sign out</a></li>
+    </ul>
+  </li>
+<?php else: ?>
+  <li class="nav-item">
+    <a class="nav-link" href="/users/login">Sign in</a>
+  </li>
+<?php endif; ?>
+
+
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- Page Content -->
 <section class="py-5">
   <div>
     <?=$Content?>
