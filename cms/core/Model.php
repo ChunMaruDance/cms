@@ -35,6 +35,10 @@ class Model {
     
     }
 
+    public static function getAll(){
+        return Core::get()->db->select(static::$table,'*',[],null);
+    }
+
     public static function deleteById($id){
         Core::get()->db->delete(static::$table,[static::$primaryKey => $id]);
     }

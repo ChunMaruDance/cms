@@ -5,6 +5,8 @@ use core\Controller;
 use core\Template;
 use core\Core;
 use models\Users;
+use models\Accessory;
+
 class UsersController extends Controller {
   
     public function actionLogin($params){
@@ -39,10 +41,9 @@ class UsersController extends Controller {
     }
 
     public function actionAccessory(){
+        $accessories = Accessory::getAll();
         return $this->render();
     }
-
-
 
 }
 

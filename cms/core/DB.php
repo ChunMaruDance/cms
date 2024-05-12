@@ -77,18 +77,20 @@ class DB{
         $sql = "SELECT {$field_string} FROM {$table} {$join_string} {$where_string}";
        
         $sth = $this->pdo->prepare($sql);
-        
-        foreach($where as $key => $value){
+        if($where != null){
+            foreach($where as $key => $value){
 
-            if(!empty($joins)){
-                $parts  = explode('.', $field);
-                $val = end($parts);
-                $sth->bindValue(":{$val}",$value);
-            }else{
-                $sth->bindValue(":{$key}",$value);
+                if(!empty($joins)){
+                    $parts  = explode('.', $field);
+                    $val = end($parts);
+                    $sth->bindValue(":{$val}",$value);
+                }else{
+                    $sth->bindValue(":{$key}",$value);
+                }
+               
             }
-           
         }
+        
         $sth->execute();
      
         return $sth->fetchAll();
