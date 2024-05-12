@@ -30,11 +30,16 @@ class Controller{
 
     }
 
-    public function render($pathToView = null){
+    public function render($pathToView = null, $data = []){
        
         if($pathToView !=null){
             $this->template->setTemplateFilePath($pathToView);
         }
+
+        foreach ($data as $key => $value) {
+            $this->template->setParam($key, $value);
+        }
+
         return [   
             'Content'=> $this->template->getHTML()
         ];

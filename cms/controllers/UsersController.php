@@ -42,8 +42,34 @@ class UsersController extends Controller {
 
     public function actionAccessory(){
         $accessories = Accessory::getAll();
+        return $this->render(null,['accessories' => $accessories]);
+    }
+
+    public function actionAddAccessory(){
+        if($this->isPost){
+            if(is_null($this->post->name) || is_null($this->post->description) || is_null($this->post->short_description) || is_null($this->post->price)) {
+                $this->setErrorMessage("All fields are required.");
+            } else {
+
+                if(empty($_FILES['image']['name'])) {
+                    $this->setErrorMessage("Please select an image file.");
+                }else{
+
+                    if(!is_numeric($this->post->price)) {
+                        $this->setErrorMessage("Price must be a numeric value.");
+                    }else{
+                        //todo 
+                    }
+
+                }
+        
+             
+            }
+        }
+
         return $this->render();
     }
+
 
 }
 
