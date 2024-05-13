@@ -43,6 +43,7 @@ class UsersController extends Controller {
 
     public function actionAccessory(){
         $accessories = Accessory::getAll();
+   //     $accessories_images = 
         return $this->render(null,['accessories' => $accessories]);
     }
 
@@ -87,18 +88,22 @@ class UsersController extends Controller {
                         
                         $accessory->save();
                         
-                        // $accessory_id = Accessory::getIdByTitle($name);
-                        // $image_data = file_get_contents($_FILES['image']['tmp_name']);
+                        $accessory_id = Accessory::getIdByTitle($name);
+                        $image_data = file_get_contents($_FILES['image']['tmp_name']);
                             
-                        // Core::get()->db->insertWithBlob('accessory_image', [
-                        //     'accessory_id' => $accessory_id[0]->id,
-                        //     'image' => $image_data
-                        // ]);
+                        $accessoryImage = new AccessoryImage();
+                        $accessoryImage->accessory_id = $accessory_id;
+                        $accessoryImage->image = $image_data;
+
+                        $accessoryImage->save();
+
+
+                        return $this->redirect('/users/accessory');
 
                     }
 
                 }
-        
+
              
             }
         }
