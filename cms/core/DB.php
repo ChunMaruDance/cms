@@ -125,7 +125,7 @@ class DB{
 
 
     public function insertWithBlob($table, $row_to_insert){
-        $fields_list = implode(", ", array_keys($row_to_insert));
+        $fields_list = implode(", ",array_keys($row_to_insert));
         $params_array = [];
         $params_list = '';
         
@@ -139,9 +139,9 @@ class DB{
         $sth = $this->pdo->prepare($sql);
         
         foreach($row_to_insert as $key => $value){
-        
             if ($key === 'image' && is_array($value)) {
-                $sth->bindValue(":{$key}", file_get_contents($value['tmp_name']), \PDO::PARAM_LOB);
+                $imageContent = file_get_contents($value['tmp_name']);
+                $sth->bindValue(":{$key}", $imageContent, \PDO::PARAM_LOB);
             } else {
                 $sth->bindValue(":{$key}", $value);
             }

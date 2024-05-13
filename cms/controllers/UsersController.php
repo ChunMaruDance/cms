@@ -89,16 +89,9 @@ class UsersController extends Controller {
                         
                         $accessory_id = Accessory::getIdByTitle($name);
                         $image_data = file_get_contents($_FILES['image']['tmp_name']);
-                        
-                        // $accessory_image = new AccessoryImage();
-                        
-                        // $accessory_image->accessory_id = $accessory_id;
-                        // $accessory_image->image = $image_data;
-
-                        // $accessory_image->save();
-
+                            
                         Core::get()->db->insertWithBlob('accessory_image', [
-                            'accessory_id' => $accessory_id,
+                            'accessory_id' => $accessory_id[0]->id,
                             'image' => $image_data
                         ]);
 
