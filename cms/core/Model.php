@@ -34,7 +34,9 @@ class Model {
         }
     
     }
-
+    public static function getIdByTitle($title){
+        return Core::get()->db->select(static::$table,'id',[],['title'=>$title]);
+    }
     public static function getAll(){
         return Core::get()->db->select(static::$table,'*',[],null);
     }

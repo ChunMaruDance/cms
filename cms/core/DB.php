@@ -123,6 +123,35 @@ class DB{
         return $sth->rowCount();
     }
 
+
+    public function insertWithBlob($table, $row_to_insert){
+        $fields_list = implode(", ", array_keys($row_to_insert));
+        $params_array = [];
+        $params_list = '';
+        
+        foreach($row_to_insert as $key => $value){
+            $params_array[] = ":{$key}";
+        }
+        
+        $params_list = implode(", ", $params_array);
+        
+        $sql = "INSERT INTO {$table} ($fields_list) VALUES ($params_list)";
+        $sth = $this->pdo->prepare($sql);
+        
+        foreach($row_to_insert as $key => $value){
+        
+            if ($key === 'image' && is_array($value)) {
+                $sth->bindValue(":{$key}", file_get_contents($value['tmp_name']), \PDO::PARAM_LOB);
+            } else {
+                $sth->bindValue(":{$key}", $value);
+            }
+        }
+          
+        $sth->execute();
+    
+        return $sth->rowCount();
+    }
+
     public function delete($table, $where){
 
         $where_string = $this->where($where);

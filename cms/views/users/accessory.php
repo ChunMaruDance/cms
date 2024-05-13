@@ -60,8 +60,8 @@
                         <p class="card-text">${accessory.short_description}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Details</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Details</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Delete</button>
                             </div>
                             <small class="text-muted">Price: ${accessory.price}$</small>
                         </div>
@@ -71,8 +71,34 @@
             document.getElementById('accessoryRow').appendChild(card);
         });
 
+        document.querySelectorAll('.btn.btn-sm.btn-outline-secondary').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var accessoryId = this.dataset.accessoryId;
+                fetch('deleteAccessory', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ accessory_id: accessoryId })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data); 
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+            });
+        });
+
         document.querySelector('.add-accessory-btn').addEventListener('click', function() {
-        window.location.href = 'addAccessory';
+            window.location.href = 'addAccessory';
             console.log('Додати товар');
         });
     </script>
