@@ -87,13 +87,13 @@ class UsersController extends Controller {
                         
                         $accessory->save();
                         
-                        $accessory_id = Accessory::getIdByTitle($name);
-                        $image_data = file_get_contents($_FILES['image']['tmp_name']);
+                        // $accessory_id = Accessory::getIdByTitle($name);
+                        // $image_data = file_get_contents($_FILES['image']['tmp_name']);
                             
-                        Core::get()->db->insertWithBlob('accessory_image', [
-                            'accessory_id' => $accessory_id[0]->id,
-                            'image' => $image_data
-                        ]);
+                        // Core::get()->db->insertWithBlob('accessory_image', [
+                        //     'accessory_id' => $accessory_id[0]->id,
+                        //     'image' => $image_data
+                        // ]);
 
                     }
 

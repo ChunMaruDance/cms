@@ -42,7 +42,9 @@ class Accessory extends Model {
         );
     }
 
-  
+    public function save(){
+        Core::get()->db->insert(static::$table, $this->fieldsArray);
+    }
 
 
 }

@@ -6,7 +6,7 @@ namespace core;
 class Model {
 
     protected $fieldsArray;
-    protected static $primaryKey  = 'id';
+    protected static $primaryKey = 'id';
     public static $table = 'accessory';
 
     public function __construct() {
@@ -22,8 +22,8 @@ class Model {
     }
 
     public function save(){
-        $val = $this->{static::$primaryKey};
-        if(empty($val)){
+        $key = $this->{static::$primaryKey};
+        if(empty($key)){
             //insert
             Core::get()->db->insert(static::$table, $this->fieldsArray);
         }else{
