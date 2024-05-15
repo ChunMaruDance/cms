@@ -49,31 +49,39 @@
         var card = document.createElement('div');
         card.className = 'col';
         card.innerHTML = `
-            <div class="card shadow-sm">
-                <img src="${accessory.images[0].image}" class="bd-placeholder-img card-img-top" width="100%" height="225" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <div class="card-body">
-                    <h5 class="card-title">${accessory.title}</h5>
-                    <p class="card-text">${accessory.short_description}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Render</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Delete</button>
+                <div class="card shadow-sm">
+                    <img src="${accessory.images[0].image}" class="bd-placeholder-img card-img-top" width="100%" height="225" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <div class="card-body">
+                        <h5 class="card-title">${accessory.title}</h5>
+                        <p class="card-text">${accessory.short_description}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary render-btn" data-accessory-id="${accessory.id}">Render</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary delete-btn" data-accessory-id="${accessory.id}">Delete</button>
+                            </div>
+                            <small class="text-muted">Price: ${accessory.price}$</small>
                         </div>
-                        <small class="text-muted">Price: ${accessory.price}$</small>
                     </div>
                 </div>
-            </div>
-        `;
-        document.getElementById('accessoryRow').appendChild(card);
-    });
-
-    document.querySelector('.add-accessory-btn').addEventListener('click', function() {
-        window.location.href = 'addAccessory';
-        console.log('Додати товар');
-    });
+            `;
+            document.getElementById('accessoryRow').appendChild(card);
+        });
 
 
-    document.querySelectorAll('.btn.btn-sm.btn-outline-secondary').forEach(function(btn) {
+        document.querySelector('.add-accessory-btn').addEventListener('click', function() {
+            window.location.href = 'addAccessory';
+            console.log('Додати товар');
+        });
+
+        document.querySelectorAll('.render-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var accessoryId = this.dataset.accessoryId;
+                
+                console.log("Hello");
+            });
+        });
+
+    document.querySelectorAll('.delete-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var accessoryId = this.dataset.accessoryId;
                 fetch('deleteAccessory', {

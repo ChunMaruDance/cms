@@ -79,6 +79,7 @@ class UsersController extends Controller {
             $id = htmlspecialchars($data['accessory_id']);
               if(!empty($id)){
                   Accessory::deleteById($id);
+                  AccessoryImage::deleteByCondition(['accessory_id' => $id]);
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
               }
