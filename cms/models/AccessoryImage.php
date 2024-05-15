@@ -17,7 +17,7 @@ class AccessoryImage extends Model {
     public function save(){
         Core::get()->db->insertWithBlob(self::$table,[
             'accessory_id' => $this->accessory_id[0]->id,
-            'image' => $this->image_data
+            'image' => $this->image
         ]);
     }
 

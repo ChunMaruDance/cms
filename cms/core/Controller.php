@@ -39,7 +39,6 @@ class Controller{
         foreach ($data as $key => $value) {
             $this->template->setParam($key, $value);
         }
-
         return [   
             'Content'=> $this->template->getHTML()
         ];

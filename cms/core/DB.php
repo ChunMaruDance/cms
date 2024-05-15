@@ -165,7 +165,6 @@ class DB{
         $sth->execute();
 
         return $sth->rowCount();
-        
 
     }
 
@@ -192,11 +191,6 @@ class DB{
 
     }
 
-
-
-
 }
-
-
 
 ?>

@@ -42,9 +42,35 @@ class UsersController extends Controller {
     }
 
     public function actionAccessory(){
+
         $accessories = Accessory::getAll();
-   //     $accessories_images = 
-        return $this->render(null,['accessories' => $accessories]);
+        $accessories_images = AccessoryImage::getAll();
+      
+        $accessory_images_map = [];
+        foreach ($accessories_images as $image) {
+            $accessory_id = $image->accessory_id;
+            if (!isset($accessory_images_map[$accessory_id])) {
+                $accessory_images_map[$accessory_id] = [];
+            }
+            $accessory_images_map[$accessory_id][] = $image;
+        }
+
+        foreach ($accessories as $accessory) {
+            $accessory_id = $accessory->id;
+            if (isset($accessory_images_map[$accessory_id])) {
+                $accessory->images = $accessory_images_map[$accessory_id];
+            } else {
+                $accessory->images = [];
+            }
+        }
+
+        foreach ($accessories as $accessory) {
+            foreach ($accessory->images as $image) {
+                $image->image = 'data:image/png;base64,' . base64_encode($image->image);
+            }
+        }
+        return $this->render(null,["accessories"=>  $accessories]);
+     
     }
 
     public function actionDeleteAccessory(){
@@ -90,13 +116,12 @@ class UsersController extends Controller {
                         
                         $accessory_id = Accessory::getIdByTitle($name);
                         $image_data = file_get_contents($_FILES['image']['tmp_name']);
-                            
+                        
                         $accessoryImage = new AccessoryImage();
                         $accessoryImage->accessory_id = $accessory_id;
                         $accessoryImage->image = $image_data;
 
                         $accessoryImage->save();
-
 
                         return $this->redirect('/users/accessory');
 
@@ -115,3 +140,6 @@ class UsersController extends Controller {
 }
 
 ?>
+
+
+

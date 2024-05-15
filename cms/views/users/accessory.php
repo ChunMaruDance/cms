@@ -25,7 +25,6 @@
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Accessory</h1>
                 <br>
-           
                 <form class="w-100" role="search">
                     <div class="input-group"> 
                         <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
@@ -40,38 +39,41 @@
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="accessoryRow">
-                <!-- Здесь будут отображаться товары -->
+                <!-- Туть будуть аксесуари -->
             </div>
         </div>
     </div>
-
     <script>
-        var accessories = <?php echo json_encode($accessories); ?>;
-        console.log(accessories.length);
-
-        accessories.forEach(function(accessory) {
-            var card = document.createElement('div');
-            card.className = 'col';
-            card.innerHTML = `
-                <div class="card shadow-sm">
-                    <img src="${accessory.image}" class="bd-placeholder-img card-img-top" width="100%" height="225" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <div class="card-body">
-                        <h5 class="card-title">${accessory.title}</h5>
-                        <p class="card-text">${accessory.short_description}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Details</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Delete</button>
-                            </div>
-                            <small class="text-muted">Price: ${accessory.price}$</small>
+    var accessories = <?php echo json_encode($accessories); ?>;
+    accessories.forEach(function(accessory) {
+        var card = document.createElement('div');
+        card.className = 'col';
+        card.innerHTML = `
+            <div class="card shadow-sm">
+                <img src="${accessory.images[0].image}" class="bd-placeholder-img card-img-top" width="100%" height="225" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <div class="card-body">
+                    <h5 class="card-title">${accessory.title}</h5>
+                    <p class="card-text">${accessory.short_description}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Render</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-accessory-id="${accessory.id}">Delete</button>
                         </div>
+                        <small class="text-muted">Price: ${accessory.price}$</small>
                     </div>
                 </div>
-            `;
-            document.getElementById('accessoryRow').appendChild(card);
-        });
+            </div>
+        `;
+        document.getElementById('accessoryRow').appendChild(card);
+    });
 
-        document.querySelectorAll('.btn.btn-sm.btn-outline-secondary').forEach(function(btn) {
+    document.querySelector('.add-accessory-btn').addEventListener('click', function() {
+        window.location.href = 'addAccessory';
+        console.log('Додати товар');
+    });
+
+
+    document.querySelectorAll('.btn.btn-sm.btn-outline-secondary').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var accessoryId = this.dataset.accessoryId;
                 fetch('deleteAccessory', {
@@ -96,11 +98,7 @@
                 });
             });
         });
+</script>
 
-        document.querySelector('.add-accessory-btn').addEventListener('click', function() {
-            window.location.href = 'addAccessory';
-            console.log('Додати товар');
-        });
-    </script>
 </body>
 </html>
