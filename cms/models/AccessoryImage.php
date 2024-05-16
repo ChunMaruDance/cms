@@ -1,26 +1,26 @@
-<?php
+<!-- <?php
 
-namespace models;
+// namespace models;
 
-use core\Model;
-use core\Core; 
+// use core\Model;
+// use core\Core; 
 
 
-class AccessoryImage extends Model {
+// class AccessoryImage extends Model {
 
-    public static $table = 'accessory_image';
+//     public static $table = 'accessory_image';
 
-    public function __construct(){
+//     public function __construct(){
         
-    }
+//     }
 
-    public function save(){
-        Core::get()->db->insertWithBlob(self::$table,[
-            'accessory_id' => $this->accessory_id[0]->id,
-            'image' => $this->image
-        ]);
-    }
+//     public function save(){
+//         Core::get()->db->insertWithBlob(self::$table,[
+//             'accessory_id' => $this->accessory_id[0]->id,
+//             'image' => $this->image
+//         ]);
+//     }
 
-}
+// }
 
-?>
+?> -->
