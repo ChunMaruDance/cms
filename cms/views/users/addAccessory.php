@@ -16,6 +16,15 @@
 #imagePreview {
     display: none;
 }
+
+#category {
+    color: black; 
+}
+
+#category {
+    color: black;
+}
+
 </style>
 
 <div id="accessoryFormContainer" class="container mt-5">
@@ -41,6 +50,16 @@
         <div class="form-group">
             <label for="price">Price:</label>
             <input type="text" class="form-control" id="price" name="price">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <br>
+            <select class="form-control" id="category" name="category">
+                <?php foreach ($categories as $category) : ?>
+                    <option value="<?= $category->title ?>"><?= $category->title ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <br>
         <div class="form-group">

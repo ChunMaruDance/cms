@@ -136,8 +136,8 @@ class UsersController extends Controller {
             }
         }else{
             $categories = Categories::getAll();
-            
-            return $this->render();
+
+            return $this->render(null,['categories'=> $categories]);
         }
 
     
