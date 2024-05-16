@@ -88,6 +88,10 @@ class UsersController extends Controller {
     }
 
     public function actionAddAccessory(){
+
+        $accessory_categories = AccessoryCategories::getAll();
+            
+
         if($this->isPost){
             if(is_null($this->post->name) || is_null($this->post->description) || is_null($this->post->short_description) || is_null($this->post->price)) {
                 $this->setErrorMessage("All fields are required.");
