@@ -59,6 +59,7 @@ class UsersController extends Controller {
             $id = htmlspecialchars($data['accessory_id']);
               if(!empty($id)){
                   Accessory::deleteById($id);
+                  AccessoryCategories::deleteByCondition(['accessory_id'=>$id]);
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
               }
@@ -81,12 +82,15 @@ class UsersController extends Controller {
                     if(!is_numeric($this->post->price)) {
                         $this->setErrorMessage("Price must be a numeric value.");
                     }else{
-                         
+                        
+                        //data
                         $name = $this->post->name;
                         $description = $this->post->description;
                         $short_description = $this->post->short_description;
                         $price = $this->post->price;
-                        
+                        $category = $this->post->category;
+
+                        //accessy model
                         $accessory = new Accessory();
                         $accessory->title = $name;
                         $accessory->description = $description;
@@ -100,15 +104,20 @@ class UsersController extends Controller {
                         
                         $accessory->save();
                         
-                       // $accessoryCategories =  
+                        // 
+                        $AccessoryCategories = new AccessoryCategories();
+
+                        $AccessoryCategories->category_id = (Categories::findByCondition(['title'=>$category]))[0]->id;
+                        $AccessoryCategories->accessory_id = (Accessory::getIdByTitle($name))[0]->id;
+                       
+                        $AccessoryCategories->save();
 
                         return $this->redirect('/users/accessory');
 
                     }
 
                 }
-
-             
+                
             }
         }else{
             $categories = Categories::getAll();
