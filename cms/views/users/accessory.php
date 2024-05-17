@@ -76,8 +76,7 @@
         document.querySelectorAll('.render-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var accessoryId = this.dataset.accessoryId;
-                
-                console.log("Hello");
+                window.location.href = `addAccessory/${accessoryId}`;
             });
         });
 

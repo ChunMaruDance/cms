@@ -59,7 +59,7 @@ class UsersController extends Controller {
             $id = htmlspecialchars($data['accessory_id']);
               if(!empty($id)){
                   Accessory::deleteById($id);
-                  AccessoryCategories::deleteByCondition(['accessory_id'=>$id]);
+                  AccessoryCategories::deleteByCondition(['accessory_id'=> $id]);
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
               }
@@ -67,7 +67,14 @@ class UsersController extends Controller {
     
     }
 
-    public function actionAddAccessory(){
+    public function actionAddAccessory($params){
+
+        if(!empty($params[0]) && $params[0] != null ){
+            $accessory = Accessory::findById($params[0]);
+            $params[0] = null;
+            return $this->render(null,['accessory' =>$accessory]);
+        }
+        
         if($this->isPost){
             if(is_null($this->post->name) || is_null($this->post->name) || is_null($this->post->description) || is_null($this->post->short_description) || is_null($this->post->price)) {
                 $this->setErrorMessage("All fields are required.");
