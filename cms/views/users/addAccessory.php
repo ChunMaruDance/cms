@@ -75,7 +75,29 @@
     </form>
 </div>
 
+<?php if (!empty($accessory)) : ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var accessory = <?php echo json_encode($accessory); ?>;
+            document.getElementById('name').value = accessory.title;
+            document.getElementById('description').value = accessory.description;
+            document.getElementById('short_description').value = accessory.short_description;
+            document.getElementById('price').value = accessory.price;
+            document.getElementById('category').value = accessory.category;
+
+            if (accessory.image) {
+                var imagePreview = document.getElementById('imagePreview');
+                imagePreview.src =  accessory.image;
+                imagePreview.style.display = 'block';
+            }
+
+        });
+    </script>
+<?php endif; ?>
+
+
 <script>
+
     function previewImage(event) {
         var image = document.getElementById('imagePreview');
         if (event.target.files && event.target.files[0]) {

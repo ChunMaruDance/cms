@@ -69,12 +69,18 @@ class UsersController extends Controller {
 
     public function actionAddAccessory($params){
 
-        if(!empty($params[0]) && $params[0] != null ){
+        if(!empty($params[0]) && $params[0] != null){
             $accessory = Accessory::findById($params[0]);
+
+            //
+            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
+            $categories = Categories::getAll();
+            $category = AccessoryCategories::getCategoryByAccessoryId();
+
             $params[0] = null;
-            return $this->render(null,['accessory' =>$accessory]);
+            return $this->render(null,['accessory' => $accessory,'categories'=> $categories]);
         }
-        
+
         if($this->isPost){
             if(is_null($this->post->name) || is_null($this->post->name) || is_null($this->post->description) || is_null($this->post->short_description) || is_null($this->post->price)) {
                 $this->setErrorMessage("All fields are required.");

@@ -13,6 +13,12 @@ class AccessoryCategories extends Model {
         
     }
 
+    static function getCategoryByAccessoryId($id){
+        $categoryId = Categories::get
+        Core::get()->db
+    }
+
+
 }
 
 ?>

@@ -53,7 +53,6 @@ class DB{
         if(is_array($where)){
             $where_string = "WHERE ";
             $where_fields = array_keys($where);
-           
     
             $parts = [];
     
@@ -71,6 +70,32 @@ class DB{
             }else{
                 $where_string = ' ';
             }
+        }
+
+        public function selectOne($table, $fields = '*', $joins = [], $where = null) {
+            if (is_array($fields)) {
+                $field_string = implode(', ', $fields);
+            } else {
+                $field_string = $fields;
+            }
+    
+            $join_string = '';
+            foreach ($joins as $join) {
+                $join_string .= " " . $join;
+            }
+    
+            $where_string = $this->where($where);
+            $sql = "SELECT {$field_string} FROM {$table} {$join_string} {$where_string} LIMIT 1";
+    
+            $sth = $this->pdo->prepare($sql);
+            if (is_array($where)) {
+                foreach ($where as $key => $value) {
+                    $sth->bindValue(":{$key}", $value);
+                }
+            }
+    
+            $sth->execute();
+            return $sth->fetch();
         }
       
 
