@@ -50,7 +50,9 @@
         card.className = 'col';
         card.innerHTML = `
                 <div class="card shadow-sm">
-                    <img src="${accessory.image}" class="bd-placeholder-img card-img-top" width="100%" height="225" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <a href="/products/accessory/${accessory.id}">
+                        <img src="${accessory.image}" class="bd-placeholder-img card-img-top" width="100%" height="225" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title">${accessory.title}</h5>
                         <p class="card-text">${accessory.short_description}</p>

@@ -2,7 +2,6 @@
 
 namespace core;
 
-
 class Post extends RequestMethod {
 
    public function __construct() {
@@ -10,8 +9,5 @@ class Post extends RequestMethod {
    }
 
 }
-
-
-
 
 ?>

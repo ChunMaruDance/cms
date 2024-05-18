@@ -17,7 +17,7 @@
             <a href="/admin/change-banner" class="btn control-button">
                 Банер
             </a>
-            <a href="/users/accessory" class="btn control-button">
+            <a href="/users/accessories" class="btn control-button">
                 Товари
             </a>
             <a href="/admin/categories" class="btn control-button">

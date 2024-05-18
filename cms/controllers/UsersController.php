@@ -42,7 +42,7 @@ class UsersController extends Controller {
         return $this->render();
     }
 
-    public function actionAccessory(){
+    public function actionAccessories(){
 
         $accessories = Accessory::getAll();
         foreach ($accessories as $accessory) {
@@ -168,7 +168,7 @@ class UsersController extends Controller {
                 $accessory->id = $accessoryStd->id;  
                 $this->updateAccessory($accessory);
     
-                return $this->redirect('/users/accessory');
+                return $this->redirect('/users/accessories');
             }
             
             // Завантаження існуючого аксесуара для редагування
@@ -193,7 +193,7 @@ class UsersController extends Controller {
             // Створення нового аксесуара
             $accessory = new Accessory();
             $this->updateAccessory($accessory);
-            return $this->redirect('/users/accessory');
+            return $this->redirect('/users/accessories');
         } else {
             $categories = Categories::getAll();
             return $this->render(null, ['categories' => $categories]);
