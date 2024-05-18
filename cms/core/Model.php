@@ -21,6 +21,10 @@ class Model {
         return $this->fieldsArray[$name];
     }
 
+    public function __isset($name) {
+        return isset($this->fieldsArray[$name]);
+    }
+    
     public function save(){
         $key = $this->{static::$primaryKey};
         if(empty($key)){

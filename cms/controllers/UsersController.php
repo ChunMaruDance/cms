@@ -67,79 +67,136 @@ class UsersController extends Controller {
     
     }
 
-    public function actionAddAccessory($params){
-
-        if(!empty($params[0]) && $params[0] != null){
-            $accessory = Accessory::findById($params[0]);
-
-            //
-            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
-            
-            $categories = Categories::getAll();
-            $accessory->category = AccessoryCategories::getCategoryByAccessoryId($params[0]);
-            
-            $params[0] = null;
-            return $this->render(null,['accessory' => $accessory,'categories'=> $categories]);
+    private function validateFields() {
+        $errors = [];
+        
+        if (is_null($this->post->name) || empty(trim($this->post->name))) {
+            $errors[] = "Name is required.";
         }
-
-        if($this->isPost){
-            if(is_null($this->post->name) || is_null($this->post->name) || is_null($this->post->description) || is_null($this->post->short_description) || is_null($this->post->price)) {
-                $this->setErrorMessage("All fields are required.");
-                return $this->render();
-            } else {
-              
-                if(empty($_FILES['image']['name'])) {
-                    $this->setErrorMessage("Please select an image file.");
-                    return $this->render();
-                }else{
-
-                    if(!is_numeric($this->post->price)) {
-                        $this->setErrorMessage("Price must be a numeric value.");
-                    }else{
-                        
-                        //data
-                        $name = $this->post->name;
-                        $description = $this->post->description;
-                        $short_description = $this->post->short_description;
-                        $price = $this->post->price;
-                        $category = $this->post->category;
-
-                        //accessy model
-                        $accessory = new Accessory();
-                        $accessory->title = $name;
-                        $accessory->description = $description;
-                        $accessory->short_description =  $short_description ;
-                        $accessory->date = date('Y-m-d H:i:s'); 
-                        $accessory->price = $price;
-
-                        $image_data = file_get_contents($_FILES['image']['tmp_name']);
-
-                        $accessory->image = $image_data;
-                        
-                        $accessory->save();
-                        
-                        // 
-                        $AccessoryCategories = new AccessoryCategories();
-
-                        $AccessoryCategories->category_id = (Categories::findByCondition(['title'=>$category]))[0]->id;
-                        $AccessoryCategories->accessory_id = (Accessory::getIdByTitle($name))[0]->id;
-                       
-                        $AccessoryCategories->save();
-
-                        return $this->redirect('/users/accessory');
-
-                    }
-
-                }
-                
-            }
-        }else{
-            $categories = Categories::getAll();
-            return $this->render(null,['categories'=> $categories]);
+        if (is_null($this->post->description) || empty(trim($this->post->description))) {
+            $errors[] = "Description is required.";
+        }
+        if (is_null($this->post->short_description) || empty(trim($this->post->short_description))) {
+            $errors[] = "Short description is required.";
+        }
+        if (is_null($this->post->price) || !is_numeric($this->post->price)) {
+            $errors[] = "Price must be a numeric value.";
+        }
+        if (empty($_FILES['image']['name']) && empty($this->post->id)) {
+            $errors[] = "Please select an image file.";
         }
     
+        return $errors;
     }
 
+    private function validateFieldsWithoutImage() {
+        $errors = [];
+        
+        if (is_null($this->post->name) || empty(trim($this->post->name))) {
+            $errors[] = "Name is required.";
+        }
+        if (is_null($this->post->description) || empty(trim($this->post->description))) {
+            $errors[] = "Description is required.";
+        }
+        if (is_null($this->post->short_description) || empty(trim($this->post->short_description))) {
+            $errors[] = "Short description is required.";
+        }
+        if (is_null($this->post->price) || !is_numeric($this->post->price)) {
+            $errors[] = "Price must be a numeric value.";
+        }
+    
+        return $errors;
+    }
+
+
+    private function updateAccessory($accessory) {
+        
+        $id = null;
+        if(isset($accessory->id)){
+            $id = $accessory->id;
+        }
+
+        // Отримання та встановлення даних
+        $name = $this->post->name;
+        $description = $this->post->description;
+        $short_description = $this->post->short_description;
+        $price = $this->post->price;
+        $category = $this->post->category;
+        
+        $accessory->title = $name;
+        $accessory->description = $description;
+        $accessory->short_description = $short_description;
+        $accessory->date = date('Y-m-d H:i:s');
+        $accessory->price = $price;
+    
+        if (!empty($_FILES['image']['tmp_name'])) {
+            $image_data = file_get_contents($_FILES['image']['tmp_name']);
+            $accessory->image = $image_data;
+        }
+
+        $accessory->save();
+
+        if ($id == null) {
+         
+            $AccessoryCategories = new AccessoryCategories();
+            $AccessoryCategories->category_id = (Categories::findByCondition(['title' => $category]))[0]->id;
+            $AccessoryCategories->accessory_id = (Accessory::getIdByTitle($name))[0]->id;
+        
+            $AccessoryCategories->saveModel();
+        } 
+      
+    }
+
+    public function actionAddAccessory($params){
+
+        // Якщо є параметр id в URL
+        if (!empty($params[0])) {
+    
+            if ($this->isPost) {
+                $errors = $this->validateFieldsWithoutImage();
+                if (!empty($errors)) {
+                    $this->setErrorMessage(implode('<br>', $errors));
+                    $categories = Categories::getAll();
+                    return $this->render(null, ['accessory' => $accessory, 'categories' => $categories]);
+                }
+                
+                // Оновлення аксесуару
+                $accessoryStd = Accessory::findById($params[0]);
+                $accessory = new Accessory();
+                $accessory->id = $accessoryStd->id;  
+                $this->updateAccessory($accessory);
+    
+                return $this->redirect('/users/accessory');
+            }
+            
+            // Завантаження існуючого аксесуара для редагування
+            $accessory = Accessory::findById($params[0]);
+            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
+            $categories = Categories::getAll();
+            $accessory->category = AccessoryCategories::getCategoryByAccessoryId($params[0]);
+    
+            return $this->render(null, ['accessory' => $accessory, 'categories' => $categories]);
+        }
+    
+        // Якщо немає параметру id в URL, створюємо новий аксесуар
+        if ($this->isPost) {
+            // Валідація полів
+            $errors = $this->validateFields();
+            if (!empty($errors)) {
+                $this->setErrorMessage(implode('<br>', $errors));
+                $categories = Categories::getAll();
+                return $this->render(null, ['categories' => $categories]);
+            }
+    
+            // Створення нового аксесуара
+            $accessory = new Accessory();
+            $this->updateAccessory($accessory);
+            return $this->redirect('/users/accessory');
+        } else {
+            $categories = Categories::getAll();
+            return $this->render(null, ['categories' => $categories]);
+        }
+    }
 
 }
 

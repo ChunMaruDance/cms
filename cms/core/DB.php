@@ -124,7 +124,7 @@ class DB{
 
 
     public function insert($table, $row_to_insert){
-
+      
         $fields_list = implode(", ",array_keys($row_to_insert));
         $params_array = [];
 
@@ -212,8 +212,7 @@ class DB{
             $sth->bindValue(":{$key}",$value);
         }
         $sth->execute();
-        return $sth->rowCount();
-
+    
     }
 
 }

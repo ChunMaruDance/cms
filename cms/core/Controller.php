@@ -32,7 +32,7 @@ class Controller{
 
     public function render($pathToView = null, $data = []){
        
-        if($pathToView !=null){
+        if($pathToView != null){
             $this->template->setTemplateFilePath($pathToView);
         }
 

@@ -13,6 +13,10 @@ class AccessoryCategories extends Model {
         
     }
 
+    function saveModel(){
+        Core::get()->db->insert(static::$table, $this->fieldsArray);
+    }
+
     static function getCategoryByAccessoryId($id){
 
         $categoryId = Core::get()->db->selectOne(self::$table,'*',[],['accessory_id' => $id]);

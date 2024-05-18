@@ -89,12 +89,17 @@
                 var imagePreview = document.getElementById('imagePreview');
                 imagePreview.src =  accessory.image;
                 imagePreview.style.display = 'block';
+
             }
 
+            var idField = document.createElement('input');
+            idField.setAttribute('type', 'hidden');
+            idField.setAttribute('name', 'id');
+            idField.setAttribute('value', accessory.id);
+            document.getElementById('accessoryForm').appendChild(idField);
         });
     </script>
 <?php endif; ?>
-
 
 <script>
 
