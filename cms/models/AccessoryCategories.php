@@ -14,8 +14,11 @@ class AccessoryCategories extends Model {
     }
 
     static function getCategoryByAccessoryId($id){
-        $categoryId = Categories::get
-        Core::get()->db
+
+        $categoryId = Core::get()->db->selectOne(self::$table,'*',[],['accessory_id' => $id]);
+        
+        $category = Categories::findById($categoryId->category_id); 
+        return $category->title;
     }
 
 

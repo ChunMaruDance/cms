@@ -74,9 +74,10 @@ class UsersController extends Controller {
 
             //
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
+            
             $categories = Categories::getAll();
-            $category = AccessoryCategories::getCategoryByAccessoryId();
-
+            $accessory->category = AccessoryCategories::getCategoryByAccessoryId($params[0]);
+            
             $params[0] = null;
             return $this->render(null,['accessory' => $accessory,'categories'=> $categories]);
         }
