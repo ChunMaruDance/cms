@@ -136,15 +136,17 @@ class UsersController extends Controller {
 
         $accessory->save();
 
+        $AccessoryCategories = new AccessoryCategories();
+        $AccessoryCategories->category_id = (Categories::findByCondition(['title' => $category]))[0]->id;
+
         if ($id == null) {
-         
-            $AccessoryCategories = new AccessoryCategories();
-            $AccessoryCategories->category_id = (Categories::findByCondition(['title' => $category]))[0]->id;
             $AccessoryCategories->accessory_id = (Accessory::getIdByTitle($name))[0]->id;
-        
             $AccessoryCategories->saveModel();
-        } 
-      
+        }else{
+            $AccessoryCategories->accessory_id = $id;
+            $AccessoryCategories->updateModel();
+        }
+ 
     }
 
     public function actionAddAccessory($params){

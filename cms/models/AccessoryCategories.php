@@ -17,6 +17,13 @@ class AccessoryCategories extends Model {
         Core::get()->db->insert(static::$table, $this->fieldsArray);
     }
 
+    function updateModel(){
+        $where = [
+            'accessory_id' => $this->accessory_id
+        ];
+        Core::get()->db->update(self::$table, $this->fieldsArray, $where);
+    }
+
     static function getCategoryByAccessoryId($id){
 
         $categoryId = Core::get()->db->selectOne(self::$table,'*',[],['accessory_id' => $id]);

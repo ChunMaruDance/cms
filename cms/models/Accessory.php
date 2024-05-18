@@ -44,13 +44,11 @@ class Accessory extends Model {
 
     public function save(){
         if(!isset($this->fieldsArray['id'])){
-            var_dump('h2');
             Core::get()->db->insert(static::$table, $this->fieldsArray);
         }else{
 
             $id = $this->fieldsArray['id'];
             unset($this->fieldsArray['id']);
-
             Core::get()->db->update(static::$table, $this->fieldsArray,[
                 static::$primaryKey => $id
             ]);
