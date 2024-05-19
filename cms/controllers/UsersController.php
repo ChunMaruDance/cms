@@ -80,8 +80,8 @@ class UsersController extends Controller {
 
         // Якщо передано параметр id, вважаємо, що це редагування і виконуємо відповідні дії
         if (!empty($params[0])) {
-            $category = Categories::findById($params[0]);
-            if (!$category) {
+            $categoryStd = Categories::findById($params[0]);
+            if (!$categoryStd) {
                 $this->setErrorMessage("Category with ID {$params[0]} not found.");
                 return $this->redirect('/users/categories');
             }
@@ -89,12 +89,14 @@ class UsersController extends Controller {
             // Перевіряємо, чи надіслана форма
             if ($this->isPost) {
                 // Виконуємо валідацію полів
-                $errors = $this->validateCategoryFields();
+                $errors = $this->validateCategoryFieldswithoutImage();
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
                     return $this->render(null, ['category' => $category]);
                 }
-    
+                
+                $category = new Categories();
+                $category->id = $params[0];
                 // Оновлюємо дані категорії
                 $category->title = $this->post->name;
                 $category->description = $this->post->description;
@@ -110,14 +112,15 @@ class UsersController extends Controller {
     
                 return $this->redirect('/users/categories');
             } else {
-                // Якщо форма не була надіслана, просто відображаємо форму для редагування
-                return $this->render(null, ['category' => $category]);
+                
+                $categoryStd->image ='data:image/png;base64,' . base64_encode($categoryStd->image);  
+                return $this->render(null, ['category' => $categoryStd]);
             }
         } else {
             // Якщо не передано параметр id, це створення нової категорії
             if ($this->isPost) {
                 // Виконуємо валідацію полів
-                $errors = $this->validateCategoryFieldswithoutImage();
+                $errors = $this->validateCategoryFields();
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
                     return $this->render();

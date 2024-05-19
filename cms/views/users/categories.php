@@ -61,7 +61,7 @@
 <script>
     var categories = <?php echo json_encode($categories); ?>;
 
-    // Функція для відображення категорій
+
     function renderCategories(categories) {
         var categoryRow = document.getElementById('categoryRow');
         categories.forEach(function(category) {
@@ -71,18 +71,15 @@
                 <img src="${category.image}" alt="${category.title}" class="category-image">
                 <span class="category-name">${category.title}</span>
             `;
-            // Додаємо обробник подій для переходу на сторінку категорії
+         
             card.addEventListener('click', function() {
-                window.location.href = '/products/category/' + category.id;
+                window.location.href = '/users/addCategory/' + category.id;
             });
             categoryRow.appendChild(card);
         });
     }
-
-    // Викликаємо функцію відображення категорій для їх відображення
     renderCategories(categories);
 
-    // Додаємо обробник подій для кнопки "Додати категорію"
     document.querySelector('.add-category-btn').addEventListener('click', function() {
         window.location.href = 'addCategory';
     });

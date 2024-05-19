@@ -49,7 +49,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var category = <?php echo json_encode($category); ?>;
-            document.getElementById('name').value = category.name;
+            document.getElementById('name').value = category.title;
             document.getElementById('description').value = category.description;
 
             if (category.image) {
