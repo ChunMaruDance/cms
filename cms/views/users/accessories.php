@@ -10,6 +10,17 @@
             color: white;
         }
 
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        .card:hover {
+        transform: translateY(-10px);
+        background-color: #f5f5f5; 
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); 
+        }
+       
+
         .btn-black:hover {
             background-color: #333;
         }

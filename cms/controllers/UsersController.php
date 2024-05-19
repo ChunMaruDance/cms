@@ -76,12 +76,100 @@ class UsersController extends Controller {
         return $this->render(null,["categories"=>  $categories]);
     }
 
-    public function actionAddCategory(){
-   
-        return $this->render();
+    public function actionAddCategory($params){
+
+        // Якщо передано параметр id, вважаємо, що це редагування і виконуємо відповідні дії
+        if (!empty($params[0])) {
+            $category = Categories::findById($params[0]);
+            if (!$category) {
+                $this->setErrorMessage("Category with ID {$params[0]} not found.");
+                return $this->redirect('/users/categories');
+            }
+    
+            // Перевіряємо, чи надіслана форма
+            if ($this->isPost) {
+                // Виконуємо валідацію полів
+                $errors = $this->validateCategoryFields();
+                if (!empty($errors)) {
+                    $this->setErrorMessage(implode('<br>', $errors));
+                    return $this->render(null, ['category' => $category]);
+                }
+    
+                // Оновлюємо дані категорії
+                $category->title = $this->post->name;
+                $category->description = $this->post->description;
+    
+                // Перевіряємо, чи було вибрано нове зображення
+                if (!empty($_FILES['image']['tmp_name'])) {
+                    $image_data = file_get_contents($_FILES['image']['tmp_name']);
+                    $category->image = $image_data;
+                }
+    
+                // Зберігаємо зміни
+                $category->save();
+    
+                return $this->redirect('/users/categories');
+            } else {
+                // Якщо форма не була надіслана, просто відображаємо форму для редагування
+                return $this->render(null, ['category' => $category]);
+            }
+        } else {
+            // Якщо не передано параметр id, це створення нової категорії
+            if ($this->isPost) {
+                // Виконуємо валідацію полів
+                $errors = $this->validateCategoryFieldswithoutImage();
+                if (!empty($errors)) {
+                    $this->setErrorMessage(implode('<br>', $errors));
+                    return $this->render();
+                }
+    
+                // Створюємо нову категорію
+                $category = new Categories();
+                $category->title = $this->post->name;
+                $category->description = $this->post->description;
+    
+                // Зберігаємо зображення, якщо воно було вибрано
+                if (!empty($_FILES['image']['tmp_name'])) {
+                    $image_data = file_get_contents($_FILES['image']['tmp_name']);
+                    $category->image = $image_data;
+                }
+    
+                $category->save();
+    
+                return $this->redirect('/users/categories');
+            } else {
+                return $this->render();
+            }
+        }
+    }
+    
+    private function validateCategoryFields() {
+        $errors = [];
+        
+        if (is_null($this->post->name) || empty(trim($this->post->name))) {
+            $errors[] = "Name is required.";
+        }
+        if (is_null($this->post->description) || empty(trim($this->post->description))) {
+            $errors[] = "Description is required.";
+        }
+        if (empty($_FILES['image']['name'])) {
+            $errors[] = "Please select an image file.";
+        }
+    
+        return $errors;
     }
 
-
+    private function validateCategoryFieldswithoutImage() {
+        $errors = [];
+        
+        if (is_null($this->post->name) || empty(trim($this->post->name))) {
+            $errors[] = "Name is required.";
+        }
+        if (is_null($this->post->description) || empty(trim($this->post->description))) {
+            $errors[] = "Description is required.";
+        }
+        return $errors;
+    }
 
 
     public function actionSearchAccessory(){

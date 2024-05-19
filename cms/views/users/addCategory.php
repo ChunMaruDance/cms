@@ -22,7 +22,7 @@
             <strong>Error : </strong><?= $error_message ?>
         </div>
     <?php endif; ?>
-    <form id="categoryForm" action="" method="POST">
+    <form id="categoryForm" action="" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" class="form-control" id="name" name="name">
@@ -31,6 +31,7 @@
             <label for="description">Description:</label>
             <textarea class="form-control" id="description" name="description"></textarea>
         </div>
+        <br>
         <div class="form-group">
             <label for="image">Choose Image:</label>
             <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage(event)">
@@ -68,7 +69,6 @@
 <?php endif; ?>
 
 <script>
-
     function previewImage(event) {
         var image = document.getElementById('imagePreview');
         if (event.target.files && event.target.files[0]) {
