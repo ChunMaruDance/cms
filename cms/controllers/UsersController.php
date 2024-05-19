@@ -67,6 +67,44 @@ class UsersController extends Controller {
     
     }
 
+    public function actionCategories(){
+        $categories = Categories::getAll();
+        foreach ($categories as $category) {
+                $category->image = 'data:image/png;base64,' . base64_encode($category->image);   
+        }
+
+        return $this->render(null,["categories"=>  $categories]);
+    }
+
+    public function actionAddCategory(){
+   
+        return $this->render();
+    }
+
+
+
+
+    public function actionSearchAccessory(){
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (isset($data['search_query'])) {
+            $searchQuery = $data['search_query'];
+            
+            $accessories = Accessory::searchByTitle($searchQuery);
+    
+            foreach ($accessories as $accessory) {
+                $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
+            }
+
+            echo json_encode(["accessories" => $accessories]);
+        } else {
+            echo json_encode(["error" => "No search query provided"]);
+        }
+        exit;
+      
+        echo json_encode(["message" => $data]);
+        exit;
+    }
+
     private function validateFields() {
         $errors = [];
         

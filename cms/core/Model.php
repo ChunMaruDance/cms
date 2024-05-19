@@ -73,6 +73,14 @@ class Model {
 
     }
 
+    public static function searchByTitle($title){
+        $sql = "SELECT * FROM " . static::$table . " WHERE title LIKE :title";
+        $sth = Core::get()->db->pdo->prepare($sql);
+        $sth->bindValue(':title', $title . '%', \PDO::PARAM_STR);
+        $sth->execute();
+        return $sth->fetchAll();
+    }
+
 
 }
 

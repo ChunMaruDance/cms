@@ -20,7 +20,7 @@
             <a href="/users/accessories" class="btn control-button">
                 Товари
             </a>
-            <a href="/admin/categories" class="btn control-button">
+            <a href="categories" class="btn control-button">
                 Категорії
             </a>
             <a href="/admin/reviews" class="btn control-button">
