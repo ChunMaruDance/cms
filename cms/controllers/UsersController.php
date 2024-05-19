@@ -67,6 +67,20 @@ class UsersController extends Controller {
     
     }
 
+    public function actionDeleteCategory(){
+        if($this->isPost){
+            $data = json_decode(file_get_contents('php://input'), true);
+            $id = htmlspecialchars($data['category_id']);
+              if(!empty($id)){
+                Categories::deleteById($id);
+                  AccessoryCategories::deleteByCondition(['category_id'=> $id]);
+                  echo json_encode(["message" => "Delete Success"]);
+                  exit;
+              }
+          }
+    }
+
+
     public function actionCategories(){
         $categories = Categories::getAll();
         foreach ($categories as $category) {
@@ -75,6 +89,7 @@ class UsersController extends Controller {
 
         return $this->render(null,["categories"=>  $categories]);
     }
+
 
     public function actionAddCategory($params){
 

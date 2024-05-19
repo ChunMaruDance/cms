@@ -13,6 +13,7 @@
     background-color: #333;
 }
 
+
 </style>
 
 <div id="categoryFormContainer" class="container mt-5">
