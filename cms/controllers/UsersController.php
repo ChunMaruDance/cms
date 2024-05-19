@@ -48,7 +48,6 @@ class UsersController extends Controller {
         foreach ($accessories as $accessory) {
                 $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
         }
-
         return $this->render(null,["accessories"=>  $accessories]);
      
     }

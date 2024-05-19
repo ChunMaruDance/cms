@@ -39,46 +39,19 @@
   </div>
 </header> 
 
-
-
 <section class="category-section my-4">
   <div class="container">
    
     <h2 class="text-center text-uppercase fw-bold mb-4">Категорії</h2> 
     <hr class="w-100 mx-auto">
 
-
     <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <div class="category-card d-flex flex-column align-items-center text-center p-3">
-        <img src="files/images/wallet.webp" alt="Category 1" class="category-image mb-2">
-        <span class="category-name">Гаманці</span>
-      </div>
-      
-      <div class="category-card d-flex flex-column align-items-center text-center p-3">
-        <img src="files/images/business_card holder.jpg" alt="Category 2" class="category-image mb-2">
-        <span class="category-name">Візитниці</span>
-      </div>
-
-      <div class="category-card d-flex flex-column align-items-center text-center p-3">
-        <img src="files/images/bracelets.webp" alt="Category 2" class="category-image mb-2">
-        <span class="category-name">Браслети</span>
-      </div>
-      
-      <div class="category-card d-flex flex-column align-items-center text-center p-3">
-        <img src="files/images/belts.webp" alt="Category 3" class="category-image mb-2">
-        <span class="category-name">Ремені</span>
-      </div>
-      
-      <div class="category-card d-flex flex-column align-items-center text-center p-3">
-        <img src="files/images/backpacks.webp" alt="Category 4" class="category-image mb-2">
-        <span class="category-name">Рюкзаки</span>
-      </div>
-
-      <div class="category-card d-flex flex-column align-items-center text-center p-3">
-        <img src="files/images/glasses.jpg" alt="Category 2" class="category-image mb-2">
-        <span class="category-name">Окуляри</span>
-      </div>
-
+      <?php foreach ($categories as $category): ?>
+        <div class="category-card d-flex flex-column align-items-center text-center p-3">
+          <img src="<?php echo $category->image; ?>" alt="<?php echo $category->title; ?>" class="category-image mb-2">
+          <span class="category-name"><?php echo $category->title; ?></span>
+        </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
