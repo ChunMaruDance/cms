@@ -54,7 +54,7 @@ if(empty($Content)){
     <ul class="dropdown-menu" aria-labelledby="userMenu">
       <li><a class="dropdown-item" href="/users/login">Dashboard</a></li>
       <li><a class="dropdown-item" href="/users/addAccessory">Create Accessory</a></li>
-      <li><a class="dropdown-item" href="/users/create_category">Create Category</a></li>
+      <li><a class="dropdown-item" href="/users/addCategory">Create Category</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" href="/users/logout">Sign out</a></li>
     </ul>

@@ -248,7 +248,11 @@ class UsersController extends Controller {
         if (is_null($this->post->price) || !is_numeric($this->post->price)) {
             $errors[] = "Price must be a numeric value.";
         }
-    
+        
+        if (!isset($this->post->array['category']) || empty(trim($this->post->category))) {
+            $errors[] = "Category is required.";
+        }
+
         return $errors;
     }
 
@@ -259,7 +263,6 @@ class UsersController extends Controller {
         if(isset($accessory->id)){
             $id = $accessory->id;
         }
-
         // Отримання та встановлення даних
         $name = $this->post->name;
         $description = $this->post->description;
@@ -279,15 +282,15 @@ class UsersController extends Controller {
         }
 
         $accessory->save();
-
+    
         $AccessoryCategories = new AccessoryCategories();
         $AccessoryCategories->category_id = (Categories::findByCondition(['title' => $category]))[0]->id;
-
-        if ($id == null) {
+        if ($id == null || Core::get()->session->get('accessory')->category === 'none') {
             $AccessoryCategories->accessory_id = (Accessory::getIdByTitle($name))[0]->id;
             $AccessoryCategories->saveModel();
         }else{
             $AccessoryCategories->accessory_id = $id;
+            
             $AccessoryCategories->updateModel();
         }
  
@@ -303,9 +306,9 @@ class UsersController extends Controller {
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
                     $categories = Categories::getAll();
-                    return $this->render(null, ['accessory' => $accessory, 'categories' => $categories]);
+                    return $this->render(null, ['accessory' =>  Core::get()->session->get('accessory'), 'categories' => $categories]);
                 }
-                
+                         
                 // Оновлення аксесуару
                 $accessoryStd = Accessory::findById($params[0]);
                 $accessory = new Accessory();
@@ -320,7 +323,12 @@ class UsersController extends Controller {
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
             $categories = Categories::getAll();
             $accessory->category = AccessoryCategories::getCategoryByAccessoryId($params[0]);
-    
+            
+            if($accessory->category === null){
+                $accessory->category = 'none';
+            }
+
+            Core::get()->session->set('accessory', $accessory);
             return $this->render(null, ['accessory' => $accessory, 'categories' => $categories]);
         }
     
