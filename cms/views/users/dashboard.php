@@ -14,7 +14,7 @@
     </style>
    <div class="container mt-5">
         <div class="d-flex flex-column align-items-center">
-            <a href="/admin/change-banner" class="btn control-button">
+            <a href="/users/renderBanner" class="btn control-button">
                 Банер
             </a>
             <a href="/users/accessories" class="btn control-button">

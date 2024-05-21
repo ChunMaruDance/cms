@@ -39,6 +39,7 @@
   </div>
 </header> 
 
+
 <section class="category-section my-4">
   <div class="container">
    
@@ -47,12 +48,13 @@
 
     <div class="d-flex justify-content-center gap-3 flex-wrap">
       <?php foreach ($categories as $category): ?>
-        <div class="category-card d-flex flex-column align-items-center text-center p-3">
-          <img src="<?php echo $category->image; ?>" alt="<?php echo $category->title; ?>" class="category-image mb-2">
-          <span class="category-name"><?php echo $category->title; ?></span>
-        </div>
+        <a href="/news/index/<?php echo $category->image; ?>" class="category-link" style="color: inherit; text-decoration: none;">
+          <div class="category-card d-flex flex-column align-items-center text-center p-3">
+            <img src="<?php echo $category->image; ?>" alt="<?php echo $category->title; ?>" class="category-image mb-2">
+            <span class="category-name"><?php echo $category->title; ?></span>
+          </div>
+        </a>
       <?php endforeach; ?>
     </div>
   </div>
 </section>
-

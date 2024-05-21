@@ -52,6 +52,10 @@ class UsersController extends Controller {
      
     }
 
+    public function actionRenderBanner(){
+        return $this->render();
+    }
+
     public function actionDeleteAccessory(){
         if($this->isPost){
             $data = json_decode(file_get_contents('php://input'), true);
