@@ -32,17 +32,30 @@ class UsersController extends Controller {
       
     }
 
+
+    public function checkIsUserLoggin(){
+        if(!Users::isUserLogged()){
+            return $this->redirect('/   ');
+            exit;
+        }
+    }
+
     public function actionLogout(){
         Users::userLogout();
         return $this->redirect('/users/login');
     }
 
     public function actionDashboard(){
+
+        $this->checkIsUserLoggin();
             
         return $this->render();
     }
 
     public function actionAccessories(){
+
+    
+        $this->checkIsUserLoggin();
 
         $accessories = Accessory::getAll();
         foreach ($accessories as $accessory) {
@@ -53,10 +66,18 @@ class UsersController extends Controller {
     }
 
     public function actionRenderBanner(){
+        
+   
+        $this->checkIsUserLoggin();
+
         return $this->render();
     }
 
     public function actionDeleteAccessory(){
+
+      
+        $this->checkIsUserLoggin();
+
         if($this->isPost){
             $data = json_decode(file_get_contents('php://input'), true);
             $id = htmlspecialchars($data['accessory_id']);
@@ -71,6 +92,10 @@ class UsersController extends Controller {
     }
 
     public function actionDeleteCategory(){
+
+       
+        $this->checkIsUserLoggin();
+
         if($this->isPost){
             $data = json_decode(file_get_contents('php://input'), true);
             $id = htmlspecialchars($data['category_id']);
@@ -85,6 +110,10 @@ class UsersController extends Controller {
 
 
     public function actionCategories(){
+
+     
+        $this->checkIsUserLoggin();
+
         $categories = Categories::getAll();
         foreach ($categories as $category) {
                 $category->image = 'data:image/png;base64,' . base64_encode($category->image);   
@@ -96,7 +125,9 @@ class UsersController extends Controller {
 
     public function actionAddCategory($params){
 
-        // Якщо передано параметр id, вважаємо, що це редагування і виконуємо відповідні дії
+        
+        $this->checkIsUserLoggin();
+
         if (!empty($params[0])) {
             $categoryStd = Categories::findById($params[0]);
             if (!$categoryStd) {
@@ -194,6 +225,10 @@ class UsersController extends Controller {
 
 
     public function actionSearchAccessory(){
+
+       
+        $this->checkIsUserLoggin();
+
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($data['search_query'])) {
             $searchQuery = $data['search_query'];
@@ -261,12 +296,15 @@ class UsersController extends Controller {
 
 
     private function updateAccessory($accessory) {
+
+      
+        $this->checkIsUserLoggin();
         
         $id = null;
         if(isset($accessory->id)){
             $id = $accessory->id;
         }
-        // Отримання та встановлення даних
+      
         $name = $this->post->name;
         $description = $this->post->description;
         $short_description = $this->post->short_description;
@@ -301,6 +339,8 @@ class UsersController extends Controller {
 
     public function actionAddAccessory($params){
 
+      
+        $this->checkIsUserLoggin();
         // Якщо є параметр id в URL
         if (!empty($params[0])) {
     

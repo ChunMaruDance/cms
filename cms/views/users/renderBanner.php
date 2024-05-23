@@ -25,7 +25,6 @@
     <h1 class="text-center mb-4">Редагування банера</h1>
 
     <div class="row">
-      <!-- Форма для додавання нового банера -->
       <div class="col-md-6 mb-3">
         <div class="card">
           <form action="/upload-banner-image" method="post" enctype="multipart/form-data">
