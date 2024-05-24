@@ -4,13 +4,18 @@ namespace controllers;
 use core\Controller;
 use core\Template;
 use core\Core;
+
+//models
 use models\Users;
 use models\Accessory;
 use models\AccessoryCategories;
 use models\Categories;
+use models\MainBanner;
 
+//validators
 use utils\AccessoryValidator;
 use utils\CategoryValidator;
+use utils\BannerItemValidator;
 
 class UsersController extends Controller {
   
@@ -38,15 +43,17 @@ class UsersController extends Controller {
 
     public function checkIsUserLoggin(){
         if(!Users::isUserLogged()){
-            return $this->redirect('/   ');
+            return $this->redirect('/');
             exit;
         }
     }
+
 
     public function actionLogout(){
         Users::userLogout();
         return $this->redirect('/users/login');
     }
+
 
     public function actionDashboard(){
 
@@ -54,6 +61,7 @@ class UsersController extends Controller {
             
         return $this->render();
     }
+
 
     public function actionAccessories(){
 
@@ -67,23 +75,37 @@ class UsersController extends Controller {
      
     }
 
+
     public function actionRenderBanner(){
         
         $this->checkIsUserLoggin();
 
-        $categories = Categories::getAllWithEncodeImage();
-
-        return $this->render(null,['categories' => $categories]);
+        $bannerItems = MainBanner::getAllWithEncodeImage();
+        return $this->render(null,['bannerItems' => $bannerItems]);
     }
+
 
     public function actionDeleteBannerItem(){
 
+        $this->checkIsUserLoggin();
+        
         return $this->redirect('/');
     } 
 
+
     public function actionCreateBannerItem(){
-        return $this->redirect('/');
+
+        $this->checkIsUserLoggin();
+
+        $errors = BannerItemValidator::validateFields($this->post,$_FILES);
+        
+        if (!empty($errors)) {
+            $this->setErrorMessage($errors);
+            return $this->render('views/users/renderBanner.php');
+        }
+
     } 
+
 
     public function actionDeleteAccessory(){
       
@@ -102,8 +124,8 @@ class UsersController extends Controller {
     
     }
 
-    public function actionDeleteCategory(){
 
+    public function actionDeleteCategory(){
        
         $this->checkIsUserLoggin();
 
@@ -203,6 +225,7 @@ class UsersController extends Controller {
         }
     }
 
+
     public function actionSearchAccessory(){
 
         $this->checkIsUserLoggin();
@@ -269,6 +292,7 @@ class UsersController extends Controller {
         }
  
     }
+
 
     public function actionAddAccessory($params){
 

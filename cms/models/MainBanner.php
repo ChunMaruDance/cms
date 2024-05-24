@@ -15,7 +15,7 @@ class MainBanner extends Model {
 
     public function __construct(){}
 
-    public function getAllWithEncodeImage(){
+    public static function getAllWithEncodeImage(){
         $bannerItems = self::getAll();
         foreach ($bannerItems as $item) {
             $item->image = 'data:image/png;base64,' . base64_encode($item->image);   
