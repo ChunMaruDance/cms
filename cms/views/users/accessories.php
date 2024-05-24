@@ -202,11 +202,53 @@
         `;
         accessoryRow.appendChild(card);
             });
+
+            bindEventHandlers();
         })
         .catch(error => {
             console.error('There was an error!', error);
         });
     });
+
+
+    function bindEventHandlers() {
+    document.querySelectorAll('.render-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            window.location.href = `addAccessory/${accessoryId}`;
+        });
+    });
+
+    document.querySelectorAll('.delete-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            fetch('deleteAccessory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ accessory_id: accessoryId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    bindEventHandlers();
+});
     </script>
 </body>
 </html>
