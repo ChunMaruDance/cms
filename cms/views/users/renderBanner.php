@@ -50,7 +50,7 @@
                     <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title"><?php echo $bannerItem->link; ?></h5>
                         <br>
-                        <form action="deleteBannerItem" method="POST">
+                        <form action="deleteBannerItem/<?php echo $bannerItem->id; ?>" method="POST">
                             <input type="hidden" name="image_id" value="<?php echo $bannerItem->id; ?>">
                             <button type="submit" class="btn btn-danger">Видалити</button>
                         </form>

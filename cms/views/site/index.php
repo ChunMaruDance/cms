@@ -7,26 +7,18 @@
 <header>
   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <?php foreach ($bannerItems as $key => $bannerItem): ?>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?php echo $key; ?>" <?php if ($key === 0) echo 'class="active"'; ?> aria-label="Slide <?php echo $key + 1; ?>"></button>
+      <?php endforeach; ?>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active" style="background-image: url('files/images/imgpager1.webp');">
-        <div class="carousel-caption">
-          <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="/news/index/watch" role="button">View</a>
+      <?php foreach ($bannerItems as $key => $bannerItem): ?>
+        <div class="carousel-item <?php if ($key === 0) echo 'active'; ?>" style="background-image: url('<?php echo $bannerItem->image; ?>');">
+          <div class="carousel-caption">
+            <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="<?php echo $bannerItem->link; ?>" role="button">View</a>
+          </div>
         </div>
-      </div>
-      <div class="carousel-item" style="background-image: url('files/images/glassesimg1.webp')">
-        <div class="carousel-caption">
-          <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="/news/index/wallet" role="button">View</a>
-        </div>
-      </div>
-      <div class="carousel-item" style="background-image: url('files/images/backpacksimg3.webp')">
-        <div class="carousel-caption">
-        <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="/news/index/backpacks  " role="button">View</a>
-        </div>
-      </div>
+      <?php endforeach; ?>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -37,8 +29,7 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-</header> 
-
+</header>
 
 <section class="category-section my-4">
   <div class="container">

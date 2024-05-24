@@ -85,11 +85,13 @@ class UsersController extends Controller {
     }
 
 
-    public function actionDeleteBannerItem(){
+    public function actionDeleteBannerItem($params){
 
         $this->checkIsUserLoggin();
-        
-        return $this->redirect('/');
+ 
+        MainBanner::deleteById($params[0]);
+ 
+        return $this->redirect('/users/renderBanner');
     } 
 
 
