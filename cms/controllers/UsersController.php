@@ -9,6 +9,9 @@ use models\Accessory;
 use models\AccessoryCategories;
 use models\Categories;
 
+use utils\AccessoryValidator;
+use utils\CategoryValidator;
+
 class UsersController extends Controller {
   
     public function actionLogin($params){
@@ -111,7 +114,6 @@ class UsersController extends Controller {
 
     public function actionCategories(){
 
-     
         $this->checkIsUserLoggin();
 
         $categories = Categories::getAll();
@@ -125,7 +127,6 @@ class UsersController extends Controller {
 
     public function actionAddCategory($params){
 
-        
         $this->checkIsUserLoggin();
 
         if (!empty($params[0])) {
@@ -137,8 +138,9 @@ class UsersController extends Controller {
     
             // Перевіряємо, чи надіслана форма
             if ($this->isPost) {
-                // Виконуємо валідацію полів
-                $errors = $this->validateCategoryFieldswithoutImage();
+
+                $errors = CategoryValidator::validateFieldsWithoutImage($this->post);
+    
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
                     return $this->render(null, ['category' => $category]);
@@ -168,8 +170,10 @@ class UsersController extends Controller {
         } else {
             // Якщо не передано параметр id, це створення нової категорії
             if ($this->isPost) {
-                // Виконуємо валідацію полів
-                $errors = $this->validateCategoryFields();
+               
+                //todo
+                $errors = CategoryValidator::validateFields($this->post,$_FILES);
+
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
                     return $this->render();
@@ -194,39 +198,9 @@ class UsersController extends Controller {
             }
         }
     }
-    
-    private function validateCategoryFields() {
-        $errors = [];
-        
-        if (is_null($this->post->name) || empty(trim($this->post->name))) {
-            $errors[] = "Name is required.";
-        }
-        if (is_null($this->post->description) || empty(trim($this->post->description))) {
-            $errors[] = "Description is required.";
-        }
-        if (empty($_FILES['image']['name'])) {
-            $errors[] = "Please select an image file.";
-        }
-    
-        return $errors;
-    }
-
-    private function validateCategoryFieldswithoutImage() {
-        $errors = [];
-        
-        if (is_null($this->post->name) || empty(trim($this->post->name))) {
-            $errors[] = "Name is required.";
-        }
-        if (is_null($this->post->description) || empty(trim($this->post->description))) {
-            $errors[] = "Description is required.";
-        }
-        return $errors;
-    }
-
 
     public function actionSearchAccessory(){
 
-       
         $this->checkIsUserLoggin();
 
         $data = json_decode(file_get_contents('php://input'), true);
@@ -247,51 +221,6 @@ class UsersController extends Controller {
       
         echo json_encode(["message" => $data]);
         exit;
-    }
-
-    private function validateFields() {
-        $errors = [];
-        
-        if (is_null($this->post->name) || empty(trim($this->post->name))) {
-            $errors[] = "Name is required.";
-        }
-        if (is_null($this->post->description) || empty(trim($this->post->description))) {
-            $errors[] = "Description is required.";
-        }
-        if (is_null($this->post->short_description) || empty(trim($this->post->short_description))) {
-            $errors[] = "Short description is required.";
-        }
-        if (is_null($this->post->price) || !is_numeric($this->post->price)) {
-            $errors[] = "Price must be a numeric value.";
-        }
-        if (empty($_FILES['image']['name']) && empty($this->post->id)) {
-            $errors[] = "Please select an image file.";
-        }
-    
-        return $errors;
-    }
-
-    private function validateFieldsWithoutImage() {
-        $errors = [];
-        
-        if (is_null($this->post->name) || empty(trim($this->post->name))) {
-            $errors[] = "Name is required.";
-        }
-        if (is_null($this->post->description) || empty(trim($this->post->description))) {
-            $errors[] = "Description is required.";
-        }
-        if (is_null($this->post->short_description) || empty(trim($this->post->short_description))) {
-            $errors[] = "Short description is required.";
-        }
-        if (is_null($this->post->price) || !is_numeric($this->post->price)) {
-            $errors[] = "Price must be a numeric value.";
-        }
-        
-        if (!isset($this->post->array['category']) || empty(trim($this->post->category))) {
-            $errors[] = "Category is required.";
-        }
-
-        return $errors;
     }
 
 
@@ -339,13 +268,13 @@ class UsersController extends Controller {
 
     public function actionAddAccessory($params){
 
-      
         $this->checkIsUserLoggin();
         // Якщо є параметр id в URL
         if (!empty($params[0])) {
     
             if ($this->isPost) {
-                $errors = $this->validateFieldsWithoutImage();
+               $errors = AccessoryValidator::validateFieldsWithoutImage($this->post);
+                
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
                     $categories = Categories::getAll();
@@ -377,8 +306,9 @@ class UsersController extends Controller {
     
         // Якщо немає параметру id в URL, створюємо новий аксесуар
         if ($this->isPost) {
-            // Валідація полів
-            $errors = $this->validateFields();
+          
+            $errors = AccessoryValidator::validateFields($this->post,$_FILES);
+
             if (!empty($errors)) {
                 $this->setErrorMessage(implode('<br>', $errors));
                 $categories = Categories::getAll();
