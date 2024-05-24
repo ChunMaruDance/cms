@@ -9,16 +9,16 @@
     }
 
     .control-button {
-        width: 200px;
-        height: 50px; 
+        width: 120px;
+        height: 40px; 
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: black;
         color: white;
-        font-size: 18px; 
-        margin-bottom: 20px;
-        padding: 30px;
+        font-size: 16px; 
+        margin-bottom: 10px;
+        padding: 20px;
     }
 </style>
 
@@ -42,21 +42,16 @@
             </div>
         </div>
 
-        <!-- Випадкові банер-елементи для демонстрації -->
         <?php 
-        $bannerImages = [
-            (object) ['url' => 'https://via.placeholder.com/300', 'category' => 'Category 1', 'id' => 1],
-            (object) ['url' => 'https://via.placeholder.com/300', 'category' => 'Category 2', 'id' => 2],
-            (object) ['url' => 'https://via.placeholder.com/300', 'category' => 'Category 3', 'id' => 3]
-        ];
-        foreach ($bannerImages as $bannerImage): ?>
+        foreach ($bannerItems as $bannerItem): ?>
             <div class="col-md-6 mb-3">
                 <div class="card">
-                    <img src="<?php echo $bannerImage->url; ?>" class="card-img-top" alt="Banner Image">
+                    <img src="<?php echo $bannerItem->image; ?>" class="card-img-top" alt="Banner Image">
                     <div class="card-body d-flex flex-column justify-content-between">
-                        <h5 class="card-title"><?php echo $bannerImage->category; ?></h5>
+                        <h5 class="card-title"><?php echo $bannerItem->link; ?></h5>
+                        <br>
                         <form action="deleteBannerItem" method="POST">
-                            <input type="hidden" name="image_id" value="<?php echo $bannerImage->id; ?>">
+                            <input type="hidden" name="image_id" value="<?php echo $bannerItem->id; ?>">
                             <button type="submit" class="btn btn-danger">Видалити</button>
                         </form>
                     </div>

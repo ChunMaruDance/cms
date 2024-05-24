@@ -104,6 +104,15 @@ class UsersController extends Controller {
             return $this->render('views/users/renderBanner.php');
         }
 
+        // model
+        $bannerItem = new MainBanner();
+        $bannerItem->link = $this->post->link;
+        $bannerItem->image =  file_get_contents($_FILES['image']['tmp_name']);
+
+        $bannerItem->save();
+        
+        return $this->redirect('/users/renderBanner');
+
     } 
 
 
