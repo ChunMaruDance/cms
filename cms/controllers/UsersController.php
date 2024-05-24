@@ -57,7 +57,6 @@ class UsersController extends Controller {
 
     public function actionAccessories(){
 
-    
         $this->checkIsUserLoggin();
 
         $accessories = Accessory::getAll();
@@ -70,14 +69,23 @@ class UsersController extends Controller {
 
     public function actionRenderBanner(){
         
-   
         $this->checkIsUserLoggin();
 
-        return $this->render();
+        $categories = Categories::getAllWithEncodeImage();
+
+        return $this->render(null,['categories' => $categories]);
     }
 
-    public function actionDeleteAccessory(){
+    public function actionDeleteBannerItem(){
 
+        return $this->redirect('/');
+    } 
+
+    public function actionCreateBannerItem(){
+        return $this->redirect('/');
+    } 
+
+    public function actionDeleteAccessory(){
       
         $this->checkIsUserLoggin();
 
