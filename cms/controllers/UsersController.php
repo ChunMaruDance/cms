@@ -116,11 +116,7 @@ class UsersController extends Controller {
 
         $this->checkIsUserLoggin();
 
-        $categories = Categories::getAll();
-        foreach ($categories as $category) {
-                $category->image = 'data:image/png;base64,' . base64_encode($category->image);   
-        }
-
+        $categories = Categories::getAllWithEncodeImage();
         return $this->render(null,["categories"=>  $categories]);
     }
 

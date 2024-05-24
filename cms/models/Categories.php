@@ -27,6 +27,15 @@ class Categories extends Model {
       
     }
 
+    public static function getAllWithEncodeImage(){
+        $categories = self::getAll();
+        foreach ($categories as $category) {
+            $category->image = 'data:image/png;base64,' . base64_encode($category->image);   
+         }
+         return $categories;
+    } 
+
+
 }
 
 ?>

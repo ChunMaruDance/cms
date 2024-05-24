@@ -9,12 +9,8 @@ class SiteController extends Controller
 {
     public function actionIndex()
     {   
-        $categories = Categories::getAll();
-        foreach ($categories as $category) {
-            $category->image = 'data:image/png;base64,' . base64_encode($category->image);   
-         }
-
-        return $this->render(null,['categories'=>$categories]);
+        $categories = Categories::getAllWithEncodeImage();
+        return $this->render(null,['categories' => $categories]);
     }
 }
 
