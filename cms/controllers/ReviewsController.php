@@ -23,7 +23,7 @@ class ReviewsController extends Controller {
             
             return $this->render('views/reviews/contact.php');
         }
-        
+
         $feedBack = new Feedback();
         $feedBack->name = $this->post->name;
         $feedBack->email = $this->post->email;
@@ -40,19 +40,14 @@ class ReviewsController extends Controller {
         return $this->render();
     }
 
-    public function actionIndex($params){
-       return $this->render();
-    }
-
-    public function actionView($params){
+    public function actionView(){
 
         $this->checkIsUserLoggin();
 
-        return $this->render();
+        $reviews = Feedback::getAll();
+
+        return $this->render(null,['reviews' =>$reviews]);
     }
-
-
-
 
 }
 

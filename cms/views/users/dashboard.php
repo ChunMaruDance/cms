@@ -17,13 +17,13 @@
             <a href="/users/renderBanner" class="btn control-button">
                 Банер
             </a>
-            <a href="/users/accessories" class="btn control-button">
+            <a href="accessories" class="btn control-button">
                 Товари
             </a>
             <a href="categories" class="btn control-button">
                 Категорії
             </a>
-            <a href="/admin/reviews" class="btn control-button">
+            <a href="/reviews/view" class="btn control-button">
                 Відгуки
             </a>
         </div>
