@@ -92,20 +92,26 @@ class UsersController extends Controller {
         $this->checkIsUserLoggin();
 
         $errors = BannerItemValidator::validateFields($this->post,$_FILES);
-        
+       
         if (!empty($errors)) {
             $this->setErrorMessage($errors);
-            return $this->render('views/users/renderBanner.php');
+            $bannerItems = MainBanner::getAllWithEncodeImage();
+
+            return $this->render('views/users/renderBanner.php', [
+                'errors' => $errors,
+                'bannerItems' => $bannerItems
+            ]);
         }
 
         // model
         $bannerItem = new MainBanner();
         $bannerItem->link = $this->post->link;
-        $bannerItem->image =  file_get_contents($_FILES['image']['tmp_name']);
+        $bannerItem->image = file_get_contents($_FILES['image']['tmp_name']);
 
         $bannerItem->save();
         
         return $this->redirect('/users/renderBanner');
+            
 
     } 
 

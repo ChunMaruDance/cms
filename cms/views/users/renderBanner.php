@@ -25,6 +25,14 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">Редагування банера</h1>
 
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger" role="alert">
+            <?php foreach ($errors as $error): ?>
+                <p><?php echo $error; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    
     <div class="row">
         <div class="col-md-6 mb-3">
             <div class="card">
