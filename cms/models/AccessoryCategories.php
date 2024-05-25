@@ -36,6 +36,14 @@ class AccessoryCategories extends Model {
     }
 
 
+    static function getAccessoriesByCategoryId($categoryId){
+        $joins = ['JOIN category_accessory ca ON ca.accessory_id = a.id'];
+        $conditionArray = ['ca.category_id' => $categoryId];
+    
+        return self::findByConditionAndJoin($conditionArray, $joins);
+    }
+
+
 }
 
 ?>

@@ -4,8 +4,11 @@ namespace controllers;
 use core\Controller;
 use core\Template;
 use core\Core;
+
+//models
 use models\Accessory;
 use models\AccessoryCategories;
+use models\Categories;
 
 class ProductsController extends Controller{
 
@@ -24,8 +27,24 @@ class ProductsController extends Controller{
     }
 
     public function actionView($params){
-           return $this->render();
+
+        if(empty($params)){
+            return $this->redirect('/');
+        }
+
+        $cateogry = $params[0];
+        $categoryId = Categories::findIdByTitle($cateogry);
+        
+        if($categoryId == null){
+            return $this->redirect('/');
+        }
+
+        $res = AccessoryCategories::getAccessoriesByCategoryId($categoryId);
+        var_dump($res);
+        die;
+        return $this->render();
     }
+
 
 
 }

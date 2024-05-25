@@ -53,8 +53,28 @@ class Model {
         Core::get()->db->delete(static::$table,$conditiobArray);
     }
 
-    public static function findByCondition($conditiobArray){
-        $arr = Core::get()->db->select(static::$table,'*',[],$conditiobArray);
+    public static function findByConditionAndJoin($conditionArray,$joins){
+
+        $conditions = [];
+        foreach ($conditionArray as $column => $value) {
+            $conditions[] = "$column = :$column";
+        }
+
+        $whereClause = implode(" AND ", $conditions);
+        $joinsQuery = implode(" ", $joins);
+    
+        $results = Core::get()->db->select(
+            'accessory a',
+            'a.*',
+            $joins,
+            $conditionArray
+        );
+    
+        return $results;
+    }
+
+    public static function findByCondition($conditionArray){
+        $arr = Core::get()->db->select(static::$table,'*',[],$conditionArray);
         if(count($arr) > 0){
             return $arr;
         }else{

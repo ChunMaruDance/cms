@@ -9,9 +9,7 @@ class Categories extends Model {
 
     public static $table = 'categories';
 
-    public function __construct(){
-      
-    }
+    public function __construct(){}
 
     public function save(){
         if(!isset($this->fieldsArray['id'])){
@@ -26,6 +24,10 @@ class Categories extends Model {
         }
       
     }
+    
+    public static function findIdByTitle($title){
+      return self::findByCondition(['title' => $title])[0]->id;
+    } 
 
     public static function getAllWithEncodeImage(){
         $categories = self::getAll();

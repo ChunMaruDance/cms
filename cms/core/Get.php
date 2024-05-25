@@ -11,7 +11,4 @@ class Get extends RequestMethod {
 
 }
 
-
-
-
 ?>
