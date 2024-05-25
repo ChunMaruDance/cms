@@ -2,8 +2,8 @@
   <meta charset="UTF-8">
   <title>My Website</title>
   <link rel="stylesheet" href="css/category.css"> 
+  <link rel="stylesheet" href="css/main_banner.css"> 
 </head>
-
 <header>
   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -33,10 +33,8 @@
 
 <section class="category-section my-4">
   <div class="container">
-   
     <h2 class="text-center text-uppercase fw-bold mb-4">Категорії</h2> 
     <hr class="w-100 mx-auto">
-
     <div class="d-flex justify-content-center gap-3 flex-wrap">
       <?php foreach ($categories as $category): ?>
         <a href="/news/index/<?php echo $category->image; ?>" class="category-link" style="color: inherit; text-decoration: none;">
