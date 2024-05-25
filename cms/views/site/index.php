@@ -37,7 +37,7 @@
     <hr class="w-100 mx-auto">
     <div class="d-flex justify-content-center gap-3 flex-wrap">
       <?php foreach ($categories as $category): ?>
-        <a href="/news/index/<?php echo $category->image; ?>" class="category-link" style="color: inherit; text-decoration: none;">
+        <a href="/products/<?php echo $category->title; ?>" class="category-link" style="color: inherit; text-decoration: none;">
           <div class="category-card d-flex flex-column align-items-center text-center p-3">
             <img src="<?php echo $category->image; ?>" alt="<?php echo $category->title; ?>" class="category-image mb-2">
             <span class="category-name"><?php echo $category->title; ?></span>

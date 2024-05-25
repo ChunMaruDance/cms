@@ -43,7 +43,7 @@ if(empty($Content)){
           <a class="nav-link" href="#">Categories</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="/reviews/contact">Contact</a>
         </li>
 
         <?php if (Users::isUserLogged()) : ?>
@@ -64,8 +64,6 @@ if(empty($Content)){
     <a class="nav-link" href="/users/login">Sign in</a>
   </li>
 <?php endif; ?>
-
-
       </ul>
     </div>
   </div>
