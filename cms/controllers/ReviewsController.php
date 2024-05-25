@@ -4,12 +4,35 @@ namespace controllers;
 use core\Controller;
 use core\Template;
 use core\Core;
+
+//models
 use models\Accessory;
+use models\Feedback;
 
-class ReviewsController extends Controller{
+//validators
+use utils\FeedbackValidator; 
 
-    public function actionAdd(){
-        return $this->render();
+
+class ReviewsController extends Controller {
+
+    public function actionSubmitFeedback(){
+
+        $errors = FeedbackValidator::validateFields($this->post);
+        if (!empty($errors)) {
+            $this->setErrorMessage($errors);
+            
+            return $this->render('views/reviews/contact.php');
+        }
+        
+        $feedBack = new Feedback();
+        $feedBack->name = $this->post->name;
+        $feedBack->email = $this->post->email;
+        $feedBack->message = $this->post->message;
+        $feedBack->created_at = date('Y-m-d H:i:s');
+
+        $feedBack->save();
+
+        return $this->redirect('/');
     }
 
     public function actionContact(){
@@ -22,7 +45,10 @@ class ReviewsController extends Controller{
     }
 
     public function actionView($params){
-           return $this->render();
+
+        $this->checkIsUserLoggin();
+
+        return $this->render();
     }
 
 

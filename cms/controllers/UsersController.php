@@ -39,15 +39,7 @@ class UsersController extends Controller {
         }
       
     }
-
-
-    public function checkIsUserLoggin(){
-        if(!Users::isUserLogged()){
-            return $this->redirect('/');
-            exit;
-        }
-    }
-
+    
 
     public function actionLogout(){
         Users::userLogout();

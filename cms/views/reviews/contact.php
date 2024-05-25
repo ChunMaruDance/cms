@@ -54,6 +54,17 @@
             <div class="col-md-6">
                 <div class="contact-form">
                     <h4>Leave a Feedback</h4>
+                    <!-- Відображення помилок -->
+                    <?php if (!empty($error_message)): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                <?php foreach ($error_message as $error): ?>
+                                    <li><?php echo $error; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                   
                     <form action="submitFeedback" method="POST">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -74,5 +85,4 @@
         </div>
     </div>
 </section>
-
 

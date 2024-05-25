@@ -2,7 +2,9 @@
 
 namespace core;
 
-class Controller{
+use models\Users;
+
+class Controller {
 
     protected $template;
     public $isPost = false;
@@ -49,6 +51,12 @@ class Controller{
         die;
     }
 
+    public function checkIsUserLoggin(){
+        if(!Users::isUserLogged()){
+            return $this->redirect('/');
+            exit;
+        }
+    }
 
     public function setErrorMessage($message = null){
         $this->template->setParam('error_message', $message);
