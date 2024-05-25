@@ -3,10 +3,6 @@
 $this->Title = 'Список товарів';
 
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,8 +80,8 @@ $this->Title = 'Список товарів';
                         <p class="card-text">${accessory.short_description}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary buy-btn" data-accessory-id="${accessory.id}">Купити</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary addToCart-btn" data-accessory-id="${accessory.id}">Додати в Корзину</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary buy-btn" data-accessory-id="${accessory.id}">Замовити</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary addToCart-btn" data-accessory-id="${accessory.id}">Додати до кошика</button>
                             </div>
                             <small class="text-muted">Price: ${accessory.price}$</small>
                         </div>
@@ -95,6 +91,141 @@ $this->Title = 'Список товарів';
             document.getElementById('accessoryRow').appendChild(card);
         });
 
+
+        document.querySelectorAll('.buy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            window.location.href = `buy/${accessoryId}`;
+            });
+        });
+
+        document.querySelectorAll('.addToCart-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            fetch('addToCart', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ accessory_id: accessoryId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); 
+                location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+        });
+    });
+
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        var query = document.getElementById('searchInput').value;
+        var category = <?php echo json_encode($category); ?>;
+
+        fetch('/products/searchAccessory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ search_query: query,category:category })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+        console.log(data); 
+        
+        var accessoryRow = document.getElementById('accessoryRow');
+        accessoryRow.innerHTML = '';
+
+        var displayedIds = [];
+        
+        data.accessories.forEach(function(accessory) {
+        var card = document.createElement('div');
+        card.className = 'col highlight';
+        card.innerHTML = `
+            <div class="card shadow-sm">
+                <a href="/products/accessory/${accessory.id}">
+                    <img src="${accessory.image}" class="bd-placeholder-img card-img-top" width="100%" height="260" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">${accessory.title}</h5>
+                    <p class="card-text">${accessory.short_description}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary buy-btn" data-accessory-id="${accessory.id}">Замовити</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary addToCart-btn" data-accessory-id="${accessory.id}">Додати до кошика</button>
+                        </div>
+                        <small class="text-muted">Price: ${accessory.price}$</small>
+                    </div>
+                </div>
+            </div>
+        `;
+        accessoryRow.prepend(card);
+        displayedIds.push(accessory.id);
+    });
+
+    // Filter out accessories already displayed
+    var filteredAccessories = accessories.filter(function(accessory) {
+        return !displayedIds.includes(accessory.id);
+    });
+
+    // Render remaining accessories
+    filteredAccessories.forEach(function(accessory) {
+        var card = document.createElement('div');
+        card.className = 'col';
+        card.innerHTML = `
+            <div class="card shadow-sm">
+                <a href="/products/accessory/${accessory.id}">
+                    <img src="${accessory.image}" class="bd-placeholder-img card-img-top" width="100%" height="260" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">${accessory.title}</h5>
+                    <p class="card-text">${accessory.short_description}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary buy-btn" data-accessory-id="${accessory.id}">Render</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary addToCart-btn" data-accessory-id="${accessory.id}">Delete</button>
+                        </div>
+                        <small class="text-muted">Price: ${accessory.price}$</small>
+                    </div>
+                </div>
+            </div>
+        `;
+        accessoryRow.appendChild(card);
+            });
+
+             bindEventHandlers();
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        bindEventHandlers();
+    });
+
+    function bindEventHandlers() {
+    document.querySelectorAll('.buy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            window.location.href = `buy/${accessoryId}`;
+        });
+    });
+}
+
     </script>
 </body>
-</html>

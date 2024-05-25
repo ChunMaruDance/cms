@@ -245,9 +245,9 @@
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    bindEventHandlers();
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        bindEventHandlers();
+    });
     </script>
 </body>
 </html>

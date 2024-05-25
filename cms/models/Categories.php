@@ -35,7 +35,9 @@ class Categories extends Model {
             $category->image = 'data:image/png;base64,' . base64_encode($category->image);   
          }
          return $categories;
-    } 
+    }
+
+    
 
 
 }

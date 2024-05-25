@@ -47,6 +47,20 @@ class ProductsController extends Controller{
         return $this->render(null,['accessories'=> $accessories,'category'=>$cateogry,'description'=>$categoryObj[0]->description]);
     }
 
+    public function actionSearchAccessory(){
+        
+        $data = json_decode(file_get_contents('php://input'), true);
+        $searchQuery = $data['search_query'];
+        $category = $data['category'];
+     
+        $accessories = AccessoryCategories::searchByCategoryAndTitle($category, $searchQuery);
+        foreach ($accessories as $accessory) {
+            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
+        }
+        
+        echo json_encode(["accessories" => $accessories]);
+        exit;
+    }
 
 
 }
