@@ -26,7 +26,7 @@ class Categories extends Model {
     }
     
     public static function findIdByTitle($title){
-      return self::findByCondition(['title' => $title])[0]->id;
+      return self::findByCondition(['title' => $title]);
     } 
 
     public static function getAllWithEncodeImage(){

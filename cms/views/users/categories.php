@@ -20,8 +20,8 @@
         cursor: pointer;
         width: 18%;
         margin: 1%;
-        display: flex; /* Встановлюємо flexbox контейнер */
-        flex-direction: column; /* Встановлюємо напрямок рядків */
+        display: flex; 
+        flex-direction: column;
     }
 
     .category-card:hover {

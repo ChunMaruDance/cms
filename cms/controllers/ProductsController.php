@@ -33,16 +33,18 @@ class ProductsController extends Controller{
         }
 
         $cateogry = $params[0];
-        $categoryId = Categories::findIdByTitle($cateogry);
+        $categoryObj = Categories::findIdByTitle($cateogry);
         
-        if($categoryId == null){
+        if($categoryObj == null){
             return $this->redirect('/');
         }
-
-        $res = AccessoryCategories::getAccessoriesByCategoryId($categoryId);
-        var_dump($res);
-        die;
-        return $this->render();
+       
+        $accessories = AccessoryCategories::getAccessoriesByCategoryId($categoryObj[0]->id);
+        foreach ($accessories as $accessory) {
+            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
+         }
+      
+        return $this->render(null,['accessories'=> $accessories,'category'=>$cateogry,'description'=>$categoryObj[0]->description]);
     }
 
 
