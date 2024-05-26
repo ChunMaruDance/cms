@@ -52,6 +52,33 @@ class ProductsController extends Controller{
 
     }
 
+    public function actionRemoveFromBasket(){
+        $data = json_decode(file_get_contents('php://input'), true);
+    
+        if (isset($data['accessory_id'])) {
+          
+            $accessoryId = $data['accessory_id'];
+           
+            $session = Core::get()->session;
+            $basket = $session->get('basket', []);
+    
+            if (isset($basket[$accessoryId])) {
+                if ($basket[$accessoryId] > 0) {
+                    $basket[$accessoryId]--;
+                }
+                if ($basket[$accessoryId] == 0) {
+                    unset($basket[$accessoryId]);
+                }
+            }
+    
+            $session->set('basket', $basket);
+            echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
+        } else {
+            echo json_encode(["error" => "No accessory id provided"]);
+        }
+        exit;
+    }
+
     public function actionView($params){
 
         if(empty($params)){
@@ -108,8 +135,10 @@ class ProductsController extends Controller{
                 ];
             }
         } 
-        return $this->render(null,['accesories'=>$accessoriesAndCount]);
+        return $this->render(null,['accesories'=> $accessoriesAndCount]);
     }
+
+    
 
 
 }
