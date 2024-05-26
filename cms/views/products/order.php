@@ -79,7 +79,7 @@
     .cart-summary p {
         font-size: 1.25rem;
     }
-    /* Стилізація кнопок + та - */
+  
     .btn-icon.add-more-btn,
     .btn-icon.remove-btn {
         background-color: #fff;
@@ -103,7 +103,7 @@
     <div class="order-list">
         <?php foreach ($accesories as $item): ?>
             <div class="accessory-item">
-                <img src="<?php echo $item['accessory']->image; ?>" alt="<?php echo $item['accessory']->title; ?>" class="accessory-image">
+                <img src="<?php echo $item['accessory']->image; ?>" alt="<?php echo $item['accessory']->title; ?>" class="accessory-image " data-accessory-id="<?php echo $item['accessory']->id; ?>">
                 <div class="accessory-details">
                     <h2 class="accessory-title"><?php echo $item['accessory']->title; ?></h2>
                     <p class="accessory-price">Ціна: ₴<?php echo $item['accessory']->price; ?></p>
@@ -127,11 +127,16 @@
         <p>Загальна вартість: ₴<?php echo array_sum(array_map(function($item) {
             return $item['accessory']->price * $item['count'];
         }, $accesories)); ?></p>
-       <button class="btn btn-custom btn-lg btn-block">Оформити замовлення</button>
+       <button class="btn btn-custom btn-lg btn-block btn-order-confirm">Оформити замовлення</button>
     </div>
 </div>
 
 <script>
+
+    document.querySelector('.btn-order-confirm').addEventListener('click', function() {
+        window.location.href = '/products/orderConfirm';
+    });
+
     document.querySelectorAll('.add-more-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var accessoryId = this.dataset.accessoryId;
@@ -155,6 +160,13 @@
             .catch(error => {
                 console.error('There was an error!', error);
             });
+        });
+    });
+
+    document.querySelectorAll('.accessory-image').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            window.location.href = `/products/accessory/${accessoryId}`;
         });
     });
 

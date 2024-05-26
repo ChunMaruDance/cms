@@ -143,7 +143,6 @@ class ProductsController extends Controller{
                     'accessory' => $accessory,
                     'count' => $basket[$accessoryId]
                 ];
-
                
 
             }
@@ -162,6 +161,18 @@ class ProductsController extends Controller{
 
       
         return $this->render(null,['accesories'=> $accessoriesAndCount]);
+    }
+
+    public function actionOrderConfirm()
+    {
+        $orderNumber = uniqid('order_');
+      
+        $totalAmount  = 120;
+      
+        return $this->render(null, [
+            'orderNumber' => $orderNumber,
+            'totalAmount' => $totalAmount
+        ]);
     }
 
     
