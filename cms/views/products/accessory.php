@@ -65,7 +65,7 @@
                 <p class="accessory-price">Ціна: <span class="font-weight-bold">₴<?php echo $accessory->price; ?></span></p>
                 <p class="accessory-description"><?php echo $accessory->description; ?></p>
                 <div class="accessory-details">
-                    <button class="btn btn-custom">Замовити</button>
+                    <button class="btn btn-custom buy-btn" data-accessory-id="<?php echo $accessory->id; ?>" >Замовити</button>
                     <button class="btn btn-custom addToCart-btn" data-accessory-id="<?php echo $accessory->id; ?>" >Додати до корзини</button>
                 </div>
             </div>
@@ -97,6 +97,14 @@
             .catch(error => {
                 console.error('There was an error!', error);
             });
+        });
+    });
+
+
+    document.querySelectorAll('.buy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            window.location.href = `/products/order/${accessoryId}`;
         });
     });
 </script>

@@ -26,7 +26,7 @@ class ProductsController extends Controller{
        return $this->render();
     }
 
-    public function actionAddToBasket(){
+    public function actionAddToBasket($params){
 
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -116,8 +116,8 @@ class ProductsController extends Controller{
     }
 
 
-    public function actionOrder(){
-
+    public function actionOrder($params){
+        
         $basket = Core::get()->session->get('basket', []);
         $accessoriesAndCount =  [];
 
@@ -125,16 +125,42 @@ class ProductsController extends Controller{
             return $this->redirect('/');
         } 
 
-        foreach ($basket as $accessoryId => $count) {
-
+        if(!empty($params)){
+            $accessoryId = $params[0];
             $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
             if ($accessory) {
+                
+                $session = Core::get()->session;
+                $basket = $session->get('basket', []);
+    
+                if (!isset($basket[$accessoryId])) {
+                    $basket[$accessoryId] = 1;
+                    $session->set('basket', $basket);
+                } 
+               
+
                 $accessoriesAndCount[] = [
                     'accessory' => $accessory,
-                    'count' => $count
+                    'count' => $basket[$accessoryId]
                 ];
+
+               
+
             }
-        } 
+        } else {
+            foreach ($basket as $accessoryId => $count) {
+
+                $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+                if ($accessory) {
+                    $accessoriesAndCount[] = [
+                        'accessory' => $accessory,
+                        'count' => $count
+                    ];
+                }
+            } 
+        }
+
+      
         return $this->render(null,['accesories'=> $accessoriesAndCount]);
     }
 

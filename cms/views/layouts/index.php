@@ -40,7 +40,7 @@ if(empty($Content)){
           <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Categories</a>
+          <a class="nav-link" href="/products/order">Basket</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/reviews/contact">Contact</a>
