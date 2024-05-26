@@ -254,9 +254,6 @@ class UsersController extends Controller {
             echo json_encode(["error" => "No search query provided"]);
         }
         exit;
-      
-        echo json_encode(["message" => $data]);
-        exit;
     }
 
 

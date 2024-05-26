@@ -66,9 +66,37 @@
                 <p class="accessory-description"><?php echo $accessory->description; ?></p>
                 <div class="accessory-details">
                     <button class="btn btn-custom">Замовити</button>
-                    <button class="btn btn-custom">Додати до корзини</button>
+                    <button class="btn btn-custom addToCart-btn" data-accessory-id="<?php echo $accessory->id; ?>" >Додати до корзини</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.addToCart-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var accessoryId = this.dataset.accessoryId;
+            fetch('/products/addToBasket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ accessory_id: accessoryId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+        });
+    });
+</script>

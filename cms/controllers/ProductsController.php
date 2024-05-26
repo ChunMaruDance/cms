@@ -26,6 +26,32 @@ class ProductsController extends Controller{
        return $this->render();
     }
 
+    public function actionAddToBasket(){
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (isset($data['accessory_id'])) {
+          
+            $accessoryId = $data['accessory_id'];
+           
+            $session = Core::get()->session;
+            $basket = $session->get('basket', []);
+
+            if (!isset($basket[$accessoryId])) {
+                $basket[$accessoryId] = 1;
+            } else {
+                $basket[$accessoryId]++;
+            }
+
+            $session->set('basket', $basket);
+            echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
+        } else {
+            echo json_encode(["error" => "No search query provided"]);
+        }
+        exit;
+
+    }
+
     public function actionView($params){
 
         if(empty($params)){
@@ -60,6 +86,29 @@ class ProductsController extends Controller{
         
         echo json_encode(["accessories" => $accessories]);
         exit;
+    }
+
+
+    public function actionOrder(){
+
+        $basket = Core::get()->session->get('basket', []);
+        $accessoriesAndCount =  [];
+
+        if(empty($basket)){
+            return $this->redirect('/');
+        } 
+
+        foreach ($basket as $accessoryId => $count) {
+
+            $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+            if ($accessory) {
+                $accessoriesAndCount[] = [
+                    'accessory' => $accessory,
+                    'count' => $count
+                ];
+            }
+        } 
+        return $this->render(null,['accesories'=>$accessoriesAndCount]);
     }
 
 

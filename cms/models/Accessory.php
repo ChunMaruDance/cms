@@ -56,6 +56,17 @@ class Accessory extends Model {
       
     }
 
+    public static function findByIdWithEncodeImage($accessoryId){
+        $accessory = self::findById($accessoryId);
+        
+        if($accessory == null){
+            return null;
+        }   
+
+        $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
+        return $accessory;
+    }
+
 
 }
 

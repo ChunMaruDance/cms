@@ -101,8 +101,10 @@ $this->Title = 'Список товарів';
 
         document.querySelectorAll('.addToCart-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
+            
             var accessoryId = this.dataset.accessoryId;
-            fetch('addToCart', {
+
+            fetch('/products/addToBasket', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +119,7 @@ $this->Title = 'Список товарів';
             })
             .then(data => {
                 console.log(data); 
-                location.reload();
+           //     location.reload();
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -177,12 +179,10 @@ $this->Title = 'Список товарів';
         displayedIds.push(accessory.id);
     });
 
-    // Filter out accessories already displayed
     var filteredAccessories = accessories.filter(function(accessory) {
         return !displayedIds.includes(accessory.id);
     });
 
-    // Render remaining accessories
     filteredAccessories.forEach(function(accessory) {
         var card = document.createElement('div');
         card.className = 'col';
@@ -222,7 +222,7 @@ $this->Title = 'Список товарів';
     document.querySelectorAll('.buy-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var accessoryId = this.dataset.accessoryId;
-            window.location.href = `buy/${accessoryId}`;
+            window.location.href = `/products/order/${accessoryId}`;
         });
     });
 }
