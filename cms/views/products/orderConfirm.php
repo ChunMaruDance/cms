@@ -50,6 +50,17 @@
             margin: 0;
             font-size: 1.1rem;
         }
+        .alert {
+        padding: 15px;
+        background-color: #f44336;
+        color: white;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+    .alert.error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
     </style>
 <div class="container">
         <h1 class="text-center mb-4">Підтвердження замовлення</h1>

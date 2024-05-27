@@ -94,11 +94,11 @@ class UsersController extends Controller {
         $errors = BannerItemValidator::validateFields($this->post,$_FILES);
        
         if (!empty($errors)) {
-            $this->setErrorMessage($errors);
+            $this->setErrorMessage(implode('<br>', $errors));
             $bannerItems = MainBanner::getAllWithEncodeImage();
 
             return $this->render('views/users/renderBanner.php', [
-                'errors' => $errors,
+                // 'errors' => $errors,
                 'bannerItems' => $bannerItems
             ]);
         }
