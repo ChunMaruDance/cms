@@ -36,7 +36,6 @@ class ReviewsController extends Controller {
     }
 
     public function actionContact(){
-
         return $this->render();
     }
 

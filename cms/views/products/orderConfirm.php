@@ -59,7 +59,10 @@
         </div>
         <div class="order-container">
         <h1 class="text-center mb-3">Особисті Данні</h1>
-            <form action="/products/submitOrder" method="POST">
+        <?php if (isset($error_message) && !empty($error_message)): ?>
+            <div class="alert error"><?php echo $error_message; ?></div>
+        <?php endif; ?>
+            <form action="" method="POST">
                 <div class="form-group">
                     <label for="email">Електронна пошта</label>
                     <input type="email" class="form-control" id="email" name="email" required>

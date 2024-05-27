@@ -9,6 +9,10 @@ use core\Core;
 use models\Accessory;
 use models\AccessoryCategories;
 use models\Categories;
+use models\Orders;
+
+//validators
+use utils\OrderValidator;
 
 class ProductsController extends Controller{
 
@@ -120,33 +124,36 @@ class ProductsController extends Controller{
         
         $basket = Core::get()->session->get('basket', []);
         $accessoriesAndCount =  [];
+        $session = Core::get()->session;
 
-        if(empty($basket)){
-            return $this->redirect('/');
-        } 
 
         if(!empty($params)){
             $accessoryId = $params[0];
             $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
             if ($accessory) {
                 
-                $session = Core::get()->session;
+               
                 $basket = $session->get('basket', []);
     
                 if (!isset($basket[$accessoryId])) {
                     $basket[$accessoryId] = 1;
                     $session->set('basket', $basket);
+                    $session->set('orderOnly', $accessoryId);
                 } 
-               
 
                 $accessoriesAndCount[] = [
                     'accessory' => $accessory,
-                    'count' => $basket[$accessoryId]
+                    'count' => $basket[$accessoryId],
                 ];
                
 
             }
         } else {
+
+            if(empty($basket)){
+                return $this->redirect('/');
+            } 
+
             foreach ($basket as $accessoryId => $count) {
 
                 $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
@@ -156,26 +163,91 @@ class ProductsController extends Controller{
                         'count' => $count
                     ];
                 }
+                
+                if ($session->get('orderOnly')) {
+                    $session->remove('orderOnly');
+                }
+
+
             } 
         }
-
       
         return $this->render(null,['accesories'=> $accessoriesAndCount]);
     }
 
     public function actionOrderConfirm()
     {
-        $orderNumber = uniqid('order_');
-      
-        $totalAmount  = 120;
-      
+        $session =  Core::get()->session;
+        if($this->isPost){
+   
+            $email = $this->post->email;
+            $name = $this->post->name;
+            $phone = $this->post->phone;
+            $payment_method = $this->post->payment_method;
+            $post_office = $this->post->post_office;
+
+            $orderNumber = $session->get('orderNumber');
+            $totalAmount = $session->get('totalAmount');
+
+           
+            $errors = OrderValidator::validate($email,$name,$phone,$payment_method,$post_office);
+            if(!empty($errors)){
+                $this->setErrorMessage(implode('<br>', $errors));
+            }else{
+
+
+                //todo
+                $session->remove('orderNumber');
+                $session->remove('totalAmount');
+            }
+
+
+
+          
+
+
+        }elseif($this->isGet){
+
+            $orderNumber = uniqid('order_');
+            $orderOnlyId = $session->get('orderOnly');
+
+            $totalAmount = $this->calculateTotalAmount($session); 
+            
+            $session->set('orderNumber',$orderNumber);
+            $session->set('totalAmount',$totalAmount);
+
+        }
+
         return $this->render(null, [
             'orderNumber' => $orderNumber,
             'totalAmount' => $totalAmount
         ]);
+       
+       
     }
 
-    
+
+    private function calculateTotalAmount($session)
+    {
+        $totalAmount = 0; 
+        $orderOnlyId = $session->get('orderOnly');
+
+        if ($orderOnlyId) {
+            $accessory = Accessory::findByIdWithEncodeImage($orderOnlyId);
+            if ($accessory) {
+                $totalAmount = $accessory->price;
+            }
+        }else {
+            $basket = $session->get('basket', []);
+
+            foreach ($basket as $accessoryId => $count) {
+            $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+            if ($accessory)$totalAmount += $accessory->price * $count;  
+            }
+
+        }
+         return $totalAmount;
+    }
 
 
 }
