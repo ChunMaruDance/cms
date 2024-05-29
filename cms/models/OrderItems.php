@@ -16,6 +16,9 @@ class OrderItems extends Model {
         Core::get()->db->insert(static::$table, $this->fieldsArray);
     }
 
+    public static function findByOrderId($order_id){
+        return self::findByCondition(['order_id'=>$order_id]);
+       }
 
 }
 

@@ -176,6 +176,37 @@ class ProductsController extends Controller{
         return $this->render(null,['accesories'=> $accessoriesAndCount]);
     }
 
+    public function actionOrdersView()
+    {
+        $orders = Orders::getAll();
+        $ordersWithItems = [];
+    
+        foreach ($orders as $order) {
+            $orderItems = OrderItems::findByOrderId($order->id);
+            $itemsWithAccessories = [];
+    
+            foreach ($orderItems as $orderItem) {
+                $accessoryId = $orderItem->accessory_id;
+                $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+                if ($accessory) {
+                    $itemsWithAccessories[] = [
+                        'orderItem' => $orderItem,
+                        'accessory' => $accessory
+                    ];
+                }
+            }
+    
+            $ordersWithItems[] = [
+                'order' => $order,
+                'items' => $itemsWithAccessories
+            ];
+        }
+    
+        return $this->render(null, [
+            'ordersWithItems' => $ordersWithItems
+        ]);
+    }
+
     public function actionOrderConfirm()
     {
         $session =  Core::get()->session;
@@ -280,6 +311,9 @@ class ProductsController extends Controller{
         }
          return $totalAmount;
     }
+
+
+    
 
 
 }

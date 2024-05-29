@@ -26,5 +26,8 @@
             <a href="/reviews/view" class="btn control-button">
                 Відгуки
             </a>
+            <a href="/products/ordersView" class="btn control-button">
+                Замовлення
+            </a>
         </div>
     </div>
