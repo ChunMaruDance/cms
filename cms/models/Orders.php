@@ -20,8 +20,15 @@ class Orders extends Model {
 
     public function __construct(){}
 
+    public static function getOrderIdByOrderNumber($order_number){
+     return self::findByCondition(['order_number'=>$order_number])[0]->id;
+    }
+
+    public function save(){
+        Core::get()->db->insert(static::$table, $this->fieldsArray);
+    }
+
 
 }
-
 
 ?>

@@ -23,9 +23,7 @@ class Accessory extends Model {
 
     public static $table = 'accessory';
 
-    public function __construct(){
-        
-    }
+    public function __construct(){}
 
     public static function findByCategories($category){
         $tableName = self::$table;

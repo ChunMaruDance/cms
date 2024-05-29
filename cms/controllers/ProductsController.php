@@ -10,6 +10,7 @@ use models\Accessory;
 use models\AccessoryCategories;
 use models\Categories;
 use models\Orders;
+use models\OrderItems;
 
 //validators
 use utils\OrderValidator;
@@ -193,18 +194,49 @@ class ProductsController extends Controller{
             $errors = OrderValidator::validate($email,$name,$phone,$payment_method,$post_office);
             if(!empty($errors)){
                 $this->setErrorMessage(implode('<br>', $errors));
+            
             }else{
+                
+                $order = new Orders();
+                
+                $order->order_number = $orderNumber;
+                $order->user_email = $email;
+                $order->user_name = $name;
+                $order->user_phone = $phone;
+                $order->payment_method = $payment_method;
+                $order->post_office = $post_office;
+                $order->total_amount = $totalAmount;
+                $order->created_at = date('Y-m-d H:i:s');
+                $order->save();
+             
+                $orderOnlyId = $session->get('orderOnly');
+                if ($orderOnlyId) {
+                    $items = [$orderOnlyId => 1];
+                    $session->remove('orderOnly');
+                } else {
+                    $items = $session->get('basket', []);
+                }
 
-
-                //todo
+                $orderId = Orders::getOrderIdByOrderNumber($order->order_number);
+            
+                foreach ($items as $accessoryId => $count) {
+                    $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+                    if ($accessory) {
+                        $orderItem = new OrderItems();
+                        $orderItem->order_id = $orderId;
+                        $orderItem->accessory_id = $accessory->id;
+                        $orderItem->quantity = $count;
+                        $orderItem->price = $accessory->price;
+                        $orderItem->save();
+                    }
+                }
+    
                 $session->remove('orderNumber');
                 $session->remove('totalAmount');
+                $session->remove('basket');
+
+                return $this->redirect('/');
             }
-
-
-
-          
-
 
         }elseif($this->isGet){
 
