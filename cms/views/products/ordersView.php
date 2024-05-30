@@ -114,9 +114,9 @@
                 <p>Телефон: <?php echo htmlspecialchars($orderWithItems['order']->user_phone); ?></p>
                 <p>Метод оплати: <?php echo htmlspecialchars($orderWithItems['order']->payment_method); ?></p>
                 <p>Відділення пошти: <?php echo htmlspecialchars($orderWithItems['order']->post_office); ?></p>
-                <p>Сума замовлення: ₴<?php echo number_format($orderWithItems['order']->total_amount, 2); ?></p>
+                <p>Сума замовлення: $<?php echo number_format($orderWithItems['order']->total_amount, 2); ?></p>
                 <p>Статус: 
-                    <form action="update_order_status.php" method="post">
+                    <form action="updateOrderStatus" method="post">
                         <input type="hidden" name="order_id" value="<?php echo htmlspecialchars($orderWithItems['order']->id); ?>">
                         <select name="status" onchange="this.form.submit()">
                             <option value="0" <?php echo !$orderWithItems['order']->finished ? 'selected' : ''; ?>>В процесі</option>

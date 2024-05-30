@@ -28,6 +28,12 @@ class Orders extends Model {
         Core::get()->db->insert(static::$table, $this->fieldsArray);
     }
 
+    public function update(){
+        Core::get()->db->update(static::$table, $this->fieldsArray,[
+            static::$primaryKey=> $this->{static::$primaryKey}
+        ]);
+    }
+
 
 }
 

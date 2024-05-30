@@ -151,33 +151,35 @@ class ProductsController extends Controller{
             }
         } else {
 
-            if(empty($basket)){
-                return $this->redirect('/');
+            if(!empty($basket)){
+                foreach ($basket as $accessoryId => $count) {
+
+                    $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+                    if ($accessory) {
+                        $accessoriesAndCount[] = [
+                            'accessory' => $accessory,
+                            'count' => $count
+                        ];
+                    }
+                    
+                    if ($session->get('orderOnly')) {
+                        $session->remove('orderOnly');
+                    }
+
+    
+                } 
             } 
 
-            foreach ($basket as $accessoryId => $count) {
-
-                $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
-                if ($accessory) {
-                    $accessoriesAndCount[] = [
-                        'accessory' => $accessory,
-                        'count' => $count
-                    ];
-                }
-                
-                if ($session->get('orderOnly')) {
-                    $session->remove('orderOnly');
-                }
-
-
-            } 
+          
         }
       
         return $this->render(null,['accesories'=> $accessoriesAndCount]);
     }
 
     public function actionOrdersView()
-    {
+    {    
+        $this->checkIsUserLoggin();
+
         $orders = Orders::getAll();
         $ordersWithItems = [];
     
@@ -205,6 +207,43 @@ class ProductsController extends Controller{
         return $this->render(null, [
             'ordersWithItems' => $ordersWithItems
         ]);
+    }
+
+
+    public function actionUpdateOrderStatus(){
+        
+        if($this->isPost){
+            
+            $order_id = $this->post->order_id;
+            $order_status = $this->post->status;
+
+          
+            $orderStd = Orders::findById($order_id);
+            
+            if($orderStd){
+                
+                $order = new Orders();
+
+                $order->id = $orderStd->id;
+                $order->order_number = $orderStd->order_number;
+                $order->user_email = $orderStd->user_email;
+                $order->user_name = $orderStd->user_name;
+                $order->user_phone = $orderStd->user_phone;
+                $order->payment_method = $orderStd->payment_method;
+                $order->post_office = $orderStd->post_office;
+                $order->total_amount = $orderStd->total_amount;
+                $order->created_at = $orderStd->created_at;                
+                //update
+                $order->finished = $order_status;
+
+                $order->update();
+
+                $this->redirect('/products/ordersView');
+            }
+
+
+        }
+
     }
 
     public function actionOrderConfirm()
