@@ -10,12 +10,13 @@ use models\MainBanner;
 
 class SiteController extends Controller
 {
-    public function actionIndex()
-    {   
-        $categories = Categories::getAllWithEncodeImage();
-        $bannerItems = MainBanner::getAllWithEncodeImage();
-        return $this->render(null,['categories' => $categories,'bannerItems' => $bannerItems]);
-    }
+        public function actionIndex()
+        {   
+            $categories = Categories::getAllWithEncodeImage();
+            $bannerItems = MainBanner::getAllWithEncodeImage();
+            
+            return $this->render(null,['categories' => $categories,'bannerItems' => $bannerItems]);
+        }
 }
 
 ?>

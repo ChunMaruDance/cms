@@ -18,13 +18,15 @@ class Core{
 
     private function __construct(){
     
+        $this->session = new Session();
+
         $this->template = new \core\Template($this->defaultLayoutPath);
         
         $host = Config::get()->dbHost;
         $name = Config::get()->dbName;
         $login = Config::get()->dbLogin;
         $pass = Config::get()->dbPassword;
-        $this->session = new Session();
+        
         $this->db = new DB($host, $name, $login, $pass);
         session_start();
     }

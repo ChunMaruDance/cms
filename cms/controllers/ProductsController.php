@@ -224,15 +224,9 @@ class ProductsController extends Controller{
                 
                 $order = new Orders();
 
-                $order->id = $orderStd->id;
-                $order->order_number = $orderStd->order_number;
-                $order->user_email = $orderStd->user_email;
-                $order->user_name = $orderStd->user_name;
-                $order->user_phone = $orderStd->user_phone;
-                $order->payment_method = $orderStd->payment_method;
-                $order->post_office = $orderStd->post_office;
-                $order->total_amount = $orderStd->total_amount;
-                $order->created_at = $orderStd->created_at;                
+                foreach ($orderStd as $key => $value) {
+                    $order->$key = $value;
+                }           
                 //update
                 $order->finished = $order_status;
 
@@ -350,10 +344,6 @@ class ProductsController extends Controller{
         }
          return $totalAmount;
     }
-
-
-    
-
 
 }
 

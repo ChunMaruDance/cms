@@ -1,16 +1,15 @@
-<section class="feedback-section">
+<section class="feedback-section py-5" style="background-color: #f8f9fa;">
     <div class="container">
-        <br>
-        <h1 class="text-center mb-5">Feedback</h1>
+        <h1 class="text-center mb-5 text-dark">Відгуки</h1>
         <?php if (!empty($reviews)): ?>
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <?php foreach ($reviews as $index => $review): ?>
                     <div class="col">
-                        <div class="card h-100 mb-4">
+                        <div class="card h-100 mb-4 shadow-sm hover-card">
                             <div class="card-body d-flex flex-column">
-                                <h5 class="card-title"><?php echo $review->name; ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $review->email; ?></h6>
-                                <p class="card-text flex-grow-1"><?php echo $review->message; ?></p>
+                                <h5 class="card-title text-dark"><?php echo htmlspecialchars($review->name, ENT_QUOTES, 'UTF-8'); ?></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlspecialchars($review->email, ENT_QUOTES, 'UTF-8'); ?></h6>
+                                <p class="card-text flex-grow-1 text-dark"><?php echo htmlspecialchars($review->message, ENT_QUOTES, 'UTF-8'); ?></p>
                                 <p class="card-text"><small class="text-muted">Created at: <?php echo date('Y-m-d H:i:s', strtotime($review->created_at)); ?></small></p>
                             </div>
                         </div>
@@ -18,7 +17,37 @@
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <p class="text-center">No feedback available.</p>
+            <p class="text-center text-muted">No feedback available.</p>
         <?php endif; ?>
     </div>
 </section>
+
+<style>
+   
+    .card-title {
+        font-weight: bold;
+        color: #000;
+    }
+    .card-subtitle {
+        font-style: italic;
+    }
+    .card-text {
+        color: #333;
+    }
+    .feedback-section {
+        background-color: #f8f9fa;
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 20px, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .card {
+        animation: fadeInUp 0.5s ease forwards;
+    }
+</style>
