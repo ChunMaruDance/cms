@@ -20,6 +20,18 @@ class MainPageController extends Controller{
     }
 
 
+    public function actionRenderTrends(){
+        
+        $this->checkIsUserLoggin();
+        
+        $bannerItems = MainBanner::getAllWithEncodeImage();
+        return $this->render(null,['bannerItems' => $bannerItems]);
+    }
+
+
+    renderTrends
+
+
     public function actionDeleteBannerItem($params){
 
         $this->checkIsUserLoggin();
@@ -28,6 +40,9 @@ class MainPageController extends Controller{
  
         return $this->redirect('/mainPage/renderBanner');
     } 
+
+
+
 
 
     public function actionCreateBannerItem(){
