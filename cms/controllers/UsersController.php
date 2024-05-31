@@ -10,12 +10,10 @@ use models\Users;
 use models\Accessory;
 use models\AccessoryCategories;
 use models\Categories;
-use models\MainBanner;
 
 //validators
 use utils\AccessoryValidator;
 use utils\CategoryValidator;
-use utils\BannerItemValidator;
 
 class UsersController extends Controller {
   
@@ -68,53 +66,7 @@ class UsersController extends Controller {
     }
 
 
-    public function actionRenderBanner(){
-        
-        $this->checkIsUserLoggin();
-
-        $bannerItems = MainBanner::getAllWithEncodeImage();
-        return $this->render(null,['bannerItems' => $bannerItems]);
-    }
-
-
-    public function actionDeleteBannerItem($params){
-
-        $this->checkIsUserLoggin();
- 
-        MainBanner::deleteById($params[0]);
- 
-        return $this->redirect('/users/renderBanner');
-    } 
-
-
-    public function actionCreateBannerItem(){
-
-        $this->checkIsUserLoggin();
-
-        $errors = BannerItemValidator::validateFields($this->post,$_FILES);
-       
-        if (!empty($errors)) {
-            $this->setErrorMessage(implode('<br>', $errors));
-            $bannerItems = MainBanner::getAllWithEncodeImage();
-
-            return $this->render('views/users/renderBanner.php', [
-                // 'errors' => $errors,
-                'bannerItems' => $bannerItems
-            ]);
-        }
-
-        // model
-        $bannerItem = new MainBanner();
-        $bannerItem->link = $this->post->link;
-        $bannerItem->image = file_get_contents($_FILES['image']['tmp_name']);
-
-        $bannerItem->save();
-        
-        return $this->redirect('/users/renderBanner');
-            
-
-    } 
-
+   
 
     public function actionDeleteAccessory(){
       

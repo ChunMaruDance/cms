@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $this->Title; ?></title>
     <style>
         .btn-black {
             background-color: black;
             color: white;
         }
-
         .card {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
         }
@@ -250,4 +245,3 @@
     });
     </script>
 </body>
-</html>
