@@ -7,7 +7,10 @@ use core\Core;
 use models\Accessory;
 
 use models\MainBanner;  
+use models\Trends;
+
 use utils\BannerItemValidator;
+use utils\TrendItemValidator;
 
 class MainPageController extends Controller{
 
@@ -23,14 +26,10 @@ class MainPageController extends Controller{
     public function actionRenderTrends(){
         
         $this->checkIsUserLoggin();
-        
-        $bannerItems = MainBanner::getAllWithEncodeImage();
-        return $this->render(null,['bannerItems' => $bannerItems]);
+
+        $trendsItems = Trends::getAllWithEncodeImage();
+        return $this->render(null,['trendsItems' => $trendsItems]);
     }
-
-
-    renderTrends
-
 
     public function actionDeleteBannerItem($params){
 
@@ -41,6 +40,34 @@ class MainPageController extends Controller{
         return $this->redirect('/mainPage/renderBanner');
     } 
 
+    public function actionCreateTrendItem(){
+
+        $this->checkIsUserLoggin();
+
+        $errors = TrendItemValidator::validateFields($this->post,$_FILES);
+       
+        if (!empty($errors)) {
+            $this->setErrorMessage(implode('<br>', $errors));
+            $bannerItems = Trends::getAllWithEncodeImage();
+
+            return $this->render('views/mainPage/renderTrends.php', [
+                'bannerItems' => $bannerItems
+            ]);
+        }
+
+        // model
+        $trendsItem = new Trends();
+        $trendsItem->link = $this->post->link;
+        $trendsItem->image = file_get_contents($_FILES['image']['tmp_name']);
+        $trendsItem->title = $this->post->title;
+        $trendsItem->text = $this->post->text;
+        
+        $trendsItem->save();
+        
+        return $this->redirect('/mainPage/renderTrends');
+            
+
+    } 
 
 
 

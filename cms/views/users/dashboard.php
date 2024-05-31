@@ -18,7 +18,7 @@
                 Банер
             </a>
             <a href="/mainPage/renderTrends" class="btn control-button">
-                Банер
+                Тренди
             </a>
             <a href="accessories" class="btn control-button">
                 Товари
