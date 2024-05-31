@@ -7,6 +7,7 @@ use core\Template;
 //models
 use models\Categories;
 use models\MainBanner;
+use models\Trends;
 
 class SiteController extends Controller
 {
@@ -14,8 +15,12 @@ class SiteController extends Controller
         {   
             $categories = Categories::getAllWithEncodeImage();
             $bannerItems = MainBanner::getAllWithEncodeImage();
-            
-            return $this->render(null,['categories' => $categories,'bannerItems' => $bannerItems]);
+            $trendsItems = Trends::getAllWithEncodeImage();
+            return $this->render(null,
+            [
+                'categories' => $categories,
+                'bannerItems' => $bannerItems,
+                'trendsItems' =>$trendsItems]);
         }
 }
 

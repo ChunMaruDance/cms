@@ -22,6 +22,30 @@
       width: 100%;
       height: auto;
     }
+
+    .btn-delete {
+      background-color: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-delete:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .learn-more-link {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* Зміна стилю при наведенні курсора на текстове посилання */
+    .learn-more-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -68,42 +92,45 @@
       </div>
     </div>
   </section>
-    
-    <div class="container">
-    <hr class="featurette-divider">
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-body-secondary">It’ll blow your mind.</span></h2>
-        <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
-      </div>
-      <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text></svg>
-      </div>
-    </div>
-    <hr class="featurette-divider">
-    <div class="row featurette" data-aos="fade-up">
-      <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading fw-normal lh-1">أوه نعم، هذا جيد. <span class="text-muted"> شاهد بنفسك. </span></h2>
-        <p class="lead">عندما تضحك أو تبكي، فإننا نعرض عواطفنا مما يسمح للأخرين بإلقاء نظرة خاطفة على أفكارنا أثناء "قراءة" وجوهنا. إن النسيج العضلي في مكونات الوجه البشري، مثل: الجبين والخدين والعينين والشفاه والفكين.</p>
-      </div>
-      <div class="col-md-5 order-md-1">
-        <img src="/mnt/data/example.png" class="featurette-image img-fluid mx-auto" alt="Generic placeholder image">
-      </div>
-    </div>
-    <hr class="featurette-divider">
-    <div class="row featurette" data-aos="fade-up">
-      <div class="col-md-7">
-        <h2 class="featurette-heading fw-normal lh-1">وجه الإنسان المذهل. <span class="text-muted"> اكتشف المزيد. </span></h2>
-        <p class="lead">الوجه البشري قادر على عرض مجموعة مذهلة من العواطف والإشارات، مما يسمح لنا بالتواصل بطرق معقدة وفريدة من نوعها. إن فهم تعابير الوجه يمكن أن يقدم رؤى قيمة في عالم النفس البشرية.</p>
-      </div>
-      <div class="col-md-5">
-        <img src="/mnt/data/example.png" class="featurette-image img-fluid mx-auto" alt="Generic placeholder image">
-      </div>
-    </div>
+
+  <div class="container">
+    <?php foreach ($trendsItems as $index => $trend): ?>
+      <?php $aos_delay = $index * 100; ?>
+      <?php if ($index % 2 == 0): ?>
+        <hr class="featurette-divider">
+        <div class="row featurette" data-aos="fade-up" data-aos-delay="<?= $aos_delay ?>">
+          <div class="col-md-7 d-flex flex-column align-items-center justify-content-center text-center">
+            <div>
+              <h2 class="featurette-heading fw-normal lh-1"><?= $trend->title ?></h2>
+              <p class="lead"><?= $trend->text ?></p>
+              <a href="<?= $trend->link ?>" class="learn-more-link">Дізнатися більше</a>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <img src="<?= $trend->image ?>" class="featurette-image img-fluid mx-auto" style="height: 300px;" alt="<?= $trend->title ?>">
+          </div>
+        </div>
+      <?php else: ?>
+        <hr class="featurette-divider">
+        <div class="row featurette" data-aos="fade-up" data-aos-delay="<?= $aos_delay ?>">
+          <div class="col-md-5">
+            <img src="<?= $trend->image ?>" class="featurette-image img-fluid mx-auto" style="height: 300px;" alt="<?= $trend->title ?>">
+          </div>
+          <div class="col-md-7 d-flex flex-column align-items-center justify-content-center text-center">
+            <div>
+              <h2 class="featurette-heading fw-normal lh-1"><?= $trend->title ?></h2>
+              <p class="lead"><?= $trend->text ?></p>
+              <a href="<?= $trend->link ?>" class="learn-more-link">Дізнатися більше</a>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
+    <?php endforeach; ?>
   </div>
-    
+
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init();
   </script>
 </body>
+</html>

@@ -48,10 +48,10 @@ class MainPageController extends Controller{
        
         if (!empty($errors)) {
             $this->setErrorMessage(implode('<br>', $errors));
-            $bannerItems = Trends::getAllWithEncodeImage();
+            $trendsItems = Trends::getAllWithEncodeImage();
 
             return $this->render('views/mainPage/renderTrends.php', [
-                'bannerItems' => $bannerItems
+                'trendsItems' => $trendsItems
             ]);
         }
 
