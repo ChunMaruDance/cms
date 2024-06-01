@@ -16,11 +16,16 @@ class SiteController extends Controller
             $categories = Categories::getAllWithEncodeImage();
             $bannerItems = MainBanner::getAllWithEncodeImage();
             $trendsItems = Trends::getAllWithEncodeImage();
+
+            $configFile = 'files/mainPageConfig.json';
+            $config = json_decode(file_get_contents($configFile), true);
+
             return $this->render(null,
             [
                 'categories' => $categories,
                 'bannerItems' => $bannerItems,
-                'trendsItems' =>$trendsItems]);
+                'trendsItems' =>$trendsItems,
+                'config'=> $config ]);
         }
 }
 

@@ -49,6 +49,27 @@ class MainPageController extends Controller{
         return $this->redirect('/mainPage/renderTrends');
     } 
 
+    public function actionToggleFeature(){
+
+        $configFile = 'files/mainPageConfig.json';
+       
+        $config = json_decode(file_get_contents($configFile), true);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $input = json_decode(file_get_contents('php://input'), true);
+          
+            $config[$input['feature']] = $input['isEnabled'];
+        
+            file_put_contents($configFile, json_encode($config));
+        
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        }
+        exit;
+
+    }
+
     public function actionCreateTrendItem(){
 
         $this->checkIsUserLoggin();

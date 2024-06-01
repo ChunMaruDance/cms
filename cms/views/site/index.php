@@ -147,6 +147,7 @@
   </style>
 </head>
 <body>
+<?php if ($config['banner']): ?>
   <header data-aos="fade-up">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -173,7 +174,10 @@
       </button>
     </div>
   </header>
+  <?php endif; ?>
 
+
+  <?php if ($config['categories']): ?>
   <section class="category-section my-4" data-aos="fade-up">
     <div class="container">
       <h2 class="text-center text-uppercase fw-bold mb-4" data-aos="fade-up">Категорії</h2> 
@@ -190,7 +194,9 @@
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
+  <?php if ($config['trends']): ?>
   <div class="container">
     <?php foreach ($trendsItems as $index => $trend): ?>
       <?php $aos_delay = $index * 100; ?>
@@ -225,7 +231,9 @@
       <?php endif; ?>
     <?php endforeach; ?>
   </div>
+  <?php endif; ?>
 
+  <?php if ($config['info']): ?>
   <section class="additional-info" data-aos="fade-up">
     <br>
     <div class="container text-center">
@@ -254,7 +262,9 @@
       </div>
     <br>
   </section>
-
+  <?php endif; ?>
+  
+  <?php if ($config['subscription']): ?>
   <section class="subscription-section" data-aos="fade-up">
     <div class="container">
       <div class="subscription-form">
@@ -275,6 +285,7 @@
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>

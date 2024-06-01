@@ -48,8 +48,11 @@ class UsersController extends Controller {
     public function actionDashboard(){
 
         $this->checkIsUserLoggin();
+
+        $configFile = 'files/mainPageConfig.json';
+        $config = json_decode(file_get_contents($configFile), true);
             
-        return $this->render();
+        return $this->render(null,['config'=>$config]);
     }
 
 
