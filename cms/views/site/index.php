@@ -1,7 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Form</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/category.css"> 
-  <link rel="stylesheet" href="css/main_banner.css"> 
+  <link rel="stylesheet" href="css/category.css">
+  <link rel="stylesheet" href="css/main_banner.css">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
   <style>
     .featurette-divider {
@@ -42,14 +47,107 @@
       font-size: 18px;
     }
 
-    /* Зміна стилю при наведенні курсора на текстове посилання */
     .learn-more-link:hover {
+      text-decoration: underline;
+    }
+
+    .additional-info {
+      padding: 2rem 0;
+      background-color: #f8f9fa;
+    }
+
+    .additional-info .info-box {
+      margin-bottom: 1.5rem;
+    }
+
+    .additional-info .info-icon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 0.5rem;
+    }
+
+    .additional-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subscription-section {
+      background-color: #f9f9f9;
+      padding: 2rem;
+    }
+
+    .subscription-form {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 0.25rem;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .subscription-form .text-container {
+      max-width: 50%;
+    }
+
+    .subscription-form h3 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .subscription-form .discount-text {
+      background-color: yellow;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .subscription-form p {
+      margin-bottom: 1rem;
+    }
+
+    .subscription-form .form-container {
+      max-width: 45%;
+    }
+
+    .subscription-form .form-container .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .subscription-form .form-container .form-group input {
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      padding: 0.375rem 0.75rem;
+      flex: 1;
+      margin-right: 0.5rem;
+    }
+
+    .subscription-form .form-container .btn {
+      background-color: #000;
+      color: #fff;
+      padding: 0.5rem 2rem;
+    }
+
+    .subscription-form .error-text {
+      color: red;
+      margin-top: 0.5rem;
+    }
+
+    .subscription-form small {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .subscription-form a {
+      color: #000;
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <header>
+  <header data-aos="fade-up">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <?php foreach ($bannerItems as $key => $bannerItem): ?>
@@ -58,8 +156,8 @@
       </div>
       <div class="carousel-inner">
         <?php foreach ($bannerItems as $key => $bannerItem): ?>
-          <div class="carousel-item <?php if ($key === 0) echo 'active'; ?>" style="background-image: url('<?php echo $bannerItem->image; ?>');">
-            <div class="carousel-caption">
+          <div class="carousel-item <?php if ($key === 0) echo 'active'; ?>" style="background-image: url('<?php echo $bannerItem->image; ?>');" data-aos="fade-up">
+            <div class="carousel-caption" data-aos="fade-up">
               <a class="btn btn-outline-light btn-lg" href="<?php echo $bannerItem->link; ?>" role="button">View</a>
             </div>
           </div>
@@ -76,7 +174,7 @@
     </div>
   </header>
 
-  <section class="category-section my-4">
+  <section class="category-section my-4" data-aos="fade-up">
     <div class="container">
       <h2 class="text-center text-uppercase fw-bold mb-4" data-aos="fade-up">Категорії</h2> 
       <hr class="w-100 mx-auto" data-aos="fade-up">
@@ -127,6 +225,56 @@
       <?php endif; ?>
     <?php endforeach; ?>
   </div>
+
+  <section class="additional-info" data-aos="fade-up">
+    <br>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="info-box">
+            <img src="https://img2.ans-media.com/ua/cms/homepage-usp/60ac4297cfbba1.46116791" alt="Безкоштовна доставка" class="info-icon">
+            <h3>Безкоштовна доставка</h3>
+            <p>Від 2000 грн. 4-7 робочих днів</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="info-box">
+            <img src="https://img2.ans-media.com/ua/cms/homepage-usp/61f95591249a08.88529166" alt="30 днів на повернення" class="info-icon">
+            <h3>30 днів на повернення</h3>
+            <p>Лише оригінальні товари</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="info-box">
+            <img src="https://img2.ans-media.com/ua/cms/homepage-usp/60ac42ed054b59.98201091" alt="Заощаджуй з Answear Club" class="info-icon">
+            <h3>Заощаджуй з Answear Club</h3>
+            <p>Іноді навіть -50%</p>
+          </div>
+        </div>
+      </div>
+    <br>
+  </section>
+
+  <section class="subscription-section" data-aos="fade-up">
+    <div class="container">
+      <div class="subscription-form">
+        <div class="text-container">
+          <h3><span class="discount-text">-15%</span> на перше замовлення за підписку на розсилку</h3>
+          <p>Підпишіться на розсилку та отримуйте знижку на покупки</p>
+          <small>
+            **Знижка є одноразовою, діє лише на новинки (товари з "чорними" цінниками) при мінімальному кошику 1500 грн. Промокод не поєднується з іншими акціями, а деякі товари можуть бути виключені з його дії. Деталі за посиланням: <a href="#">виключення з акції</a>.
+          </small>
+        </div>
+        <div class="form-container">
+          <div class="form-group">
+            <input type="email" class="form-control" placeholder="Введіть адресу e-mail" required>
+            <button type="submit" class="btn btn-dark">Підписатися</button>
+          </div>
+          <div class="error-text">Дане поле повинно бути заповнене</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
