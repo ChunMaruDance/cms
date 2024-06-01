@@ -40,6 +40,15 @@ class MainPageController extends Controller{
         return $this->redirect('/mainPage/renderBanner');
     } 
 
+    public function actionDeleteTrendsItem($params){
+
+        $this->checkIsUserLoggin();
+ 
+        Trends::deleteById($params[0]);
+ 
+        return $this->redirect('/mainPage/renderTrends');
+    } 
+
     public function actionCreateTrendItem(){
 
         $this->checkIsUserLoggin();

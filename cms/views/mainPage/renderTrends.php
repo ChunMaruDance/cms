@@ -142,7 +142,9 @@
               <div>
                 <h2 class="featurette-heading fw-normal lh-1"><?= $trend->title ?></h2>
                 <p class="lead"><?= $trend->text ?></p>
-                <button class="btn btn-delete" onclick="deleteTrend(<?= $trend->id ?>)">Видалити</button>
+                <form action="deleteTrendsItem/<?php echo $trend->id; ?>" method="POST">
+                    <button type="submit" class="btn btn-delete">Видалити</button>
+                </form>
               </div>
             </div>
             <div class="col-md-5">
@@ -159,7 +161,9 @@
               <div>
                 <h2 class="featurette-heading fw-normal lh-1"><?= $trend->title ?></h2>
                 <p class="lead"><?= $trend->text ?></p>
-                <button class="btn btn-delete" onclick="deleteTrend(<?= $trend->id ?>)">Видалити</button>
+                <form action="deleteTrendsItem/<?php echo $trend->id; ?>" method="POST">
+                    <button type="submit" class="btn btn-delete">Видалити</button>
+                </form>
               </div>
             </div>
           </div>
