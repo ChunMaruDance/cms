@@ -102,6 +102,29 @@
             color: #333;
         }
     </style>
+    <script>
+        function updateStatus(orderId, status) {
+            fetch('updateOrderStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    order_id: orderId,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Status updated successfully');
+                } else {
+                    alert('Failed to update status');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </head>
 <body>
     <h1>Усі замовлення</h1>
@@ -116,13 +139,10 @@
                 <p>Відділення пошти: <?php echo htmlspecialchars($orderWithItems['order']->post_office); ?></p>
                 <p>Сума замовлення: $<?php echo number_format($orderWithItems['order']->total_amount, 2); ?></p>
                 <p>Статус: 
-                    <form action="updateOrderStatus" method="post">
-                        <input type="hidden" name="order_id" value="<?php echo htmlspecialchars($orderWithItems['order']->id); ?>">
-                        <select name="status" onchange="this.form.submit()">
-                            <option value="0" <?php echo !$orderWithItems['order']->finished ? 'selected' : ''; ?>>В процесі</option>
-                            <option value="1" <?php echo $orderWithItems['order']->finished ? 'selected' : ''; ?>>Завершено</option>
-                        </select>
-                    </form>
+                    <select name="status" onchange="updateStatus('<?php echo htmlspecialchars($orderWithItems['order']->id); ?>', this.value)">
+                        <option value="0" <?php echo !$orderWithItems['order']->finished ? 'selected' : ''; ?>>В процесі</option>
+                        <option value="1" <?php echo $orderWithItems['order']->finished ? 'selected' : ''; ?>>Завершено</option>
+                    </select>
                 </p>
                 <div class="order-items">
                     <h4>Елементи замовлення:</h4>

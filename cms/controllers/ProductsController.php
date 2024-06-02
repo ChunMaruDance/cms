@@ -211,33 +211,33 @@ class ProductsController extends Controller{
 
 
     public function actionUpdateOrderStatus(){
-        
         if($this->isPost){
+            $data = json_decode(file_get_contents('php://input'), true);
             
-            $order_id = $this->post->order_id;
-            $order_status = $this->post->status;
-
-          
+            $order_id = $data['order_id'];
+            $order_status = $data['status'];
+    
             $orderStd = Orders::findById($order_id);
             
             if($orderStd){
-                
                 $order = new Orders();
-
                 foreach ($orderStd as $key => $value) {
                     $order->$key = $value;
                 }           
                 //update
                 $order->finished = $order_status;
-
-                $order->update();
-
-                $this->redirect('/products/ordersView');
+    
+                if($order->update()){
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else {
+                echo json_encode(['success' => false]);
             }
-
-
+        } else {
+            echo json_encode(['success' => false]);
         }
-
     }
 
     public function actionOrderConfirm()
