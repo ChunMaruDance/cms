@@ -1,46 +1,15 @@
-<style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-        .contact-section {
-            background: #f8f9fa;
-            padding: 50px 0;
-        }
-        .contact-info {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-        .contact-form {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .contact-form textarea {
-            resize: none;
-        }
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #000;
-        }
-        .btn-submit {
-            background: #000;
-            color: #fff;
-            border: none;
-        }
-        .btn-submit:hover {
-            background: #333;
-        }
-    </style>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/contactPage.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<head>
+<style>    
+</style>
 
-<section class="contact-section">
+<section class="contact-section" data-aos="fade-up">
     <div class="container">
         <h1 class="text-center mb-5">Contact Us</h1>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" data-aos="fade-right">
                 <div class="contact-info">
                     <h4>Contact Information</h4>
                     <p>If you have any questions or need further information, please contact us:</p>
@@ -51,7 +20,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" data-aos="fade-left">
                 <div class="contact-form">
                     <h4>Leave a Feedback</h4>
                     <!-- Відображення помилок -->
@@ -78,6 +47,7 @@
                             <label for="message">Message</label>
                             <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                         </div>
+                        <br>
                         <button type="submit" class="btn btn-submit btn-block">Submit</button>
                     </form>
                 </div>
@@ -85,4 +55,7 @@
         </div>
     </div>
 </section>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init();
+</script>
