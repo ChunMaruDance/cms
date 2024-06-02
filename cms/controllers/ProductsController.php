@@ -240,6 +240,39 @@ class ProductsController extends Controller{
         }
     }
 
+    public function actionSearchOrders(){
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $searchQuery = $data['search_query'];
+     
+        $orders = Orders::searchByOrderNumber($searchQuery);
+        $ordersWithItems = [];
+
+        foreach ($orders as $order) {
+            $orderItems = OrderItems::findByOrderId($order->id);
+            $itemsWithAccessories = [];
+    
+            foreach ($orderItems as $orderItem) {
+                $accessoryId = $orderItem->accessory_id;
+                $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+                if ($accessory) {
+                    $itemsWithAccessories[] = [
+                        'orderItem' => $orderItem,
+                        'accessory' => $accessory
+                    ];
+                }
+            }
+
+        }
+        $ordersWithItems[] = [
+            'order' => $order,
+            'items' => $itemsWithAccessories
+        ];
+
+        echo json_encode(["orders" => $ordersWithItems]);
+        exit;
+    }
+
     public function actionOrderConfirm()
     {
         $session =  Core::get()->session;
@@ -344,6 +377,7 @@ class ProductsController extends Controller{
         }
          return $totalAmount;
     }
+
 
 }
 

@@ -14,7 +14,6 @@
         background-color: #f5f5f5; 
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); 
         }
-       
 
         .btn-black:hover {
             background-color: #333;
@@ -50,7 +49,6 @@
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="accessoryRow">
-                <!-- Туть будуть аксесуари -->
             </div>
         </div>
     </div>
