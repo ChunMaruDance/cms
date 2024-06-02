@@ -15,10 +15,11 @@ foreach ($accessories as $item) {
 <head>
     <title><?php echo $this->Title; ?></title>
     <link rel="stylesheet" type="text/css" href="/css/productsView.css">
+        <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <div class="container-fluid">
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar" data-aos="fade-right">
             <div class="position-sticky">
                 <h1 class="fw-light"><?php echo $category; ?></h1>
                 <br>
@@ -54,7 +55,7 @@ foreach ($accessories as $item) {
                     </div>
                 </form>
             </div>
-            <div class="album py-5 bg-body-tertiary">
+            <div class="album py-5 bg-body-tertiary" data-aos="fade-left">
                 <div class="container">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="accessoryRow">
                         <!-- Товари будуть тут -->
@@ -63,8 +64,9 @@ foreach ($accessories as $item) {
             </div>
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-
+   AOS.init();
     var minAmount = <?php echo $minAmount; ?>;
     var maxAmount = <?php echo $maxAmount; ?>;
 
