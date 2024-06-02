@@ -105,17 +105,34 @@ class ProductsController extends Controller{
         return $this->render(null,['accessories'=> $accessories,'category'=>$cateogry,'description'=>$categoryObj[0]->description]);
     }
 
-    public function actionSearchAccessory(){
+    // public function actionSearchAccessory(){
+        
+    //     $data = json_decode(file_get_contents('php://input'), true);
+    //     $searchQuery = $data['search_query'];
+    //     $category = $data['category'];
+     
+    //     $accessories = AccessoryCategories::searchByCategoryAndTitle($category, $searchQuery);
+    //     foreach ($accessories as $accessory) {
+    //         $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
+    //     }
+        
+    //     echo json_encode(["accessories" => $accessories]);
+    //     exit;
+    // }
+
+    public function actionSearchAccessory() {
         
         $data = json_decode(file_get_contents('php://input'), true);
-        $searchQuery = $data['search_query'];
+        $searchQuery = $data['search_query'] ?? null;
         $category = $data['category'];
-     
-        $accessories = AccessoryCategories::searchByCategoryAndTitle($category, $searchQuery);
+        $minPrice = $data['priceMin'] ?? null; 
+        $maxPrice = $data['priceMax'] ?? null; 
+        $accessories = AccessoryCategories::searchByCategoryAndTitle($category, $searchQuery, $minPrice, $maxPrice);
+    
         foreach ($accessories as $accessory) {
-            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
+            $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
         }
-        
+    
         echo json_encode(["accessories" => $accessories]);
         exit;
     }
@@ -354,7 +371,6 @@ class ProductsController extends Controller{
        
        
     }
-
 
     private function calculateTotalAmount($session)
     {

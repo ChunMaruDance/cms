@@ -41,7 +41,7 @@ class AccessoryCategories extends Model {
         return self::findByConditionAndJoin($conditions, $joins);
     }
 
-    public static function searchByCategoryAndTitle($category, $title) {
+    public static function searchByCategoryAndTitle($category, $title, $minPrice, $maxPrice) {
         $db = Core::get()->db;
         $tableName = self::$table;
     
@@ -50,15 +50,41 @@ class AccessoryCategories extends Model {
         FROM accessory a
         JOIN category_accessory ca ON ca.accessory_id = a.id
         JOIN categories c ON c.id = ca.category_id
-        WHERE c.title = :category AND a.title LIKE :title";
+        WHERE c.title = :category";
+    
+        if ($title !== null) {
+            $sql .= " AND a.title LIKE :title";
+        }
+    
+        if ($minPrice !== null) {
+            $sql .= " AND a.price >= :minPrice";
+        }
+    
+        if ($maxPrice !== null) {
+            $sql .= " AND a.price <= :maxPrice";
+        }
     
         $sth = $db->pdo->prepare($sql);
         $sth->bindValue(':category', $category, \PDO::PARAM_STR);
-        $sth->bindValue(':title', '%' . $title . '%', \PDO::PARAM_STR);
+    
+        if ($title !== null) {
+            $sth->bindValue(':title', '%' . $title . '%', \PDO::PARAM_STR);
+        }
+    
+        if ($minPrice !== null) {
+            $sth->bindValue(':minPrice', $minPrice, \PDO::PARAM_INT);
+        }
+    
+        if ($maxPrice !== null) {
+            $sth->bindValue(':maxPrice', $maxPrice, \PDO::PARAM_INT);
+        }
+    
         $sth->execute();
     
         return $sth->fetchAll();
     }
+    
+    
 
 
 }

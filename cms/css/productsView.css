@@ -1,0 +1,104 @@
+.btn-black {
+    background-color: black;
+    color: white;
+}
+
+.btn-black:hover {
+    background-color: #fff;
+}
+
+.card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    background-color: #f5f5f5; 
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); 
+}
+
+.add-accessory-btn {
+    margin-bottom: 20px;
+}
+
+.highlight {
+    border: 2px solid yellow;
+    background-color: #ffffe0;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+}
+
+.filter-section h3 {
+    margin-bottom: 10px;
+}
+
+.price-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-filter input {
+    width: 40%;
+}
+
+.sidebar {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 250px; /* Збільшуємо ширину сайдбару */
+    height: fit-content; /* Автоматично підлаштує висоту в залежності від контенту */
+    margin-top: 20px;
+}
+
+.sidebar:hover {
+    transform: scale(1.02);
+}
+
+.content {
+    padding: 15px;
+}
+
+.container-fluid {
+    display: flex;
+}
+
+.sidebar .nav-link.active {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.card-img-top {
+    height: 300px; /* Increased height for product images */
+}
+
+/* New CSS for alignment */
+.pagination-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.pagination-info span {
+    margin: 0 10px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+}
+
+.input-group {
+    margin-left: 20px;
+}
+
+.search-container {
+    width: 300px; /* Set a smaller width for the search field */
+}

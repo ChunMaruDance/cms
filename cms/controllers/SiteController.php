@@ -13,6 +13,7 @@ class SiteController extends Controller
 {
         public function actionIndex()
         {   
+
             $categories = Categories::getAllWithEncodeImage();
             $bannerItems = MainBanner::getAllWithEncodeImage();
             $trendsItems = Trends::getAllWithEncodeImage();
@@ -27,6 +28,7 @@ class SiteController extends Controller
                 'trendsItems' =>$trendsItems,
                 'config'=> $config ]);
         }
+
 }
 
 ?>
