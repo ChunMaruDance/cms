@@ -118,7 +118,7 @@ foreach ($accessories as $item) {
             document.querySelectorAll('.buy-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     var accessoryId = this.dataset.accessoryId;
-                    window.location.href = `buy/${accessoryId}`;
+                    window.location.href = `/products/order/${accessoryId}`;
                 });
             });
 

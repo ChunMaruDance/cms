@@ -140,8 +140,8 @@ class ProductsController extends Controller{
                 if (!isset($basket[$accessoryId])) {
                     $basket[$accessoryId] = 1;
                     $session->set('basket', $basket);
-                    $session->set('orderOnly', $accessoryId);
                 } 
+                $session->set('orderOnly', $accessoryId);
 
                 $accessoriesAndCount[] = [
                     'accessory' => $accessory,
@@ -337,8 +337,7 @@ class ProductsController extends Controller{
         }elseif($this->isGet){
 
             $orderNumber = uniqid('order_');
-            $orderOnlyId = $session->get('orderOnly');
-
+        
             $totalAmount = $this->calculateTotalAmount($session); 
             
             $session->set('orderNumber',$orderNumber);
@@ -356,17 +355,17 @@ class ProductsController extends Controller{
 
     private function calculateTotalAmount($session)
     {
+        $basket = $session->get('basket', []);
         $totalAmount = 0; 
         $orderOnlyId = $session->get('orderOnly');
 
         if ($orderOnlyId) {
             $accessory = Accessory::findByIdWithEncodeImage($orderOnlyId);
             if ($accessory) {
-                $totalAmount = $accessory->price;
+                $totalAmount = $accessory->price * $basket[$orderOnlyId];
             }
         }else {
-            $basket = $session->get('basket', []);
-
+        
             foreach ($basket as $accessoryId => $count) {
             $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
             if ($accessory)$totalAmount += $accessory->price * $count;  
