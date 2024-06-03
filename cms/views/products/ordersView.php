@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="uk">
 <head>
     <title>Замовлення</title>
     <style>
@@ -9,7 +11,7 @@
             max-width: 1200px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff; 
+            background-color: #fff;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: grid;
@@ -43,7 +45,7 @@
         .order-status {
             font-weight: bold;
             color: #007bff;
-        }  
+        }
         .btn-black {
             background-color: black;
             color: white;
@@ -118,7 +120,7 @@
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1>Усі замовлення</h1>
                 <form class="w-100" id="searchForm">
-                    <div class="input-group"> 
+                    <div class="input-group">
                         <input type="search" class="form-control" placeholder="Search..." aria-label="Search" id="searchInput" name="search_query">
                         <button type="submit" class="btn-black" id="searchButton">Search</button>
                     </div>
@@ -127,7 +129,7 @@
                 <button class="btn-black" id="sortByStatus">Сортувати за статусом</button>
                 <button class="btn-black" id="sortByAmount">Сортувати за сумою замовлення</button>
             </div>
-            </div>            
+            </div>
         </div>
 </section>
 
@@ -141,7 +143,7 @@
                 <p>Метод оплати: <?php echo htmlspecialchars($orderWithItems['order']->payment_method); ?></p>
                 <p>Відділення пошти: <?php echo htmlspecialchars($orderWithItems['order']->post_office); ?></p>
                 <p>Сума замовлення: $<?php echo number_format($orderWithItems['order']->total_amount, 2); ?></p>
-                <p>Статус: 
+                <p>Статус:
                     <select name="status" onchange="updateStatus('<?php echo htmlspecialchars($orderWithItems['order']->id); ?>', this.value)">
                         <option value="0" <?php echo !$orderWithItems['order']->finished ? 'selected' : ''; ?>>В процесі</option>
                         <option value="1" <?php echo $orderWithItems['order']->finished ? 'selected' : ''; ?>>Завершено</option>
@@ -164,69 +166,61 @@
         <?php endforeach; ?>
     </div>
 
-<script>
-
+    <script>
     var ordersWithItems = <?php echo json_encode($ordersWithItems); ?>;
 
-
     document.getElementById('sortByStatus').addEventListener('click', function() {
-    ordersWithItems.sort(function(a, b) {
-        if (a.order.finished && !b.order.finished) {
-            return 1;
-        } else if (!a.order.finished && b.order.finished) {
-            return -1;
-        } else {
-            return 0;
-        }
+        ordersWithItems.sort(function(a, b) {
+            return a.order.finished - b.order.finished;
+        });
+        renderOrders();
     });
-    renderOrders();
-});
 
-document.getElementById('sortByAmount').addEventListener('click', function() {
-    ordersWithItems.sort(function(a, b) {
-        return a.order.total_amount - b.order.total_amount;
+    document.getElementById('sortByAmount').addEventListener('click', function() {
+        ordersWithItems.sort(function(a, b) {
+            return a.order.total_amount - b.order.total_amount;
+        });
+        renderOrders();
     });
-    renderOrders();
-});
 
-function renderOrders() {
-    var ordersContainer = document.getElementById('ordersContainer');
-    ordersContainer.innerHTML = '';
+    function renderOrders() {
+        var ordersContainer = document.getElementById('ordersContainer');
+        ordersContainer.innerHTML = '';
 
-    ordersWithItems.forEach(function(orderWithItems) {
-        var orderDiv = document.createElement('div');
-        orderDiv.className = 'order card shadow-sm';
-        orderDiv.innerHTML = `
-            <h3>Замовлення №${orderWithItems.order.order_number}</h3>
-            <p>Електронна пошта: ${orderWithItems.order.user_email}</p>
-            <p>Ім'я: ${orderWithItems.order.user_name}</p>
-            <p>Телефон: ${orderWithItems.order.user_phone}</p>
-            <p>Метод оплати: ${orderWithItems.order.payment_method}</p>
-            <p>Відділення пошти: ${orderWithItems.order.post_office}</p>
-            <p>Сума замовлення: $${parseFloat(orderWithItems.order.total_amount).toFixed(2)}</p>
-            <p>Статус: 
-                <select name="status" onchange="updateStatus('${orderWithItems.order.id}', this.value)">
-                    <option value="0" ${!orderWithItems.order.finished ? 'selected' : ''}>В процесі</option>
-                    <option value="1" ${orderWithItems.order.finished ? 'selected' : ''}>Завершено</option>
-                </select>
-            </p>
-            <div class="order-items">
-                <h4>Елементи замовлення:</h4>
-                ${orderWithItems.items.map(itemWithAccessory => `
-                    <div class="order-item">
-                        <img src="${itemWithAccessory.accessory.image}" alt="${itemWithAccessory.accessory.title}">
-                        <div>
-                            <p>Назва: ${itemWithAccessory.accessory.title}</p>
-                            <p>Кількість: ${itemWithAccessory.orderItem.quantity}</p>
-                            <p>Ціна: ₴${parseFloat(itemWithAccessory.orderItem.price).toFixed(2)}</p>
+        ordersWithItems.forEach(function(orderWithItems) {
+            var orderDiv = document.createElement('div');
+            orderDiv.className = 'order';
+            orderDiv.innerHTML = `
+                <h3>Замовлення №${orderWithItems.order.order_number}</h3>
+                <p>Електронна пошта: ${orderWithItems.order.user_email}</p>
+                <p>Ім'я: ${orderWithItems.order.user_name}</p>
+                <p>Телефон: ${orderWithItems.order.user_phone}</p>
+                <p>Метод оплати: ${orderWithItems.order.payment_method}</p>
+                <p>Відділення пошти: ${orderWithItems.order.post_office}</p>
+                <p>Сума замовлення: $${parseFloat(orderWithItems.order.total_amount).toFixed(2)}</p>
+                <p>Статус:
+                    <select name="status" onchange="updateStatus('${orderWithItems.order.id}', this.value)">
+                        <option value="0" ${!orderWithItems.order.finished ? 'selected' : ''}>В процесі</option>
+                        <option value="1" ${orderWithItems.order.finished ? 'selected' : ''}>Завершено</option>
+                    </select>
+                </p>
+                <div class="order-items">
+                    <h4>Елементи замовлення:</h4>
+                    ${orderWithItems.items.map(itemWithAccessory => `
+                        <div class="order-item">
+                            <img src="${itemWithAccessory.accessory.image}" alt="${itemWithAccessory.accessory.title}">
+                            <div>
+                                <p>Назва: ${itemWithAccessory.accessory.title}</p>
+                                <p>Кількість: ${itemWithAccessory.orderItem.quantity}</p>
+                                <p>Ціна: ₴${parseFloat(itemWithAccessory.orderItem.price).toFixed(2)}</p>
+                            </div>
                         </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-        ordersContainer.appendChild(orderDiv);
-    });
-}
+                    `).join('')}
+                </div>
+            `;
+            ordersContainer.appendChild(orderDiv);
+        });
+    }
 
     function updateStatus(orderId, status) {
         fetch('updateOrderStatus', {
@@ -241,120 +235,45 @@ function renderOrders() {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                alert('Status updated successfully');
-            } else {
-                alert('Failed to update status');
-            }
+        
+                ordersWithItems.forEach(orderWithItems => {
+                    if (orderWithItems.order.id === parseInt(orderId)) {
+                        orderWithItems.order.finished = (status === '1');
+                    }
+                });
+                console.log(ordersWithItems);
+                renderOrders();
         })
         .catch(error => console.error('Error:', error));
     }
 
     document.getElementById('searchForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    var query = document.getElementById('searchInput').value;
+        event.preventDefault();
+        var query = document.getElementById('searchInput').value;
 
-    fetch('searchOrders', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ search_query: query })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data); 
-        var ordersContainer = document.getElementById('ordersContainer');
-     
-        ordersContainer.innerHTML = '';
-
-        var displayedIds = [];
-
-        data.orders.forEach(function(orderWithItems) {
-            var orderDiv = document.createElement('div');
-            orderDiv.className = 'order card shadow-sm';
-            orderDiv.classList.add('highlight');
-            orderDiv.innerHTML = `
-                <h3>Замовлення №${orderWithItems.order.order_number}</h3>
-                <p>Електронна пошта: ${orderWithItems.order.user_email}</p>
-                <p>Ім'я: ${orderWithItems.order.user_name}</p>
-                <p>Телефон: ${orderWithItems.order.user_phone}</p>
-                <p>Метод оплати: ${orderWithItems.order.payment_method}</p>
-                <p>Відділення пошти: ${orderWithItems.order.post_office}</p>
-                <p>Сума замовлення: $${parseFloat(orderWithItems.order.total_amount).toFixed(2)}</p>
-                <p>Статус: 
-                    <select name="status" onchange="updateStatus('${orderWithItems.order.id}', this.value)">
-                        <option value="0" ${!orderWithItems.order.finished ? 'selected' : ''}>В процесі</option>
-                        <option value="1" ${orderWithItems.order.finished ? 'selected' : ''}>Завершено</option>
-                    </select>
-                </p>
-                <div class="order-items">
-                    <h4>Елементи замовлення:</h4>
-                    ${orderWithItems.items.map(itemWithAccessory => `
-                        <div class="order-item">
-                            <img src="${itemWithAccessory.accessory.image}" alt="${itemWithAccessory.accessory.title}">
-                            <div>
-                                <p>Назва: ${itemWithAccessory.accessory.title}</p>
-                                <p>Кількість: ${itemWithAccessory.orderItem.quantity}</p>
-                                <p>Ціна: ₴${parseFloat(itemWithAccessory.orderItem.price).toFixed(2)}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            ordersContainer.appendChild(orderDiv);
-            displayedIds.push(orderWithItems.order.id);
+        fetch('searchOrders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ search_query: query })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            ordersWithItems = data.orders;
+            renderOrders();
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
         });
-
-        var filteredOrders = ordersWithItems.filter(function(order) {
-            return !displayedIds.includes(order.order.id);
-        });
-
-        // Render remaining orders
-        filteredOrders.forEach(function(orderWithItems) {
-            var orderDiv = document.createElement('div');
-            orderDiv.className = 'order card shadow-sm';
-            orderDiv.innerHTML = `
-                <h3>Замовлення №${orderWithItems.order.order_number}</h3>
-                <p>Електронна пошта: ${orderWithItems.order.user_email}</p>
-                <p>Ім'я: ${orderWithItems.order.user_name}</p>
-                <p>Телефон: ${orderWithItems.order.user_phone}</p>
-                <p>Метод оплати: ${orderWithItems.order.payment_method}</p>
-                <p>Відділення пошти: ${orderWithItems.order.post_office}</p>
-                <p>Сума замовлення: $${parseFloat(orderWithItems.order.total_amount).toFixed(2)}</p>
-                <p>Статус: 
-                    <select name="status" onchange="updateStatus('${orderWithItems.order.id}', this.value)">
-                        <option value="0" ${!orderWithItems.order.finished ? 'selected' : ''}>В процесі</option>
-                        <option value="1" ${orderWithItems.order.finished ? 'selected' : ''}>Завершено</option>
-                    </select>
-                </p>
-                <div class="order-items">
-                    <h4>Елементи замовлення:</h4>
-                    ${orderWithItems.items.map(itemWithAccessory => `
-                        <div class="order-item">
-                            <img src="${itemWithAccessory.accessory.image}" alt="${itemWithAccessory.accessory.title}">
-                            <div>
-                                <p>Назва: ${itemWithAccessory.accessory.title}</p>
-                                <p>Кількість: ${itemWithAccessory.orderItem.quantity}</p>
-                                <p>Ціна: ₴${parseFloat(itemWithAccessory.orderItem.price).toFixed(2)}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            ordersContainer.appendChild(orderDiv);
-        });
-    })
-    .catch(error => {
-        console.error('There was an error!', error);
     });
-});
 
-
+    renderOrders(); // Initial render
 </script>
 </body>
+</html>

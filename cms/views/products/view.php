@@ -66,6 +66,8 @@ foreach ($accessories as $item) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
+
+
    AOS.init();
     var minAmount = <?php echo $minAmount; ?>;
     var maxAmount = <?php echo $maxAmount; ?>;
