@@ -276,20 +276,54 @@
           </small>
         </div>
         <div class="form-container">
-          <div class="form-group">
-            <input type="email" class="form-control" placeholder="Введіть адресу e-mail" required>
-            <button type="submit" class="btn btn-dark">Підписатися</button>
-          </div>
-          <div class="error-text">Дане поле повинно бути заповнене</div>
+          <form id="subscription-form">
+            <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="Введіть адресу e-mail" required>
+              <button type="submit" class="btn btn-dark">Підписатися</button>
+            </div>
+          </form>
+          <div id="error-text" class="error-text" style="display: none;"></div>
         </div>
       </div>
     </div>
   </section>
-  <?php endif; ?>
+<?php endif; ?>
 
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init();
+
+
+    document.getElementById('subscription-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const errorText = document.getElementById('error-text');
+
+    fetch('/mailing/addEmail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        errorText.style.display = 'none';
+        alert(data.message);
+      } else {
+        errorText.style.display = 'block';
+        errorText.textContent = data.message;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      errorText.style.display = 'block';
+      errorText.textContent = 'Виникла помилка. Спробуйте пізніше.';
+    });
+  });
+
   </script>
 </body>
 </html>

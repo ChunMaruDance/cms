@@ -241,7 +241,6 @@
                         orderWithItems.order.finished = (status === '1');
                     }
                 });
-                console.log(ordersWithItems);
                 renderOrders();
         })
         .catch(error => console.error('Error:', error));
