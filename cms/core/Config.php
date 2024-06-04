@@ -4,7 +4,6 @@ namespace core;
 
 class Config{
 
-
     protected $params;
     protected static $instance;
 

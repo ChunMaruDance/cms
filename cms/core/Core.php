@@ -16,9 +16,12 @@ class Core{
     public $db;
     public $session;
 
+    public $mailing;
+
     private function __construct(){
     
         $this->session = new Session();
+        $this->mailing = new Mailing();
 
         $this->template = new \core\Template($this->defaultLayoutPath);
         
@@ -28,6 +31,8 @@ class Core{
         $pass = Config::get()->dbPassword;
         
         $this->db = new DB($host, $name, $login, $pass);
+
+
         session_start();
     }
 

@@ -44,8 +44,7 @@ class ReviewsController extends Controller {
         $this->checkIsUserLoggin();
 
         $reviews = Feedback::getAll();
-
-        return $this->render(null,['reviews' =>$reviews]);
+        return $this->render(null,['reviews' => $reviews]);
     }
 
 }
