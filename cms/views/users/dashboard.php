@@ -83,6 +83,7 @@
         <a href="categories" class="btn control-button">Категорії</a>
         <a href="/reviews/view" class="btn control-button">Відгуки</a>
         <a href="/products/ordersView" class="btn control-button">Замовлення</a>
+        <a href="/mailing/view" class="btn control-button">Розсилка</a>
       </div>
       <div class="col-md-6 toggle-switch-container">
     <div class="toggle-switch">
