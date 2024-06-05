@@ -185,24 +185,33 @@ class ProductsController extends Controller{
         $ordersWithItems = [];
     
         foreach ($orders as $order) {
-            $orderItems = OrderItems::findByOrderId($order->id);
-            $itemsWithAccessories = [];
-    
-            foreach ($orderItems as $orderItem) {
-                $accessoryId = $orderItem->accessory_id;
-                $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
-                if ($accessory) {
-                    $itemsWithAccessories[] = [
-                        'orderItem' => $orderItem,
-                        'accessory' => $accessory
-                    ];
+
+            if(!$order->canceled){
+                $orderItems = OrderItems::findByOrderId($order->id);
+                $itemsWithAccessories = [];
+        
+                foreach ($orderItems as $orderItem) {
+                    $accessoryId = $orderItem->accessory_id;
+                    $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+                    if ($accessory) {
+                        $itemsWithAccessories[] = [
+                            'orderItem' => $orderItem,
+                            'accessory' => $accessory
+                        ];
+                    }
                 }
+        
+                $ordersWithItems[] = [
+                    'order' => $order,
+                    'items' => $itemsWithAccessories
+                ];      
+            }else{
+                $ordersWithItems[] = [
+                    'order' => $order,
+                    'items' => []
+                ];    
             }
-    
-            $ordersWithItems[] = [
-                'order' => $order,
-                'items' => $itemsWithAccessories
-            ];
+          
         }
     
         return $this->render(null, [
@@ -294,7 +303,7 @@ class ProductsController extends Controller{
             }else{
                 
                 $order = new Orders();
-                
+             
                 $order->order_number = $orderNumber;
                 $order->user_email = $email;
                 $order->user_name = $name;
@@ -305,9 +314,9 @@ class ProductsController extends Controller{
                 $order->created_at = date('Y-m-d H:i:s');
                 $order->save();
              
-                $orderOnlyId = $session->get('orderOnly');
+               
                 if ($orderOnlyId) {
-                    $items = [$orderOnlyId => 1];
+                    $items = [$orderOnlyId => $session->get('basket', [])[$orderOnlyId]];
                     $session->remove('orderOnly');
                 } else {
                     $items = $session->get('basket', []);

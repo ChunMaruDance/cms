@@ -34,10 +34,9 @@ class Orders extends Model {
 
     public function update(){
         Core::get()->db->update(static::$table, $this->fieldsArray,[
-            static::$primaryKey=> $this->{static::$primaryKey}
+            static::$primaryKey => $this->{static::$primaryKey}
         ]);
     }
-
 
 }
 

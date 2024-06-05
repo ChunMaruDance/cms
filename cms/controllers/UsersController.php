@@ -10,6 +10,8 @@ use models\Users;
 use models\Accessory;
 use models\AccessoryCategories;
 use models\Categories;
+use models\OrderItems;
+use models\Orders;
 
 //validators
 use utils\AccessoryValidator;
@@ -64,12 +66,11 @@ class UsersController extends Controller {
         foreach ($accessories as $accessory) {
                 $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
         }
+
         return $this->render(null,["accessories"=>  $accessories]);
      
     }
 
-
-   
 
     public function actionDeleteAccessory(){
       
@@ -79,8 +80,21 @@ class UsersController extends Controller {
             $data = json_decode(file_get_contents('php://input'), true);
             $id = htmlspecialchars($data['accessory_id']);
               if(!empty($id)){
-                  Accessory::deleteById($id);
-                  AccessoryCategories::deleteByCondition(['accessory_id'=> $id]);
+                  
+                Accessory::deleteById(131);
+                AccessoryCategories::deleteByCondition(['accessory_id'=> 131]);
+
+                $ordersIds = OrderItems::deleteByAccesoryIdAndGetOrdersIds(13);
+                foreach($ordersIds as $orderId){
+                $orderStd = Orders::findById($orderId);
+                $order = new Orders();
+                foreach($orderStd as $key => $value){
+                    $order->$key = $value;
+                }
+                $order->canceled = true;
+                $order->update();
+                }
+
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
               }
@@ -158,10 +172,8 @@ class UsersController extends Controller {
                 return $this->render(null, ['category' => $categoryStd]);
             }
         } else {
-            // Якщо не передано параметр id, це створення нової категорії
             if ($this->isPost) {
                
-                //todo
                 $errors = CategoryValidator::validateFields($this->post,$_FILES);
 
                 if (!empty($errors)) {
@@ -169,12 +181,10 @@ class UsersController extends Controller {
                     return $this->render();
                 }
     
-                // Створюємо нову категорію
                 $category = new Categories();
                 $category->title = $this->post->name;
                 $category->description = $this->post->description;
     
-                // Зберігаємо зображення, якщо воно було вибрано
                 if (!empty($_FILES['image']['tmp_name'])) {
                     $image_data = file_get_contents($_FILES['image']['tmp_name']);
                     $category->image = $image_data;

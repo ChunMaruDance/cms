@@ -112,12 +112,32 @@
             border: 2px solid yellow;
             background-color: #ffffe0;
         }
+
+        /* Стилі для скасованих замовлень */
+        .order.canceled {
+            border: 2px solid red; /* Покрасимо рамку в червоний колір */
+        }
+
+        .order.canceled h3::after {
+            content: " (Скасовано)"; /* Додамо надпис "Скасовано" після заголовка */
+            color: red;
+        }
+
+        /* Стилі для завершених замовлень */
+        .order.finished {
+            background-color: #e9ecef; /* Тускніший колір фону */
+        }
+
+        /* Стилі для скасованих і завершених замовлень */
+        .order.canceled.finished {
+            border-color: #f5c6cb; /* Тускніший червоний колір для рамки */
+        }
     </style>
 </head>
 <body>
 <section class="py-5 text-center container">
         <div class="row py-lg-2">
-            <div class="col-lg-6 col-md-8 mx-auto">
+            <div class="col-lg-7 col-md-8 mx-auto">
                 <h1>Усі замовлення</h1>
                 <form class="w-100" id="searchForm">
                     <div class="input-group">
@@ -128,6 +148,7 @@
                 <div class="mt-3">
                 <button class="btn-black" id="sortByStatus">Сортувати за статусом</button>
                 <button class="btn-black" id="sortByAmount">Сортувати за сумою замовлення</button>
+                <button class="btn-black" id="sortByCancellation">Сортувати за Скасуванням</button>
             </div>
             </div>
         </div>
@@ -135,14 +156,14 @@
 
     <div class="container-2" id="ordersContainer">
         <?php foreach ($ordersWithItems as $orderWithItems): ?>
-            <div class="order">
+            <div class="order<?php echo $orderWithItems['order']->canceled ? ' canceled' : ''; ?><?php echo $orderWithItems['order']->finished ? ' finished' : ''; ?>"> <!-- Додали класи canceled і finished -->
                 <h3>Замовлення №<?php echo htmlspecialchars($orderWithItems['order']->order_number); ?></h3>
                 <p>Електронна пошта: <?php echo htmlspecialchars($orderWithItems['order']->user_email); ?></p>
                 <p>Ім'я: <?php echo htmlspecialchars($orderWithItems['order']->user_name); ?></p>
                 <p>Телефон: <?php echo htmlspecialchars($orderWithItems['order']->user_phone); ?></p>
                 <p>Метод оплати: <?php echo htmlspecialchars($orderWithItems['order']->payment_method); ?></p>
                 <p>Відділення пошти: <?php echo htmlspecialchars($orderWithItems['order']->post_office); ?></p>
-                <p>Сума замовлення: $<?php echo number_format($orderWithItems['order']->total_amount, 2); ?></p>
+                <p>Сума замовлення: ₴<?php echo number_format($orderWithItems['order']->total_amount, 2); ?></p>
                 <p>Статус:
                     <select name="status" onchange="updateStatus('<?php echo htmlspecialchars($orderWithItems['order']->id); ?>', this.value)">
                         <option value="0" <?php echo !$orderWithItems['order']->finished ? 'selected' : ''; ?>>В процесі</option>
@@ -183,13 +204,28 @@
         renderOrders();
     });
 
+    document.getElementById('sortByCancellation').addEventListener('click', function() { // Додана подія для кнопки сортування за скасуванням
+        ordersWithItems.sort(function(a, b) {
+            return b.order.canceled - a.order.canceled;
+        });
+        renderOrders();
+    });
+
     function renderOrders() {
         var ordersContainer = document.getElementById('ordersContainer');
         ordersContainer.innerHTML = '';
 
         ordersWithItems.forEach(function(orderWithItems) {
             var orderDiv = document.createElement('div');
-            orderDiv.className = 'order';
+            var classes = 'order';
+            if (orderWithItems.order.canceled) {
+                classes += ' canceled';
+            }
+            if (orderWithItems.order.finished) {
+                classes += ' finished';
+            }
+            orderDiv.className = classes;
+
             orderDiv.innerHTML = `
                 <h3>Замовлення №${orderWithItems.order.order_number}</h3>
                 <p>Електронна пошта: ${orderWithItems.order.user_email}</p>
@@ -197,7 +233,7 @@
                 <p>Телефон: ${orderWithItems.order.user_phone}</p>
                 <p>Метод оплати: ${orderWithItems.order.payment_method}</p>
                 <p>Відділення пошти: ${orderWithItems.order.post_office}</p>
-                <p>Сума замовлення: $${parseFloat(orderWithItems.order.total_amount).toFixed(2)}</p>
+                <p>Сума замовлення: ₴${parseFloat(orderWithItems.order.total_amount).toFixed(2)}</p>
                 <p>Статус:
                     <select name="status" onchange="updateStatus('${orderWithItems.order.id}', this.value)">
                         <option value="0" ${!orderWithItems.order.finished ? 'selected' : ''}>В процесі</option>
@@ -235,13 +271,12 @@
         })
         .then(response => response.json())
         .then(data => {
-        
-                ordersWithItems.forEach(orderWithItems => {
-                    if (orderWithItems.order.id === parseInt(orderId)) {
-                        orderWithItems.order.finished = (status === '1');
-                    }
-                });
-                renderOrders();
+            ordersWithItems.forEach(orderWithItems => {
+                if (orderWithItems.order.id === parseInt(orderId)) {
+                    orderWithItems.order.finished = (status === '1');
+                }
+            });
+            renderOrders();
         })
         .catch(error => console.error('Error:', error));
     }

@@ -8,7 +8,6 @@ use core\Core;
 
 class MailingController extends Controller {
 
-
     const FILE_PATH = "files/emails.json";
 
     public function actionAddEmail() {
