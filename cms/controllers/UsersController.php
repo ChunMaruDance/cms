@@ -237,12 +237,19 @@ class UsersController extends Controller {
         $short_description = $this->post->short_description;
         $price = $this->post->price;
         $category = $this->post->category;
-        
+        $manufacturer = $this->post->manufacturer;
+        $sizes = $this->post->sizes;
+        $color = $this->post->color;
+
+
         $accessory->title = $name;
         $accessory->description = $description;
         $accessory->short_description = $short_description;
         $accessory->date = date('Y-m-d H:i:s');
         $accessory->price = $price;
+        $accessory->manufacturer = $manufacturer;
+        $accessory->sizes = $sizes;
+        $accessory->color = $color;
     
         if (!empty($_FILES['image']['tmp_name'])) {
             $image_data = file_get_contents($_FILES['image']['tmp_name']);
@@ -268,7 +275,7 @@ class UsersController extends Controller {
     public function actionAddAccessory($params){
 
         $this->checkIsUserLoggin();
-        // Якщо є параметр id в URL
+
         if (!empty($params[0])) {
     
             if ($this->isPost) {
@@ -280,7 +287,6 @@ class UsersController extends Controller {
                     return $this->render(null, ['accessory' =>  Core::get()->session->get('accessory'), 'categories' => $categories]);
                 }
                          
-                // Оновлення аксесуару
                 $accessoryStd = Accessory::findById($params[0]);
                 $accessory = new Accessory();
                 $accessory->id = $accessoryStd->id;  
@@ -289,7 +295,6 @@ class UsersController extends Controller {
                 return $this->redirect('/users/accessories');
             }
             
-            // Завантаження існуючого аксесуара для редагування
             $accessory = Accessory::findById($params[0]);
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
             $categories = Categories::getAll();
@@ -313,7 +318,6 @@ class UsersController extends Controller {
                 return $this->render(null, ['categories' => $categories]);
             }
     
-            // Створення нового аксесуара
             $accessory = new Accessory();
             $this->updateAccessory($accessory);
             return $this->redirect('/users/accessories');

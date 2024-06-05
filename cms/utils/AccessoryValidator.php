@@ -1,5 +1,4 @@
 <?php
-// namespace utils;
 
 namespace utils;
 
@@ -22,6 +21,15 @@ class AccessoryValidator {
         if (empty($files['image']['name']) && empty($post->id)) {
             $errors[] = "Please select an image file.";
         }
+        if (is_null($post->color) || empty(trim($post->color))) {
+            $errors[] = "Color is required.";
+        }
+        if (is_null($post->manufacturer) || empty(trim($post->manufacturer))) {
+            $errors[] = "Manufacturer is required.";
+        }
+        if (is_null($post->sizes) || empty(trim($post->sizes))) {
+            $errors[] = "Sizes are required.";
+        }
         return $errors;
     }
 
@@ -41,6 +49,15 @@ class AccessoryValidator {
         }
         if (!isset($post->array['category']) || empty(trim($post->category))) {
             $errors[] = "Category is required.";
+        }
+        if (is_null($post->color) || empty(trim($post->color))) {
+            $errors[] = "Color is required.";
+        }
+        if (is_null($post->manufacturer) || empty(trim($post->manufacturer))) {
+            $errors[] = "Manufacturer is required.";
+        }
+        if (is_null($post->sizes) || empty(trim($post->sizes))) {
+            $errors[] = "Sizes are required.";
         }
         return $errors;
     }

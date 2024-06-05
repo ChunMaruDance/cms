@@ -25,6 +25,10 @@
     color: black;
 }
 
+.form-group {
+        margin-bottom: 7px;
+    }
+
 </style>
 
 <div id="accessoryFormContainer" class="container mt-5">
@@ -51,22 +55,42 @@
             <label for="price">Price:</label>
             <input type="text" class="form-control" id="price" name="price">
         </div>
-        <br>
         <div class="form-group">
             <label for="category">Category:</label>
-            <br>
             <select class="form-control" id="category" name="category">
                 <?php foreach ($categories as $category) : ?>
                     <option value="<?= $category->title ?>"><?= $category->title ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
+        <div class="form-group">
+    <label for="color">Color:</label>
+        <select class="form-control" id="color" name="color">
+        <option value="Червоний">Червоний</option>
+        <option value="Синій">Синій</option>
+        <option value="Зелений">Зелений</option>
+        <option value="Білий">Білий</option>
+        <option value="Чорний">Чорний</option>
+        <option value="Жовтий">Жовтий</option>
+        <option value="Рожевий">Рожевий</option>
+        <option value="Фіолетовий">Фіолетовий</option>
+        <option value="Оранжевий">Оранжевий</option>
+        <option value="Сірий">Сірий</option>
+        </select>
+        </div>
+        <div class="form-group">
+            <label for="manufacturer">Manufacturer:</label>
+            <input type="text" class="form-control" id="manufacturer" name="manufacturer">
+        </div>
+        <div class="form-group">
+            <label for="sizes">Sizes:</label>
+            <input type="text" class="form-control" id="sizes" name="sizes">
+        </div>
         <br>
         <div class="form-group">
             <label for="image">Choose Image:</label>
             <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage(event)">
         </div>
-        <br>
         <div class="form-group">
             <img id="imagePreview" src="#" alt="Preview" style="max-width: 200px; max-height: 200px;">
         </div>
@@ -84,6 +108,9 @@
             document.getElementById('short_description').value = accessory.short_description;
             document.getElementById('price').value = accessory.price;
             document.getElementById('category').value = accessory.category;
+            document.getElementById('color').value = accessory.color;
+            document.getElementById('sizes').value = accessory.sizes;
+            document.getElementById('manufacturer').value = accessory.manufacturer;
 
             if (accessory.image) {
                 var imagePreview = document.getElementById('imagePreview');
