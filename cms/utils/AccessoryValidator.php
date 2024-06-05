@@ -30,6 +30,11 @@ class AccessoryValidator {
         if (is_null($post->sizes) || empty(trim($post->sizes))) {
             $errors[] = "Sizes are required.";
         }
+        if (is_null($post->material) || empty(trim($post->material))) {
+            $errors[] = "Material are required.";
+        }
+
+        
         return $errors;
     }
 
@@ -58,6 +63,9 @@ class AccessoryValidator {
         }
         if (is_null($post->sizes) || empty(trim($post->sizes))) {
             $errors[] = "Sizes are required.";
+        }
+        if (is_null($post->material) || empty(trim($post->material))) {
+            $errors[] = "Material are required.";
         }
         return $errors;
     }

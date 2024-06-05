@@ -240,7 +240,7 @@ class UsersController extends Controller {
         $manufacturer = $this->post->manufacturer;
         $sizes = $this->post->sizes;
         $color = $this->post->color;
-
+        $material = $this->post->material;
 
         $accessory->title = $name;
         $accessory->description = $description;
@@ -250,6 +250,7 @@ class UsersController extends Controller {
         $accessory->manufacturer = $manufacturer;
         $accessory->sizes = $sizes;
         $accessory->color = $color;
+        $accessory->material = $material;
     
         if (!empty($_FILES['image']['tmp_name'])) {
             $image_data = file_get_contents($_FILES['image']['tmp_name']);
@@ -275,6 +276,9 @@ class UsersController extends Controller {
     public function actionAddAccessory($params){
 
         $this->checkIsUserLoggin();
+        $categories = Categories::getAll();
+        $colors = json_decode(file_get_contents("files/colors.json"), true);
+        $materials = json_decode(file_get_contents("files/materials.json"), true);
 
         if (!empty($params[0])) {
     
@@ -283,8 +287,7 @@ class UsersController extends Controller {
                 
                 if (!empty($errors)) {
                     $this->setErrorMessage(implode('<br>', $errors));
-                    $categories = Categories::getAll();
-                    return $this->render(null, ['accessory' =>  Core::get()->session->get('accessory'), 'categories' => $categories]);
+                    return $this->render(null, ['accessory' =>  Core::get()->session->get('accessory'), 'materials'=>$materials,'colors'=>$colors,'categories' => $categories]);
                 }
                          
                 $accessoryStd = Accessory::findById($params[0]);
@@ -297,7 +300,6 @@ class UsersController extends Controller {
             
             $accessory = Accessory::findById($params[0]);
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
-            $categories = Categories::getAll();
             $accessory->category = AccessoryCategories::getCategoryByAccessoryId($params[0]);
             
             if($accessory->category === null){
@@ -305,7 +307,7 @@ class UsersController extends Controller {
             }
 
             Core::get()->session->set('accessory', $accessory);
-            return $this->render(null, ['accessory' => $accessory, 'categories' => $categories]);
+            return $this->render(null, ['accessory' => $accessory, 'materials'=>$materials,'colors'=>$colors,'categories' => $categories]);
         }
     
         if ($this->isPost) {
@@ -314,16 +316,14 @@ class UsersController extends Controller {
 
             if (!empty($errors)) {
                 $this->setErrorMessage(implode('<br>', $errors));
-                $categories = Categories::getAll();
-                return $this->render(null, ['categories' => $categories]);
+                return $this->render(null, ['categories' => $categories,'materials' => $materials,'colors' => $colors]);
             }
     
             $accessory = new Accessory();
             $this->updateAccessory($accessory);
             return $this->redirect('/users/accessories');
         } else {
-            $categories = Categories::getAll();
-            return $this->render(null, ['categories' => $categories]);
+            return $this->render(null, ['categories' => $categories,'materials'=>$materials, 'colors'=>$colors]);
         }
     }
 

@@ -64,18 +64,19 @@
             </select>
         </div>
         <div class="form-group">
-    <label for="color">Color:</label>
+        <label for="color">Color:</label>
         <select class="form-control" id="color" name="color">
-        <option value="Червоний">Червоний</option>
-        <option value="Синій">Синій</option>
-        <option value="Зелений">Зелений</option>
-        <option value="Білий">Білий</option>
-        <option value="Чорний">Чорний</option>
-        <option value="Жовтий">Жовтий</option>
-        <option value="Рожевий">Рожевий</option>
-        <option value="Фіолетовий">Фіолетовий</option>
-        <option value="Оранжевий">Оранжевий</option>
-        <option value="Сірий">Сірий</option>
+        <?php foreach ($colors as $color) : ?>
+            <option value="<?= $color ?>"><?= $color ?></option>
+        <?php endforeach; ?>
+        </select>
+        </div>
+        <div class="form-group">
+        <label for="material">Material:</label>
+        <select class="form-control" id="material" name="material">
+        <?php foreach ($materials as $material) : ?>
+            <option value="<?= $material ?>"><?= $material ?></option>
+        <?php endforeach; ?>
         </select>
         </div>
         <div class="form-group">
@@ -111,6 +112,7 @@
             document.getElementById('color').value = accessory.color;
             document.getElementById('sizes').value = accessory.sizes;
             document.getElementById('manufacturer').value = accessory.manufacturer;
+            document.getElementById('material').value = accessory.material;
 
             if (accessory.image) {
                 var imagePreview = document.getElementById('imagePreview');

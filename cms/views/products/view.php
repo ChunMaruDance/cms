@@ -12,7 +12,11 @@ foreach ($accessories as $item) {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $this->Title; ?></title>
     <link rel="stylesheet" type="text/css" href="/css/productsView.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -34,6 +38,50 @@ foreach ($accessories as $item) {
                         <input type="number" id="priceMin" placeholder="50" value="50">
                         <span> - </span>
                         <input type="number" id="priceMax" placeholder="2100" value="2100">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="color">Кольори:</label>
+                        <div>
+                            <input type="checkbox" id="colorRed" name="color[]" value="Червоний">
+                            <label for="colorRed">Червоний</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorBlue" name="color[]" value="Синій">
+                            <label for="colorBlue">Синій</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorGreen" name="color[]" value="Зелений">
+                            <label for="colorGreen">Зелений</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorWhite" name="color[]" value="Білий">
+                            <label for="colorWhite">Білий</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorBlack" name="color[]" value="Чорний">
+                            <label for="colorBlack">Чорний</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorYellow" name="color[]" value="Жовтий">
+                            <label for="colorYellow">Жовтий</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorPink" name="color[]" value="Рожевий">
+                            <label for="colorPink">Рожевий</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorPurple" name="color[]" value="Фіолетовий">
+                            <label for="colorPurple">Фіолетовий</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorOrange" name="color[]" value="Оранжевий">
+                            <label for="colorOrange">Оранжевий</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="colorGray" name="color[]" value="Сірий">
+                            <label for="colorGray">Сірий</label>
+                        </div>
                     </div>
                     <button class="btn btn-black mt-3" id="filterButton">Фільтрувати</button>
                 </div>
@@ -66,11 +114,9 @@ foreach ($accessories as $item) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-
-
-   AOS.init();
-    var minAmount = <?php echo $minAmount; ?>;
-    var maxAmount = <?php echo $maxAmount; ?>;
+        AOS.init();
+        var minAmount = <?php echo $minAmount; ?>;
+        var maxAmount = <?php echo $maxAmount; ?>;
 
         var accessories = <?php echo json_encode($accessories); ?>;
         var currentPage = 1;
@@ -187,12 +233,16 @@ foreach ($accessories as $item) {
                 searchQuery = null;
             }
 
+            var selectedColors = Array.from(document.querySelectorAll('input[name="color[]"]:checked')).map(function(checkbox) {
+                return checkbox.value;
+            });
+
             fetch('/products/searchAccessory', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ search_query: searchQuery,priceMin: minPrice, priceMax: maxPrice, category: <?php echo json_encode($category); ?> })
+                body: JSON.stringify({ search_query: searchQuery, priceMin: minPrice, priceMax: maxPrice, colors: selectedColors, category: <?php echo json_encode($category); ?> })
             })
             .then(response => {
                 if (!response.ok) {
@@ -234,6 +284,6 @@ foreach ($accessories as $item) {
 
         document.getElementById('priceMin').setAttribute('value', minAmount);
         document.getElementById('priceMax').setAttribute('value', maxAmount);
-    
     </script>
 </body>
+</html>

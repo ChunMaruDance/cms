@@ -314,7 +314,6 @@ class ProductsController extends Controller{
                 $order->created_at = date('Y-m-d H:i:s');
                 $order->save();
              
-               
                 if ($orderOnlyId) {
                     $items = [$orderOnlyId => $session->get('basket', [])[$orderOnlyId]];
                     $session->remove('orderOnly');
