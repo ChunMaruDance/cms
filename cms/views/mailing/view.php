@@ -90,6 +90,10 @@
                 <label for="message">Message</label>
                 <textarea class="form-control" id="message" rows="5" required></textarea>
               </div>
+              <div class="form-group">
+                <label for="email">Email (optional)</label>
+                <input type="email" class="form-control" id="email">
+              </div>
               <br>
               <button type="submit" class="btn btn-submit btn-block">Send</button>
             </form>
@@ -107,6 +111,7 @@
 
       const subject = document.getElementById('subject').value;
       const message = document.getElementById('message').value;
+      const email = document.getElementById('email').value;
       const responseMessage = document.getElementById('response-message');
 
       fetch('/mailing/sendMessage', {
@@ -114,7 +119,7 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ subject: subject, message: message })
+        body: JSON.stringify({ subject: subject, message: message, email: email })
       })
       .then(response => response.json())
       .then(data => {
