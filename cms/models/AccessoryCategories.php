@@ -41,10 +41,11 @@ class AccessoryCategories extends Model {
         return self::findByConditionAndJoin($conditions, $joins);
     }
 
-    public static function searchByCategoryAndTitle($category, $title, $minPrice, $maxPrice) {
+    public static function searchByCategoryAndTitle($category, $title, $minPrice, $maxPrice, $colors = [], $materials = []) {
         $db = Core::get()->db;
         $tableName = self::$table;
     
+        // Початковий SQL запит
         $sql = "
         SELECT a.*
         FROM accessory a
@@ -52,31 +53,54 @@ class AccessoryCategories extends Model {
         JOIN categories c ON c.id = ca.category_id
         WHERE c.title = :category";
     
+        // Умови фільтрації
+        $conditions = [];
+        $params = [':category' => $category];
+    
         if ($title !== null) {
-            $sql .= " AND a.title LIKE :title";
+            $conditions[] = "a.title LIKE :title";
+            $params[':title'] = '%' . $title . '%';
         }
     
         if ($minPrice !== null) {
-            $sql .= " AND a.price >= :minPrice";
+            $conditions[] = "a.price >= :minPrice";
+            $params[':minPrice'] = $minPrice;
         }
     
         if ($maxPrice !== null) {
-            $sql .= " AND a.price <= :maxPrice";
+            $conditions[] = "a.price <= :maxPrice";
+            $params[':maxPrice'] = $maxPrice;
+        }
+    
+        // Умови для кольорів
+        if (!empty($colors)) {
+            $colorConditions = [];
+            foreach ($colors as $i => $color) {
+                $colorConditions[] = "a.color = :color_$i";
+                $params[":color_$i"] = $color;
+            }
+            $conditions[] = '(' . implode(' OR ', $colorConditions) . ')';
+        }
+    
+        // Умови для матеріалів
+        if (!empty($materials)) {
+            $materialConditions = [];
+            foreach ($materials as $i => $material) {
+                $materialConditions[] = "a.material = :material_$i";
+                $params[":material_$i"] = $material;
+            }
+            $conditions[] = '(' . implode(' OR ', $materialConditions) . ')';
+        }
+    
+        // Додаємо умови в запит
+        if (!empty($conditions)) {
+            $sql .= ' AND (' . implode(' AND ', $conditions) . ')';
         }
     
         $sth = $db->pdo->prepare($sql);
-        $sth->bindValue(':category', $category, \PDO::PARAM_STR);
     
-        if ($title !== null) {
-            $sth->bindValue(':title', '%' . $title . '%', \PDO::PARAM_STR);
-        }
-    
-        if ($minPrice !== null) {
-            $sth->bindValue(':minPrice', $minPrice, \PDO::PARAM_INT);
-        }
-    
-        if ($maxPrice !== null) {
-            $sth->bindValue(':maxPrice', $maxPrice, \PDO::PARAM_INT);
+        foreach ($params as $key => $value) {
+            $sth->bindValue($key, $value);
         }
     
         $sth->execute();
@@ -84,6 +108,7 @@ class AccessoryCategories extends Model {
         return $sth->fetchAll();
     }
     
+       
     
 
 

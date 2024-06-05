@@ -90,6 +90,9 @@ class ProductsController extends Controller{
             return $this->redirect('/');
         }
 
+        $colors = json_decode(file_get_contents("files/colors.json"), true);
+        $materials = json_decode(file_get_contents("files/materials.json"), true);
+
         $cateogry = $params[0];
         $categoryObj = Categories::findIdByTitle($cateogry);
         
@@ -102,16 +105,26 @@ class ProductsController extends Controller{
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
          }
       
-        return $this->render(null,['accessories'=> $accessories,'category'=>$cateogry,'description'=>$categoryObj[0]->description]);
+        return $this->render(null,[
+        'accessories'=> $accessories,
+        'category'=> $cateogry,
+        'colors'=> $colors,
+        'materials'=> $materials,
+        'description'=> $categoryObj[0]->description
+        ]);
     }
+
     public function actionSearchAccessory() {
         
         $data = json_decode(file_get_contents('php://input'), true);
         $searchQuery = $data['search_query'] ?? null;
         $category = $data['category'];
         $minPrice = $data['priceMin'] ?? null; 
-        $maxPrice = $data['priceMax'] ?? null; 
-        $accessories = AccessoryCategories::searchByCategoryAndTitle($category, $searchQuery, $minPrice, $maxPrice);
+        $maxPrice = $data['priceMax'] ?? null;
+        $colors = $data['colors'] ?? [];
+        $materials = $data['materials'] ?? [];
+
+        $accessories = AccessoryCategories::searchByCategoryAndTitle($category, $searchQuery, $minPrice, $maxPrice,$colors,$materials);
     
         foreach ($accessories as $accessory) {
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);

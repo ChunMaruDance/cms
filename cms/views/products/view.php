@@ -12,14 +12,19 @@ foreach ($accessories as $item) {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $this->Title; ?></title>
     <link rel="stylesheet" type="text/css" href="/css/productsView.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        .scrollable-filter {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -32,7 +37,7 @@ foreach ($accessories as $item) {
                 </div>
                 <br>
                 <div class="filter-section">
-                    <h3>Фільтр товарів</h3>
+                    <h3>Фільтри товарів</h3>
                     <div class="price-filter">
                         <label for="priceMin">Ціна (грн):</label>
                         <input type="number" id="priceMin" placeholder="50" value="50">
@@ -40,48 +45,23 @@ foreach ($accessories as $item) {
                         <input type="number" id="priceMax" placeholder="2100" value="2100">
                     </div>
                     <br>
-                    <div class="form-group">
-                        <label for="color">Кольори:</label>
+                    <h4>Кольори:</h4>
+                    <div class="form-group scrollable-filter">
+                        <?php foreach ($colors as $color) : ?>
                         <div>
-                            <input type="checkbox" id="colorRed" name="color[]" value="Червоний">
-                            <label for="colorRed">Червоний</label>
+                            <input type="checkbox" id="<?= $color ?>" name="color[]" value="<?= $color ?>">
+                            <label for="<?= $color ?>"><?= $color ?></label>
                         </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <h4>Матеріали:</h4>
+                    <div class="form-group scrollable-filter">
+                        <?php foreach ($materials as $material) : ?>
                         <div>
-                            <input type="checkbox" id="colorBlue" name="color[]" value="Синій">
-                            <label for="colorBlue">Синій</label>
+                            <input type="checkbox" id="<?= $material ?>" name="material[]" value="<?= $material ?>">
+                            <label for="<?= $material ?>"><?= $material ?></label>
                         </div>
-                        <div>
-                            <input type="checkbox" id="colorGreen" name="color[]" value="Зелений">
-                            <label for="colorGreen">Зелений</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorWhite" name="color[]" value="Білий">
-                            <label for="colorWhite">Білий</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorBlack" name="color[]" value="Чорний">
-                            <label for="colorBlack">Чорний</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorYellow" name="color[]" value="Жовтий">
-                            <label for="colorYellow">Жовтий</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorPink" name="color[]" value="Рожевий">
-                            <label for="colorPink">Рожевий</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorPurple" name="color[]" value="Фіолетовий">
-                            <label for="colorPurple">Фіолетовий</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorOrange" name="color[]" value="Оранжевий">
-                            <label for="colorOrange">Оранжевий</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="colorGray" name="color[]" value="Сірий">
-                            <label for="colorGray">Сірий</label>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                     <button class="btn btn-black mt-3" id="filterButton">Фільтрувати</button>
                 </div>
@@ -232,8 +212,11 @@ foreach ($accessories as $item) {
             if (searchQuery.trim() === '') {
                 searchQuery = null;
             }
-
             var selectedColors = Array.from(document.querySelectorAll('input[name="color[]"]:checked')).map(function(checkbox) {
+                return checkbox.value;
+            });
+
+            var selectedMaterials = Array.from(document.querySelectorAll('input[name="material[]"]:checked')).map(function(checkbox) {
                 return checkbox.value;
             });
 
@@ -242,7 +225,14 @@ foreach ($accessories as $item) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ search_query: searchQuery, priceMin: minPrice, priceMax: maxPrice, colors: selectedColors, category: <?php echo json_encode($category); ?> })
+                body: JSON.stringify({ 
+                     search_query: searchQuery,
+                     priceMin: minPrice,
+                     priceMax: maxPrice,
+                     colors: selectedColors,
+                     materials: selectedMaterials, 
+                     category: <?php echo json_encode($category); ?>
+                     })
             })
             .then(response => {
                 if (!response.ok) {
@@ -286,4 +276,3 @@ foreach ($accessories as $item) {
         document.getElementById('priceMax').setAttribute('value', maxAmount);
     </script>
 </body>
-</html>
