@@ -61,7 +61,16 @@
           <div class="contact-info">
             <h4>Email Subscribers</h4>
             <ul class="list-unstyled">
-              <?php foreach ($emails as $email): ?>
+              <?php foreach ($emails_subscribers as $email): ?>
+                <li><?php echo $email; ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+          <br>
+          <div class="contact-info">
+            <h4>Email Orders</h4>
+            <ul class="list-unstyled">
+              <?php foreach ($emails_orders as $email): ?>
                 <li><?php echo $email; ?></li>
               <?php endforeach; ?>
             </ul>

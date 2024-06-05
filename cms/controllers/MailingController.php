@@ -6,6 +6,8 @@ use core\Controller;
 use core\Template;
 use core\Core;
 
+use models\Orders;
+
 class MailingController extends Controller {
 
     const FILE_PATH = "files/emails.json";
@@ -61,7 +63,9 @@ class MailingController extends Controller {
             echo json_encode(['success' => false, 'message' => 'Список електронних адрес порожній.']);
             exit;
         }
-        return $this->render(null,['emails'=>$emails]);
+
+        $ordersEmails = Orders::getAllEmails();
+        return $this->render(null,['emails_subscribers'=>$emails,'emails_orders'=>$ordersEmails]);
 
     }
 

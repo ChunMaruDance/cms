@@ -303,7 +303,6 @@ class UsersController extends Controller {
             return $this->render(null, ['accessory' => $accessory, 'categories' => $categories]);
         }
     
-        // Якщо немає параметру id в URL, створюємо новий аксесуар
         if ($this->isPost) {
           
             $errors = AccessoryValidator::validateFields($this->post,$_FILES);

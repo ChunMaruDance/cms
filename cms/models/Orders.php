@@ -38,6 +38,15 @@ class Orders extends Model {
         ]);
     }
 
+    public static function getAllEmails(){
+        $orders = self::getAll();
+        $emails = array_map(function($order) {
+            return $order->user_email;
+        }, $orders);
+        $uniqueEmails = array_unique($emails);
+        return $uniqueEmails;
+    }
+
 }
 
 ?>
