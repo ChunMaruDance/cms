@@ -59,7 +59,7 @@ class ProductsController extends Controller{
                 $session->set('basket', $basket);
                 echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
             }else{
-                
+
                 http_response_code(400);
                 echo json_encode(["error" => "Not enough stock available"]);
             }
@@ -91,8 +91,12 @@ class ProductsController extends Controller{
             }
     
             $session->set('basket', $basket);
+
+            http_response_code(200);
             echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
         } else {
+
+            http_response_code(400); 
             echo json_encode(["error" => "No accessory id provided"]);
         }
         exit;
@@ -143,7 +147,8 @@ class ProductsController extends Controller{
         foreach ($accessories as $accessory) {
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
         }
-    
+        
+        http_response_code(200);
         echo json_encode(["accessories" => $accessories]);
         exit;
     }
