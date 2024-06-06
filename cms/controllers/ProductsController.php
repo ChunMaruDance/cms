@@ -38,18 +38,32 @@ class ProductsController extends Controller{
         if (isset($data['accessory_id'])) {
           
             $accessoryId = $data['accessory_id'];
-           
+            
+            $accessory =  Accessory::findById($accessoryId);
+            $quantity = $accessory->quantity;            
+            
             $session = Core::get()->session;
             $basket = $session->get('basket', []);
 
-            if (!isset($basket[$accessoryId])) {
-                $basket[$accessoryId] = 1;
-            } else {
-                $basket[$accessoryId]++;
-            }
+            $accessoryCountInBasket = isset($basket[$accessoryId]) ? $basket[$accessoryId] : 0;
 
-            $session->set('basket', $basket);
-            echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
+            if($accessoryCountInBasket < $quantity){
+                if (!isset($basket[$accessoryId])) { 
+                    $basket[$accessoryId] = 1;
+                    
+                } else {              
+                    $basket[$accessoryId]++;            
+                }
+
+                http_response_code(200);
+                $session->set('basket', $basket);
+                echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
+            }else{
+                
+                http_response_code(400);
+                echo json_encode(["error" => "Not enough stock available"]);
+            }
+        
         } else {
             echo json_encode(["error" => "No search query provided"]);
         }
