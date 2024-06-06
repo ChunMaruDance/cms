@@ -363,7 +363,6 @@ class ProductsController extends Controller{
                         if($accessory->quantity >= $count){
                             $accessory->quantity -= $count;
                          
-                            
                             $orderItem = new OrderItems();
                             $orderItem->order_id = $orderId;
                             $orderItem->accessory_id = $accessory->id;

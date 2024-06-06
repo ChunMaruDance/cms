@@ -141,7 +141,6 @@ class UsersController extends Controller {
                 return $this->redirect('/users/categories');
             }
     
-            // Перевіряємо, чи надіслана форма
             if ($this->isPost) {
 
                 $errors = CategoryValidator::validateFieldsWithoutImage($this->post);
@@ -153,17 +152,16 @@ class UsersController extends Controller {
                 
                 $category = new Categories();
                 $category->id = $params[0];
-                // Оновлюємо дані категорії
+             
                 $category->title = $this->post->name;
                 $category->description = $this->post->description;
     
-                // Перевіряємо, чи було вибрано нове зображення
                 if (!empty($_FILES['image']['tmp_name'])) {
                     $image_data = file_get_contents($_FILES['image']['tmp_name']);
                     $category->image = $image_data;
                 }
     
-                // Зберігаємо зміни
+             
                 $category->save();
     
                 return $this->redirect('/users/categories');
@@ -242,6 +240,7 @@ class UsersController extends Controller {
         $sizes = $this->post->sizes;
         $color = $this->post->color;
         $material = $this->post->material;
+        $quantity = $this->post->quantity;
 
         $accessory->title = $name;
         $accessory->description = $description;
@@ -252,6 +251,7 @@ class UsersController extends Controller {
         $accessory->sizes = $sizes;
         $accessory->color = $color;
         $accessory->material = $material;
+        $accessory->quantity = $quantity;
     
         if (!empty($_FILES['image']['tmp_name'])) {
             $image_data = file_get_contents($_FILES['image']['tmp_name']);
