@@ -84,6 +84,10 @@
             <input type="text" class="form-control" id="manufacturer" name="manufacturer">
         </div>
         <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" class="form-control" id="quantity" name="quantity">
+        </div>
+        <div class="form-group">
             <label for="sizes">Sizes:</label>
             <input type="text" class="form-control" id="sizes" name="sizes">
         </div>
@@ -113,7 +117,8 @@
             document.getElementById('sizes').value = accessory.sizes;
             document.getElementById('manufacturer').value = accessory.manufacturer;
             document.getElementById('material').value = accessory.material;
-
+            document.getElementById('quantity').value = accessory.quantity;
+              
             if (accessory.image) {
                 var imagePreview = document.getElementById('imagePreview');
                 imagePreview.src =  accessory.image;

@@ -241,6 +241,7 @@ class UsersController extends Controller {
         $sizes = $this->post->sizes;
         $color = $this->post->color;
         $material = $this->post->material;
+        $quantity = $this->post->quantity;
 
         $accessory->title = $name;
         $accessory->description = $description;
@@ -251,6 +252,7 @@ class UsersController extends Controller {
         $accessory->sizes = $sizes;
         $accessory->color = $color;
         $accessory->material = $material;
+        $accessory->quantity = $quantity;
     
         if (!empty($_FILES['image']['tmp_name'])) {
             $image_data = file_get_contents($_FILES['image']['tmp_name']);
@@ -271,7 +273,6 @@ class UsersController extends Controller {
         }
  
     }
-
 
     public function actionAddAccessory($params){
 

@@ -111,6 +111,7 @@ foreach ($accessories as $item) {
             var paginatedItems = accessories.slice(start, end);
 
             paginatedItems.forEach(function(accessory) {
+                var isInStock = accessory.quantity > 0 ? 'В НАЯВНОСТІ' : 'НЕ В НАЯВНОСТІ';
                 var card = document.createElement('div');
                 card.className = 'col';
                 card.innerHTML = `
@@ -127,6 +128,9 @@ foreach ($accessories as $item) {
                                     <button type="button" class="btn btn-sm btn-outline-secondary addToCart-btn" data-accessory-id="${accessory.id}">Додати до кошика</button>
                                 </div>
                                 <small class="text-muted">Price: ${accessory.price}$</small>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <small class="text-${isInStock === 'В НАЯВНОСТІ' ? 'success' : 'danger'}">${isInStock}</small>
                             </div>
                         </div>
                     </div>

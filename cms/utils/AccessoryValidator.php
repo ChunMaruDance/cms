@@ -33,6 +33,9 @@ class AccessoryValidator {
         if (is_null($post->material) || empty(trim($post->material))) {
             $errors[] = "Material are required.";
         }
+        if (is_null($post->quantity) || !is_numeric($post->quantity)) {
+            $errors[] = "Quantity must be a numeric value.";
+        }
 
         
         return $errors;
@@ -66,6 +69,9 @@ class AccessoryValidator {
         }
         if (is_null($post->material) || empty(trim($post->material))) {
             $errors[] = "Material are required.";
+        }
+        if (is_null($post->quantity) || !is_numeric($post->quantity)) {
+            $errors[] = "Quantity must be a numeric value.";
         }
         return $errors;
     }

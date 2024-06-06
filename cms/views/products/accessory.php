@@ -1,5 +1,3 @@
-<head>
-    <title>Accessory Details</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -68,25 +66,15 @@
 
         .product-status {
             font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .product-status.in-stock {
             color: #28a745;
-            margin-bottom: 20px;
         }
 
-        .product-options {
-            margin-bottom: 20px;
-        }
-
-        .product-options label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .product-options select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
+        .product-status.out-of-stock {
+            color: #dc3545;
         }
 
         .product-buttons {
@@ -163,7 +151,6 @@
             margin: 0;
         }
     </style>
-</head>
 
 <body>
     <div class="container-2">
@@ -178,8 +165,10 @@
             <div class="product-details">
                 <h2 class="product-title"><?php echo $accessory->title; ?></h2>
                 <div class="product-price"><?php echo $accessory->price; ?>$</div>
-                <div class="product-status">В НАЯВНОСТІ</div>
-                <div class="product-buttons">
+                <div class="product-status <?php echo $accessory->quantity > 0 ? 'in-stock' : 'out-of-stock'; ?>">
+                    <?php echo $accessory->quantity > 0 ? 'В НАЯВНОСТІ' : 'НЕ В НАЯВНОСТІ'; ?>
+                </div>
+                <div class="product-buttons" <?php if ($accessory->quantity == 0) echo 'style="display: none;"'; ?>>
                     <button class="buy-btn" data-accessory-id="<?php echo $accessory->id; ?>">КУПИТИ</button>
                     <button class="cart-btn" data-accessory-id="<?php echo $accessory->id; ?>">ДОДАТИ ДО КОШИКУ</button>
                 </div>
