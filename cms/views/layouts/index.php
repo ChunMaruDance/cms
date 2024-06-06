@@ -3,7 +3,6 @@
 /** @var string $Title */
 /** @var string $Content */
 
-
 use \models\Users;
 
 if(empty($Title)){
@@ -12,6 +11,10 @@ if(empty($Title)){
 
 if(empty($Content)){
   $Content = '';
+}
+
+if(empty($basketItemCount)){
+  $basketItemCount = 0;
 }
 
 ?>
@@ -40,7 +43,7 @@ if(empty($Content)){
           <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/products/order">Basket</a>
+          <a class="nav-link" href="/products/order">Basket <span id="basketItemCount"><?php echo $basketItemCount > 0 ? $basketItemCount: ''; ?></span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/reviews/contact">Contact</a>

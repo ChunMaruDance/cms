@@ -163,6 +163,15 @@ foreach ($accessories as $item) {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
+                        const basketItemCountElement = document.getElementById('basketItemCount');
+                        const count = parseInt(basketItemCountElement.textContent); 
+                        console.log(count);
+                        if(!isNaN(count) && count !== null){
+                            basketItemCountElement.textContent = count + 1;
+                        }else{
+                            basketItemCountElement.textContent = 1;
+                        }
+
                         return response.json();
                     })
                     .then(data => {

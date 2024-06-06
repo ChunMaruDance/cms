@@ -204,7 +204,7 @@
         renderOrders();
     });
 
-    document.getElementById('sortByCancellation').addEventListener('click', function() { // Додана подія для кнопки сортування за скасуванням
+    document.getElementById('sortByCancellation').addEventListener('click', function() {
         ordersWithItems.sort(function(a, b) {
             return b.order.canceled - a.order.canceled;
         });
@@ -307,7 +307,7 @@
         });
     });
 
-    renderOrders(); // Initial render
+    renderOrders();
 </script>
 </body>
 </html>

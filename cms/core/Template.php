@@ -21,6 +21,10 @@ class Template {
         $this->paramsArray[$paramName] = $paramValue;
     }
 
+    public function getParam($paramName){
+        return $this->paramsArray[$paramName];
+    } 
+
     public function setTemplateFilePath($path){
         $this->templateFilePath = $path;
     }

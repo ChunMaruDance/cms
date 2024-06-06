@@ -78,6 +78,7 @@
     document.querySelectorAll('.addToCart-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var accessoryId = this.dataset.accessoryId;
+            
             fetch('/products/addToBasket', {
                 method: 'POST',
                 headers: {
@@ -88,9 +89,16 @@
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
-                }else{
-                    //todo      
                 }
+                    const basketItemCountElement = document.getElementById('basketItemCount');
+                        const count = parseInt(basketItemCountElement.textContent); 
+                        console.log(count);
+                        if(!isNaN(count) && count !== null){
+                            basketItemCountElement.textContent = count + 1;
+                        }else{
+                            basketItemCountElement.textContent = 1;
+                        }
+        
                 return response.json();
             })
             .then(data => {

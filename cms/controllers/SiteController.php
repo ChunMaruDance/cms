@@ -20,12 +20,12 @@ class SiteController extends Controller
 
             $configFile = 'files/mainPageConfig.json';
             $config = json_decode(file_get_contents($configFile), true);
-
+        
             return $this->render(null,
             [
                 'categories' => $categories,
                 'bannerItems' => $bannerItems,
-                'trendsItems' =>$trendsItems,
+                'trendsItems' => $trendsItems,
                 'config'=> $config ]);
         }
 

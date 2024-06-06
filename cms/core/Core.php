@@ -22,18 +22,22 @@ class Core{
     
         $this->session = new Session();
         $this->mailing = new Mailing();
+        session_start();
 
-        $this->template = new \core\Template($this->defaultLayoutPath);
-        
         $host = Config::get()->dbHost;
         $name = Config::get()->dbName;
         $login = Config::get()->dbLogin;
         $pass = Config::get()->dbPassword;
-        
+    
         $this->db = new DB($host, $name, $login, $pass);
-
-
-        session_start();
+        $this->template = new \core\Template($this->defaultLayoutPath);
+        
+        $basket = $this->session->get('basket', []);
+        $basketItemCount = 0;
+        foreach ($basket as $itemId => $quantity) {
+            $basketItemCount += $quantity;
+        }
+        $this->template->setParam('basketItemCount', $basketItemCount);
     }
 
     public function run($route){

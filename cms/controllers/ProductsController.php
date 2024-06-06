@@ -141,15 +141,13 @@ class ProductsController extends Controller{
         $accessoriesAndCount =  [];
         $session = Core::get()->session;
 
-
         if(!empty($params)){
             $accessoryId = $params[0];
             $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
             if ($accessory) {
                 
-               
                 $basket = $session->get('basket', []);
-    
+
                 if (!isset($basket[$accessoryId])) {
                     $basket[$accessoryId] = 1;
                     $session->set('basket', $basket);
