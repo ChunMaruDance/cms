@@ -1,81 +1,225 @@
-<style>
+<head>
+    <title>Accessory Details</title>
+    <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: #f8f9fa;
             color: #000;
+            margin: 0;
+            padding: 20px; 
         }
-        .accessory-container {
-            margin-top: 50px;
-        }
-        .accessory-image {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .accessory-details {
-            margin-top: 30px;
-        }
-        .btn-custom {
-            margin-top: 15px;
-            width: 100%;
-            border-radius: 10px;
-            background-color: #000;
-            color: #fff;
-            border: 2px solid #000;
-            transition: all 0.3s ease;
-        }
-        .btn-custom:hover {
+
+        .container-2 {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
             background-color: #fff;
-            color: #000;
-        }
-        .accessory-title {
-            font-weight: bold;
-            font-size: 2rem;
-        }
-        .accessory-category, .accessory-price, .accessory-description {
-            margin-bottom: 20px;
-        }
-        .accessory-price {
-            font-size: 1.5rem;
-        }
-        .accessory-description {
-            font-size: 1.1rem;
-        }
-        .container-fluid {
-            background-color: #ffffff;
-            padding: 20px 50px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        
 
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .product-header .product-code {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .product-main {
+            display: flex;
+        }
+
+        .product-image {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .product-image img {
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        .product-details {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: #f00;
+            margin-bottom: 20px;
+        }
+
+        .product-status {
+            font-size: 1rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .product-options {
+            margin-bottom: 20px;
+        }
+
+        .product-options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .product-options select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .product-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .product-buttons button {
+            width: 48%;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .product-buttons .buy-btn {
+            background-color: #f00;
+            color: #fff;
+        }
+
+        .product-buttons .buy-btn:hover {
+            background-color: #c00;
+        }
+
+        .product-buttons .cart-btn {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .product-buttons .cart-btn:hover {
+            background-color: #333;
+        }
+
+        .product-specs,
+        .product-delivery,
+        .product-payment,
+        .product-reviews {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .product-specs h2,
+        .product-delivery h2,
+        .product-payment h2,
+        .product-reviews h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product-specs dl,
+        .product-delivery dl,
+        .product-payment dl,
+        .product-reviews dl {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-specs dl dt,
+        .product-delivery dl dt,
+        .product-payment dl dt,
+        .product-reviews dl dt {
+            flex: 1 1 30%;
+            font-weight: bold;
+        }
+
+        .product-specs dl dd,
+        .product-delivery dl dd,
+        .product-payment dl dd,
+        .product-reviews dl dd {
+            flex: 1 1 70%;
+            margin: 0;
+        }
     </style>
+</head>
 
-<div class="container accessory-container">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="<?php echo $accessory->image; ?>" alt="<?php echo $accessory->title; ?>" class="accessory-image">
+<body>
+    <div class="container-2">
+        <div class="product-header">
+            <h1><?php echo $accessory->title; ?></h1>
+            <span class="product-code">КОД ТОВАРУ <?php echo $accessory->id; ?></span>
         </div>
-        <div class="col-md-6">
-            <div class="container-fluid">
-                <h2 class="accessory-title"><?php echo $accessory->title; ?></h2>
-                <p class="accessory-info">
-                    <span class="text-muted mr-2">Категорія:</span>
-                    <button type="button" class="btn btn-sm btn-outline-secondary render-btn"><?php echo $accessory->category; ?></button>
-                </p>
-                <p class="accessory-price">Ціна: <span class="font-weight-bold">₴<?php echo $accessory->price; ?></span></p>
-                <p class="accessory-description"><?php echo $accessory->description; ?></p>
-                <div class="accessory-details">
-                    <button class="btn btn-custom buy-btn" data-accessory-id="<?php echo $accessory->id; ?>" >Замовити</button>
-                    <button class="btn btn-custom addToCart-btn" data-accessory-id="<?php echo $accessory->id; ?>" >Додати до корзини</button>
+        <div class="product-main">
+            <div class="product-image">     
+                <img src="<?php echo $accessory->image; ?>" alt="Disney Wallet">
+            </div>
+            <div class="product-details">
+                <h2 class="product-title"><?php echo $accessory->title; ?></h2>
+                <div class="product-price"><?php echo $accessory->price; ?>$</div>
+                <div class="product-status">В НАЯВНОСТІ</div>
+                <div class="product-buttons">
+                    <button class="buy-btn" data-accessory-id="<?php echo $accessory->id; ?>">КУПИТИ</button>
+                    <button class="cart-btn" data-accessory-id="<?php echo $accessory->id; ?>">ДОДАТИ ДО КОШИКУ</button>
                 </div>
             </div>
         </div>
+        <div class="product-specs">
+            <h2>ХАРАКТЕРИСТИКИ</h2>
+            <dl>
+                <dt>Колір:</dt>
+                <dd><?php echo $accessory->color; ?></dd>
+                <dt>Матеріал:</dt>
+                <dd><?php echo $accessory->material; ?></dd>
+                <dt>Виробник:</dt>
+                <dd><?php echo $accessory->manufacturer; ?></dd>
+                <dt>Розміри:</dt>
+                <dd><?php echo $accessory->sizes; ?></dd>
+            </dl>
+        </div>
+        <div class="product-delivery">
+            <h2>ДОСТАВКА</h2>
+            <dl>
+                <dt>Нова пошта в відділення:</dt>
+                <dd>Вартість: близько 55 грн. Термін: 1-3 дні</dd>
+                <dt>Нова пошта адресна доставка:</dt>
+                <dd>Вартість: близько 75 грн. Термін: 1-3 дні</dd>
+                <dt>Укрпошта Експрес в відділення:</dt>
+                <dd>Вартість: близько 35 грн. Термін: 2-4 дні</dd>
+            </dl>
+        </div>
+        <div class="product-payment">
+            <h2>ОПЛАТА</h2>
+            <dl>
+                <dt>Оплата при отриманні товару:</dt>
+                <dd>Нова пошта (20 грн + 2% від суми замовлення)</dd>
+            </dl>
+        </div>
     </div>
-</div>
 
-<script>
-    document.querySelectorAll('.addToCart-btn').forEach(function(btn) {
+    <script>
+    document.querySelectorAll('.cart-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var accessoryId = this.dataset.accessoryId;
             
@@ -119,3 +263,7 @@
         });
     });
 </script>
+</body>
+
+
+
