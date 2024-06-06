@@ -81,13 +81,14 @@ class UsersController extends Controller {
             $id = htmlspecialchars($data['accessory_id']);
               if(!empty($id)){
                   
-                Accessory::deleteById(131);
-                AccessoryCategories::deleteByCondition(['accessory_id'=> 131]);
+                Accessory::deleteById($id);
+                AccessoryCategories::deleteByCondition(['accessory_id'=> $id]);
 
-                $ordersIds = OrderItems::deleteByAccesoryIdAndGetOrdersIds(13);
+                $ordersIds = OrderItems::deleteByAccesoryIdAndGetOrdersIds($id);
                 foreach($ordersIds as $orderId){
                 $orderStd = Orders::findById($orderId);
                 $order = new Orders();
+
                 foreach($orderStd as $key => $value){
                     $order->$key = $value;
                 }
@@ -241,7 +242,6 @@ class UsersController extends Controller {
         $sizes = $this->post->sizes;
         $color = $this->post->color;
         $material = $this->post->material;
-        $quantity = $this->post->quantity;
 
         $accessory->title = $name;
         $accessory->description = $description;
@@ -252,7 +252,6 @@ class UsersController extends Controller {
         $accessory->sizes = $sizes;
         $accessory->color = $color;
         $accessory->material = $material;
-        $accessory->quantity = $quantity;
     
         if (!empty($_FILES['image']['tmp_name'])) {
             $image_data = file_get_contents($_FILES['image']['tmp_name']);
@@ -273,6 +272,7 @@ class UsersController extends Controller {
         }
  
     }
+
 
     public function actionAddAccessory($params){
 

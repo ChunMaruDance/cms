@@ -22,8 +22,12 @@ class OrderItems extends Model {
 
     public static function deleteByAccesoryIdAndGetOrdersIds($id){
       $orders = self::findByCondition(['accessory_id' => $id]);
-    
+      if($orders ==null){
+        return [];
+      }
+      
       $orders_ids = [];
+  
       foreach ($orders as $order) {
           $orders_ids[] = $order->order_id;
       }

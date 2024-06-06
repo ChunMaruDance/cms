@@ -34,8 +34,10 @@ class Core{
         
         $basket = $this->session->get('basket', []);
         $basketItemCount = 0;
-        foreach ($basket as $itemId => $quantity) {
-            $basketItemCount += $quantity;
+        if (is_array($basket)) {
+            foreach ($basket as $itemId => $quantity) {
+                $basketItemCount += $quantity;
+            }
         }
         $this->template->setParam('basketItemCount', $basketItemCount);
     }

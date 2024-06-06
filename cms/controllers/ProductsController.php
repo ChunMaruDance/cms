@@ -91,11 +91,9 @@ class ProductsController extends Controller{
             }
     
             $session->set('basket', $basket);
-
             http_response_code(200);
             echo json_encode(["accessories" => $basket, "cartItemCount" => array_sum($basket)]);
         } else {
-
             http_response_code(400); 
             echo json_encode(["error" => "No accessory id provided"]);
         }
@@ -147,8 +145,7 @@ class ProductsController extends Controller{
         foreach ($accessories as $accessory) {
             $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);
         }
-        
-        http_response_code(200);
+    
         echo json_encode(["accessories" => $accessories]);
         exit;
     }
@@ -344,6 +341,7 @@ class ProductsController extends Controller{
                 $order->created_at = date('Y-m-d H:i:s');
                 $order->save();
              
+                $orderOnlyId = $session->get('orderOnly');
                 if ($orderOnlyId) {
                     $items = [$orderOnlyId => $session->get('basket', [])[$orderOnlyId]];
                     $session->remove('orderOnly');
@@ -354,17 +352,35 @@ class ProductsController extends Controller{
                 $orderId = Orders::getOrderIdByOrderNumber($order->order_number);
             
                 foreach ($items as $accessoryId => $count) {
-                    $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
-                    if ($accessory) {
-                        $orderItem = new OrderItems();
-                        $orderItem->order_id = $orderId;
-                        $orderItem->accessory_id = $accessory->id;
-                        $orderItem->quantity = $count;
-                        $orderItem->price = $accessory->price;
-                        $orderItem->save();
+                    $accessoryStd = Accessory::findById($accessoryId);
+                    if ($accessoryStd) {
+
+                        $accessory = new Accessory();
+                        foreach ($accessoryStd as $key => $value) {
+                            $accessory->$key = $value;
+                        }    
+
+                        if($accessory->quantity >= $count){
+                            $accessory->quantity -= $count;
+                         
+                            
+                            $orderItem = new OrderItems();
+                            $orderItem->order_id = $orderId;
+                            $orderItem->accessory_id = $accessory->id;
+                            $orderItem->quantity = $count;
+                            $orderItem->price = $accessory->price;
+                         
+                            $orderItem->save();
+                            $accessory->save();
+                        }
+    
+
+                       
                     }
                 }
+
     
+                
                 $session->remove('orderNumber');
                 $session->remove('totalAmount');
                 $session->remove('basket');
