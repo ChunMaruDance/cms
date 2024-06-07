@@ -58,6 +58,11 @@ $this->Title = 'Аксесуар';
                 <dd>Нова пошта (20 грн + 2% від суми замовлення)</dd>
             </dl>
         </div>
+        <div class="product-payment">
+            <h2>Опис</h2>
+            <p><?php echo $accessory->description; ?></p>
+        </div>
+    
     </div>
 
     <script>
