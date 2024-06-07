@@ -150,7 +150,7 @@ foreach ($accessories as $item) {
                     var accessoryId = this.dataset.accessoryId;
                     window.location.href = `/products/order/${accessoryId}`;
                 });
-            });
+            }); 
 
             document.querySelectorAll('.addToCart-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {

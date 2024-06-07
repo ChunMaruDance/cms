@@ -166,7 +166,7 @@ class ProductsController extends Controller{
                 header("Location: " . $_SERVER['HTTP_REFERER']);
                 exit;
             }
-            
+
             if ($accessory) {
                 
                 $basket = $session->get('basket', []);
@@ -223,7 +223,7 @@ class ProductsController extends Controller{
             if(!$order->canceled){
                 $orderItems = OrderItems::findByOrderId($order->id);
                 $itemsWithAccessories = [];
-        
+
                 foreach ($orderItems as $orderItem) {
                     $accessoryId = $orderItem->accessory_id;
                     $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
@@ -231,6 +231,15 @@ class ProductsController extends Controller{
                         $itemsWithAccessories[] = [
                             'orderItem' => $orderItem,
                             'accessory' => $accessory
+                        ];
+                    }else{
+                        $itemsWithAccessories[] = [
+                            'orderItem' => $orderItem,
+                            'accessory' => [
+                                'title' => $orderItem->accessory_name, 
+                                'quantity' => $orderItem->quantity, 
+                                'image' => null
+                            ]
                         ];
                     }
                 }
@@ -247,12 +256,12 @@ class ProductsController extends Controller{
             }
           
         }
-    
+        var_dump($ordersWithItems);
+
         return $this->render(null, [
             'ordersWithItems' => $ordersWithItems
         ]);
     }
-
 
     public function actionUpdateOrderStatus(){
         if($this->isPost){
@@ -372,6 +381,7 @@ class ProductsController extends Controller{
                          
                             $orderItem = new OrderItems();
                             $orderItem->order_id = $orderId;
+                            $orderItem->accessory_name = $accessory->title;
                             $orderItem->accessory_id = $accessory->id;
                             $orderItem->quantity = $count;
                             $orderItem->price = $accessory->price;

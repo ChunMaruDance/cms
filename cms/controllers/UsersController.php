@@ -84,17 +84,17 @@ class UsersController extends Controller {
                 Accessory::deleteById($id);
                 AccessoryCategories::deleteByCondition(['accessory_id'=> $id]);
 
-                $ordersIds = OrderItems::deleteByAccesoryIdAndGetOrdersIds($id);
-                foreach($ordersIds as $orderId){
-                $orderStd = Orders::findById($orderId);
-                $order = new Orders();
+                // $ordersIds = OrderItems::deleteByAccesoryIdAndGetOrdersIds($id);
+                // foreach($ordersIds as $orderId){
+                // $orderStd = Orders::findById($orderId);
+                // $order = new Orders();
 
-                foreach($orderStd as $key => $value){
-                    $order->$key = $value;
-                }
-                $order->canceled = true;
-                $order->update();
-                }
+                // foreach($orderStd as $key => $value){
+                //     $order->$key = $value;
+                // }
+                // $order->canceled = true;
+                // $order->update();
+                // }
 
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
