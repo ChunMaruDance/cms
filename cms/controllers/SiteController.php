@@ -14,12 +14,9 @@ class SiteController extends Controller
     public function actionIndex()
     {   
         $cacheFile = 'cache/index_cache.json';
-        $cacheTime = 3600; // 1 година
+        $cacheTime = 3600;
 
-        
-        $configFile = 'files/mainPageConfig.json';
-        $config = json_decode(file_get_contents($configFile), true);
-
+        $config = $this->loadConfig();
 
         if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTime)) {
             $cachedData = json_decode(file_get_contents($cacheFile), true);
@@ -28,30 +25,18 @@ class SiteController extends Controller
             $trendsItems_arrays = $cachedData['trendsItems'];
 
         } else {
-            $categories = Categories::getAllWithEncodeImage();
-            $bannerItems = MainBanner::getAllWithEncodeImage();
-            $trendsItems = Trends::getAllWithEncodeImage();
 
-            $categories_arrays = array_map(function ($category) {
-                return json_decode(json_encode($category), true);
-            }, $categories);
-
-            $bannerItems_arrays = array_map(function ($category) {
-                return json_decode(json_encode($category), true);
-            }, $bannerItems);
-
-            $trendsItems_arrays = array_map(function ($category) {
-                return json_decode(json_encode($category), true);
-            }, $trendsItems);
+            $categories_arrays = $this->convertObjectsToArray(Categories::getAllWithEncodeImage());
+            $bannerItems_arrays = $this->convertObjectsToArray(MainBanner::getAllWithEncodeImage());
+            $trendsItems_arrays = $this->convertObjectsToArray(Trends::getAllWithEncodeImage());
 
             $cacheData = [
-                'categories' => $categories,
-                'bannerItems' => $bannerItems,
-                'trendsItems' => $trendsItems,
+                'categories' => $categories_arrays,
+                'bannerItems' => $bannerItems_arrays,
+                'trendsItems' => $trendsItems_arrays,
             ];
             file_put_contents($cacheFile, json_encode($cacheData));
         }
-
 
         return $this->render(null, [
             'categories' => $categories_arrays,
@@ -60,5 +45,21 @@ class SiteController extends Controller
             'config' => $config
         ]);
     }
+
+
+    private function loadConfig()
+    {
+        $configFile = 'files/mainPageConfig.json';
+        return json_decode(file_get_contents($configFile), true);
+    }
+
+    private function convertObjectsToArray($objects)
+    {
+        return array_map(function ($object) {
+            return json_decode(json_encode($object), true);
+        }, $objects);
+    }
+
+
 }
 ?>
