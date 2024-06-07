@@ -1,9 +1,10 @@
+<?php
+$this->Title = 'Повідомлення';
+?>
 <head>
 <link rel="stylesheet" type="text/css" href="/css/contactPage.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 <head>
-<style>    
-</style>
 
 <section class="contact-section" data-aos="fade-up">
     <div class="container">

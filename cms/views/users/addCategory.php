@@ -1,3 +1,6 @@
+<?php
+$this->Title = 'Редагування/Додавання категорії';
+?>
 <style>
 #categoryFormContainer {
     max-width: 600px;
@@ -12,8 +15,6 @@
 #categoryFormContainer .btn-black:hover {
     background-color: #333;
 }
-
-
 </style>
 
 <div id="categoryFormContainer" class="container mt-5">

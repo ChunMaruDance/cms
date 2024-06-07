@@ -1,61 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$this->Title = 'Розсилка';
+?>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subscriber List</title>
+  <link rel="stylesheet" href="/css/mailingViewPage.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-  <style>
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .btn-primary {
-      background-color: black;
-      border-color: black;
-    }
-    .btn-primary:hover {
-      background-color: #000 !important;
-      border-color: #000 !important;
-    }
-    .contact-section {
-      padding: 30px 0;
-      background-color: #f9f9f9;
-    }
-    .contact-info {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-    .contact-info h4 {
-      margin-bottom: 20px;
-    }
-    .contact-info ul li {
-      margin-bottom: 10px;
-    }
-    .contact-form {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-    .contact-form h4 {
-      margin-bottom: 20px;
-    }
-    .btn-submit {
-      background-color: #000;
-      color: #fff;
-    }
-    .btn-submit:hover {
-      background-color: #000;
-      color: #fff;
-    }
-  </style>
 </head>
+
 <body>
   <section class="contact-section" data-aos="fade-up">
     <div class="container">
-      <h1 class="text-center mb-5">Mailing</h1>
+      <h1 class="text-center mb-5">Розсилка</h1>
       <div class="row">
         <div class="col-md-6" data-aos="fade-right">
           <div class="contact-info">
@@ -140,4 +94,4 @@
     });
   </script>
 </body>
-</html>
+

@@ -1,26 +1,9 @@
-<style>
-    .card {
-        height: 100%;
-    }
-    .card-img-top {
-        height: 300px;
-        width: 100%;
-        cursor: pointer;
-    }
-
-    .control-button {
-        width: 120px;
-        height: 40px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: black;
-        color: white;
-        font-size: 16px; 
-        margin-bottom: 10px;
-        padding: 20px;
-    }
-</style>
+<?php
+$this->Title = 'Редагування Банеру';
+?>
+<head>
+  <link rel="stylesheet" href="/css/renderBannerPage.css">
+</head>
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Редагування банера</h1>
@@ -28,14 +11,6 @@
     <?php if (isset($error_message) && !empty($error_message)): ?>
             <div class="alert alert-danger" role="alert" ><?php echo $error_message; ?></div>
         <?php endif; ?>
-    <!-- <?php if (!empty($errors)): ?>
-        <div class="alert alert-danger" role="alert">
-            <?php foreach ($errors as $error): ?>
-                <p><?php echo $error; ?></p>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-     -->
      
     <div class="row">
         <div class="col-md-6 mb-3">

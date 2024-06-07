@@ -1,39 +1,14 @@
+<?php
+$this->Title = 'Аксесуари';
+?>
 <head>
-    <title><?php echo $this->Title; ?></title>
-    <style>
-        .btn-black {
-            background-color: black;
-            color: white;
-        }
-        .card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
-        }
-
-        .card:hover {
-        transform: translateY(-10px);
-        background-color: #f5f5f5; 
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); 
-        }
-
-        .btn-black:hover {
-            background-color: #333;
-        }
-
-        .add-accessory-btn {
-            margin-bottom: 20px;
-        }
-
-        .highlight {
-            border: 2px solid yellow;
-            background-color: #ffffe0;
-        }
-    </style>
+<link rel="stylesheet" href="/css/accessoriesPage.css">
 </head>
 <body>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">Accessories</h1>
+                <h1 class="fw-light">Аксесуари</h1>
                 <br>
                 <form class="w-100" id="searchForm">
                     <div class="input-group"> 

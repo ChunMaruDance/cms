@@ -1,4 +1,7 @@
-      <style>
+<?php
+$this->Title = 'Вхід';
+?>
+<style>
         .gradient-custom {
           background: #6a11cb;
 
@@ -11,7 +14,7 @@
         margin: auto;
         border-radius: 1rem;
         }
-      </style>
+</style>
 <form method="post" action="">
       <div class="row d-flex justify-content-center align-items-center vh-100">
     <div class="col-12 col-md-6"> 

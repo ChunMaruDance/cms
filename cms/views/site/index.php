@@ -1,3 +1,6 @@
+<?php
+$this->Title = 'Головна сторінка';
+?>
 <head>
   <title>Subscription Form</title>
   <link rel="stylesheet" href="css/category.css">

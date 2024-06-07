@@ -1,103 +1,11 @@
-<!DOCTYPE html>
-<html lang="uk">
+<?php
+$this->Title = 'Редагування Трендів';
+?>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Редагування трендів</title>
+  <link rel="stylesheet" href="/css/renderTrendsPage.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
-  <style>
-    .card {
-      margin-bottom: 20px;
-      border: none;
-    }
-
-    .card-img-top {
-      height: 300px;
-      width: 100%;
-      cursor: pointer;
-      object-fit: cover;
-    }
-
-    .control-button {
-      width: 100%;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: black;
-      color: white;
-      font-size: 16px;
-      margin-top: 10px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    .form-control {
-      margin-bottom: 10px;
-      border: 1px solid #ced4da;
-      border-radius: 5px;
-      padding: 10px;
-      width: 100%;
-    }
-
-    .featurette-divider {
-      margin: 5rem 0;
-    }
-
-    .featurette-heading {
-      font-weight: 300;
-      line-height: 1;
-      letter-spacing: -.05rem;
-    }
-
-    .featurette {
-      margin-bottom: 5rem;
-    }
-
-    .featurette-image {
-      width: 100%;
-      height: auto;
-    }
-
-    .input-container {
-      width: 100%;
-    }
-
-    .image-upload-container {
-      position: relative;
-      height: 300px;
-    }
-
-    .image-upload-label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .btn-delete {
-      background-color: black;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-delete:hover {
-      background-color: white;
-      color: black;
-    }
-  </style>
 </head>
+
 <body>
   <header class="bg-light py-5">
     <div class="container text-center">
@@ -191,4 +99,3 @@
     });
   </script>
 </body>
-</html>

@@ -95,7 +95,7 @@ class UsersController extends Controller {
                 // $order->canceled = true;
                 // $order->update();
                 // }
-
+                  http_response_code(200);
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
               }
@@ -114,8 +114,13 @@ class UsersController extends Controller {
               if(!empty($id)){
                 Categories::deleteById($id);
                   AccessoryCategories::deleteByCondition(['category_id'=> $id]);
+                  http_response_code(200);
                   echo json_encode(["message" => "Delete Success"]);
                   exit;
+              }else{
+                http_response_code(400);
+                echo json_encode(["message" => "Error, Category not removed"]);
+                exit;
               }
           }
     }
@@ -212,9 +217,10 @@ class UsersController extends Controller {
             foreach ($accessories as $accessory) {
                 $accessory->image = 'data:image/png;base64,' . base64_encode($accessory->image);   
             }
-
+            http_response_code(200);
             echo json_encode(["accessories" => $accessories]);
         } else {
+            http_response_code(400);
             echo json_encode(["error" => "No search query provided"]);
         }
         exit;

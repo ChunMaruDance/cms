@@ -1,0 +1,26 @@
+.card-title {
+    font-weight: bold;
+    color: #000;
+}
+.card-subtitle {
+    font-style: italic;
+}
+.card-text {
+    color: #333;
+}
+.feedback-section {
+    background-color: #f8f9fa;
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+.card {
+    animation: fadeInUp 0.5s ease forwards;
+}

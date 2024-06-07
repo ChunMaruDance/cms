@@ -1,6 +1,12 @@
+<?php
+$this->Title = 'Перегляд повідомлень';
+?>
+<head>
+  <link rel="stylesheet" href="/css/reviewView.css">
+</head>
 <section class="feedback-section py-5" style="background-color: #f8f9fa;">
     <div class="container">
-        <h1 class="text-center mb-5 text-dark">Відгуки</h1>
+        <h1 class="text-center mb-5 text-dark">Повідомлення</h1>
         <?php if (!empty($reviews)): ?>
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <?php foreach ($reviews as $index => $review): ?>
@@ -21,33 +27,3 @@
         <?php endif; ?>
     </div>
 </section>
-
-<style>
-   
-    .card-title {
-        font-weight: bold;
-        color: #000;
-    }
-    .card-subtitle {
-        font-style: italic;
-    }
-    .card-text {
-        color: #333;
-    }
-    .feedback-section {
-        background-color: #f8f9fa;
-    }
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translate3d(0, 20px, 0);
-        }
-        to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-    }
-    .card {
-        animation: fadeInUp 0.5s ease forwards;
-    }
-</style>

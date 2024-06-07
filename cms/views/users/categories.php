@@ -1,66 +1,9 @@
-<style>
-    .btn-black {
-        background-color: black;
-        color: white;
-    }
-
-    .btn-black:hover {
-        background-color: #333;
-    }
-
-    .add-category-btn {
-        margin-bottom: 20px;
-    }
-
-    .category-card {
-        background-color: #fff;
-        border-radius: 10px; 
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-        width: 18%;
-        margin: 1%;
-        display: flex; 
-        flex-direction: column;
-    }
-
-    .category-card:hover {
-        transform: translateY(-5px);
-        background-color: #f5f5f5; 
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); 
-    }
-
-    .category-image {
-        width: 100%; 
-        height: 200px;
-        object-fit: cover;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .category-info {
-        padding: 10px;
-        display: flex; 
-        flex-direction: column; 
-        align-items: center;
-    }
-
-    .category-name {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .delete-btn {
-        background-color: red;
-        color: white;
-        padding: 2px 6px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style>
-
+<?php
+$this->Title = 'Категорії';
+?>
+<head>
+  <link rel="stylesheet" href="/css/categoriesPage.css">
+</head>
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">

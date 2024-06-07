@@ -1,0 +1,29 @@
+#accessoryFormContainer {
+    max-width: 600px; 
+    margin: 0 auto;
+}
+
+#accessoryFormContainer .btn-black {
+    background-color: black;
+    color: white;
+}
+
+#accessoryFormContainer .btn-black:hover {
+    background-color: #333;
+}
+
+#imagePreview {
+    display: none;
+}
+
+#category {
+    color: black; 
+}
+
+#category {
+    color: black;
+}
+
+.form-group {
+        margin-bottom: 7px;
+}

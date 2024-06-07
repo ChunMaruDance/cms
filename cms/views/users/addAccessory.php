@@ -1,36 +1,10 @@
-<style>
-#accessoryFormContainer {
-    max-width: 600px; 
-    margin: 0 auto;
-}
+<?php
+$this->Title = 'Редагування/Додавання аксесуарів';
+?>
 
-#accessoryFormContainer .btn-black {
-    background-color: black;
-    color: white;
-}
-
-#accessoryFormContainer .btn-black:hover {
-    background-color: #333;
-}
-
-#imagePreview {
-    display: none;
-}
-
-#category {
-    color: black; 
-}
-
-#category {
-    color: black;
-}
-
-.form-group {
-        margin-bottom: 7px;
-    }
-
-</style>
-
+<head>
+  <link rel="stylesheet" href="/css/addAccessoryPage.css">
+</head>
 <div id="accessoryFormContainer" class="container mt-5">
     <h2 class="mb-4">Create New Accessory</h2>
     <?php if (!empty($error_message)) : ?>

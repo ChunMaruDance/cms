@@ -256,7 +256,6 @@ class ProductsController extends Controller{
             }
           
         }
-        var_dump($ordersWithItems);
 
         return $this->render(null, [
             'ordersWithItems' => $ordersWithItems
