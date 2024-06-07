@@ -31,6 +31,7 @@ class Mailing {
                 'allow_self_signed' => Config::get()->ALLOW_SELF_SIGNED
             )
         );   
+        $this->mailingModel->isHTML(true);
 
         $this->mailingModel->setFrom(Config::get()->SMTP_FROM_EMAIL, Config::get()->SMTP_FROM_NAME);
     }
@@ -51,6 +52,45 @@ class Mailing {
             var_dump($e);
             return false;
         }
+    }
+
+
+    function generateOrderMessage($orderNumber, $totalAmount) {
+        return '
+        <html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                }
+                h1 {
+                    color: #ff6600;
+                }
+                p {
+                    margin-bottom: 20px;
+                }
+                .order-info {
+                    background-color: #f9f9f9;
+                    padding: 20px;
+                    border-radius: 5px;
+                }
+                .thank-you {
+                    font-style: italic;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Замовлення успішно відправлено!</h1>
+            <div class="order-info">
+                <p>Ваше замовлення №' . $orderNumber . ' на суму: ' . $totalAmount . '$ було успішно відправлено!!!</p>
+                <p>У разі труднощів опрацювання вашого замовлення, ми зв\'яжемось з вами.</p>
+            </div>
+            <p class="thank-you">Дякуємо за покупку.</p>
+        </body>
+        </html>
+        ';
     }
 
 

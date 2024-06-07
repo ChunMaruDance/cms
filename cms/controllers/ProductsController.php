@@ -154,12 +154,19 @@ class ProductsController extends Controller{
     public function actionOrder($params){
         
         $basket = Core::get()->session->get('basket', []);
+
         $accessoriesAndCount =  [];
         $session = Core::get()->session;
 
         if(!empty($params)){
             $accessoryId = $params[0];
             $accessory = Accessory::findByIdWithEncodeImage($accessoryId);
+
+            if($accessory->quantity <= 0){
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
+            
             if ($accessory) {
                 
                 $basket = $session->get('basket', []);
@@ -371,6 +378,15 @@ class ProductsController extends Controller{
                          
                             $orderItem->save();
                             $accessory->save();
+
+                            $message = Core::get()->mailing->generateOrderMessage($orderNumber, $totalAmount);
+
+                            Core::get()->mailing->sendMessage(
+                                'Замовлення успішно відоправлено!',
+                                $message,
+                                [$email]
+                            );
+                        
                         }
     
 
@@ -388,6 +404,10 @@ class ProductsController extends Controller{
             }
 
         }elseif($this->isGet){
+            $basket = $session->get('basket', []);
+            if(empty($basket)){
+                return $this->redirect('/');
+            }
 
             $orderNumber = uniqid('order_');
         
