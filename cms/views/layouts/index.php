@@ -43,7 +43,7 @@ if(empty($basketItemCount)){
           <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/products/order">Basket <span id="basketItemCount"><?php echo $basketItemCount > 0 ? $basketItemCount: ''; ?></span></a>
+          <a class="nav-link" href="/products/order">Cart <span id="basketItemCount"><?php echo $basketItemCount > 0 ? $basketItemCount: ''; ?></span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/reviews/contact">Contact</a>
