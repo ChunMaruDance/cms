@@ -101,12 +101,3 @@
 .search-container {
     width: 300px; 
 }
-
-
-.scrollable-filter {
-    max-height: 150px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 5px;
-    margin-bottom: 15px;
-}

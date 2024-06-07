@@ -35,7 +35,7 @@ $this->Title = 'Аксесуари';
         card.innerHTML = `
                 <div class="card shadow-sm">
                 <a href="/products/accessory/${accessory.id}">
-                        <img src="${accessory.image}" class="bd-placeholder-img card-img-top" width="100%" height="260" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <img src="${accessory.image}" class="bd-placeholder-img card-img-top" height="300" aria-label="Placeholder: ${accessory.title}" preserveAspectRatio="xMidYMid slice" focusable="false">
                     </a>
                     <div class="card-body">
                         <h5 class="card-title">${accessory.title}</h5>

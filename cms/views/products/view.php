@@ -15,6 +15,15 @@ foreach ($accessories as $item) {
 <head>
     <link rel="stylesheet" type="text/css" href="/css/productsView.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+    .scrollable-filter {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+    </style>
 </head>
 <body>
     <div class="container-fluid">
